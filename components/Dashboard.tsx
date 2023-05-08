@@ -6,7 +6,13 @@ import SMLCalendar from "./SmallCalendar";
 
 import type { MenuProps } from "antd";
 import { Button, Popover, Dropdown, Space, Segmented, DatePicker } from "antd";
-
+import {
+  PieChartOutlined,
+  AreaChartOutlined,
+  BarChartOutlined,
+  LineChartOutlined,
+  DollarOutlined,
+} from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
@@ -15,23 +21,52 @@ const Dashboard = () => {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: "widget 1",
+      label: (
+        <div style={{ display: "flex" }}>
+          <AreaChartOutlined
+            style={{ fontSize: "40px", marginRight: "20px" }}
+          />{" "}
+          <h2>Widget 2</h2>
+        </div>
+      ),
     },
     {
       key: "2",
-      label: "widget 2",
+      label: (
+        <div style={{ display: "flex" }}>
+          <PieChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
+          <h2>Widget 2</h2>
+        </div>
+      ),
     },
     {
       key: "3",
-      label: "widget 3",
+      label: (
+        <div style={{ display: "flex" }}>
+          <BarChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
+          <h2>Widget 2</h2>
+        </div>
+      ),
     },
     {
       key: "4",
-      label: "widget 4",
+      label: (
+        <div style={{ display: "flex" }}>
+          <LineChartOutlined
+            style={{ fontSize: "40px", marginRight: "20px" }}
+          />
+          <h2>Widget 2</h2>
+        </div>
+      ),
     },
     {
       key: "5",
-      label: "widget 5",
+      label: (
+        <div style={{ display: "flex" }}>
+          <DollarOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
+          <h2>Widget 2</h2>
+        </div>
+      ),
     },
   ];
 
@@ -52,7 +87,10 @@ const Dashboard = () => {
             <RangePicker className={styles.dateSelector} />
           </Space>
         </div>
-        <Dropdown menu={{ items, selectable: true }}>
+        <Dropdown
+          overlayStyle={{ width: "300px" }}
+          menu={{ items, selectable: true }}
+        >
           <Button>Add Widget</Button>
         </Dropdown>
       </div>
