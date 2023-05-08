@@ -2,14 +2,19 @@
 
 import styles from '../styles/Profile.module.css';
 import React, { useState } from 'react';
-import { Button, Modal, ModalProps } from "antd";
+import { Modal } from "antd";
+
+/* COMPONENTS */
+import ProfileInfoTab from './ProfileInfoTab';
+import ChangePasswordTab from './ChangePasswordTab';
+import LogOutTab from './LogOutTab';
 
 const Profile = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openTab, setOpenTab] = useState(0);
 
-  function handleOpenProfile () {
+  function handleOpenProfile() {
     if (!isModalOpen) setIsModalOpen(true);
   }
 
@@ -30,29 +35,29 @@ const Profile = () => {
             <div className={styles.profilePic}></div>
             <h2>Bussiness Name</h2>
             <div className={styles.buttonContainer}>
-              <span 
-                style={{backgroundColor: openTab === 0 ? "" : "#E59500"}}
+              <span
+                style={{ backgroundColor: openTab === 0 ? "" : "#E59500" }}
                 onClick={() => setOpenTab(0)}
-              >Bussiness Info</span>
-              <span 
-                style={{backgroundColor: openTab === 1 ? "" : "#E59500"}}
-                onClick={() => setOpenTab(1)}  
+              >User Details</span>
+              <span
+                style={{ backgroundColor: openTab === 1 ? "" : "#E59500" }}
+                onClick={() => setOpenTab(1)}
               >Change Password</span>
-              <span 
-                style={{backgroundColor: openTab === 2 ? "" : "#E59500"}}
-                onClick={() => setOpenTab(2)}  
+              <span
+                style={{ backgroundColor: openTab === 2 ? "" : "#E59500" }}
+                onClick={() => setOpenTab(2)}
               >Log Out</span>
             </div>
           </div>
           <div className={styles.secondRow}>
-            {openTab === 0 && 
-              <h1>Bussiness Info</h1>
+            {openTab === 0 &&
+              <ProfileInfoTab></ProfileInfoTab>
             }
-            {openTab === 1 && 
-              <h1>Change Password</h1>
+            {openTab === 1 &&
+              <ChangePasswordTab></ChangePasswordTab>
             }
-            {openTab === 2 && 
-              <h1>Log Out</h1>
+            {openTab === 2 &&
+              <LogOutTab></LogOutTab>
             }
           </div>
         </div>
