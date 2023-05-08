@@ -5,6 +5,7 @@
 }
 .component {
     border: 1px solid black;
+    background-color: #fde1ad;
    height: 105px;
    display: flex;
    justify-content: center;

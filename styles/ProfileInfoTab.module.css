@@ -1,0 +1,18 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 3vw 0 3vw;
+  gap: 3vh;
+  overflow-y: scroll;
+}
+
+.container p {
+  font-weight: 400;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d7a74c;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+}
+
+.container:hover {
+  cursor: pointer;
+}
+
+.modal {
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.firstRow {
+  box-sizing: border-box;
+  padding-top: 5vh;
+  width: 100%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #FFB01F;
+  border-radius: 10px 10px 0 0;
+}
+
+.secondRow {
+  box-sizing: border-box;
+  padding-top: 5vh;
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0 0 10px 10px;
+}
+
+.profilePic {
+  min-height: 15vh;
+  min-width: 15vh;
+  border: 2px solid black;
+  border-radius: 100%;
+  margin-bottom: 1vh;
+}
+
+.spacer {
+  width: 100%;
+  border: 1px solid black;
+}
+
+.buttonContainer {
+  display: flex;
+  height: 50%;
+  align-items: flex-end;
+  gap: 3vw;
+}
+
+.buttonContainer span {
+  min-width: 10vw;
+  min-height: 4vh;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 10px 10px 0 0;
+  font-weight: bold;
+  box-sizing: border-box;
+  padding-bottom: 3px;
+}
+
+.buttonContainer span:hover {
+  cursor: pointer;
+}
