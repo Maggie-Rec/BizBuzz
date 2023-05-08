@@ -25,15 +25,26 @@ datasource db {
 // }
 
 model Transaction_0 {
-  record_id      BigInt   @id @default(autoincrement())
+  record_id      BigInt     @id @default(autoincrement())
   transaction_id Int
-  date           DateTime @db.Date
-  time           DateTime @db.Time(6)
+  date           DateTime   @db.Date
+  time           DateTime   @db.Time(6)
+  location       Location_0 @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   location_id    Int
   SKU            String
-  quantity       Decimal  @db.Decimal
+  quantity       Decimal    @db.Decimal
   is_member      Boolean
   customer_id    Int
-  tax            Decimal  @db.Decimal
-  total_with_tax Decimal  @db.Decimal
+  tax            Decimal    @db.Decimal
+  total_with_tax Decimal    @db.Decimal
+}
+
+model Location_0 {
+  id           Int             @id @default(autoincrement())
+  name         String
+  full_address String
+  region       String
+  city         String
+  type         String
+  transactions Transaction_0[]
 }

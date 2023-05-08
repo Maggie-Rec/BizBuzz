@@ -26,3 +26,32 @@ export async function getAllTransactions(req: Request, res: Response) {
     res.send('Resource not found');
   }
 };
+
+// const a = await prisma['transaction_0'].findMany({
+//   where: { 
+//     location_id: 2,
+//   },
+//   select: {
+//     location_id: true,
+//     total_with_tax: true,
+//     location: true
+//   }
+// })
+
+// {
+//   "query": {
+//       "where": {
+//           "location_id": 2
+//       },
+//       "select": {
+//           "location_id": true,
+//           "total_with_tax": true,
+//           "location": {
+//               "select": {
+//                   "region": true,
+//                   "name": true
+//               }
+//           }
+//       }
+//   }
+// }
