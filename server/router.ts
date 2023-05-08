@@ -1,5 +1,5 @@
 import { Response, Request, Router } from 'express';
-import { getAllTransactions } from './controllers/db';
+import { getAllTransactions, getAllLocations, getAllCustomers, getAllItems } from './controllers/db';
 
 export const router = Router();
 
@@ -7,4 +7,7 @@ router.get('/test', ((req: Request, res: Response) => {
   res.send('Hello world');
 }));
 
-router.post('/db', getAllTransactions);
+router.post('/transactions', getAllTransactions)
+  .post('/locations', getAllLocations)
+  .post('/customers', getAllCustomers)
+  .post('/items', getAllItems);

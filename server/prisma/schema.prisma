@@ -31,9 +31,11 @@ model Transaction_0 {
   time           DateTime   @db.Time(6)
   location       Location_0 @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   location_id    Int
+  item           Item_0     @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
   SKU            String
   quantity       Decimal    @db.Decimal
   is_member      Boolean
+  customer       Customer_0 @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   customer_id    Int
   tax            Decimal    @db.Decimal
   total_with_tax Decimal    @db.Decimal
@@ -47,4 +49,22 @@ model Location_0 {
   city         String
   type         String
   transactions Transaction_0[]
+}
+
+model Item_0 {
+  SKU                 String          @id
+  transactions        Transaction_0[]
+  unit_of_measurement String
+  description         String
+  category            String
+  price_no_tax        Decimal
+}
+
+model Customer_0 {
+  id           Int             @id
+  transactions Transaction_0[]
+  name         String
+  age          Int
+  email        String
+  gender       String
 }
