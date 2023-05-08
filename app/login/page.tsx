@@ -1,12 +1,11 @@
 import React from "react";
-import "@/styles/Login.module.css";
-// // import "@/styles/LoginWindow.css";
-// import LoginWindow from "@/components/LoginWindow";
+import styles from '../../styles/Login.module.css'
+import LoginWindow from "../../components/LoginWindow";
 
 const LoginPage = () => {
   return (
-    <div className="container">
-      {/* <LoginWindow /> */}
+    <div className={styles.container}>
+      <LoginWindow />
     </div>
   );
 };
