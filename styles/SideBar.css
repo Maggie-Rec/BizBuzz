@@ -1,0 +1,13 @@
+.container-sidebar {
+    width: 300px;
+    border: 1px solid black;
+    
+}
+.component {
+    border: 1px solid black;
+   height: 105px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+}

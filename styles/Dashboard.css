@@ -1,0 +1,21 @@
+.container-dashboard {
+  display: flex;
+  border: 1px solid black;
+  height: 736px;
+  width: 1300px;
+  background: radial-gradient(circle, #f4f4f4 10%, transparent 11%);
+  background-size: 2em 2em;
+  background-color: #ffffff;
+  opacity: 1;
+}
+.tool-bar {
+  border: 1px solid black;
+  width: 1300px;
+  height: 80px;
+  background-color: #ffffff;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
