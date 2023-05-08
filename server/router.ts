@@ -1,5 +1,8 @@
 import { Response, Request, Router } from 'express';
-import { getAllTransactions, getAllLocations, getAllCustomers, getAllItems } from './controllers/db';
+import { getAllCustomers } from './controllers/customers';
+import { getAllItems } from './controllers/items';
+import { getAllLocations } from './controllers/locations';
+import { getAllTransactions } from './controllers/transactions';
 
 export const router = Router();
 
