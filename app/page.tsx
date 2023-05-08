@@ -6,7 +6,7 @@ const MainPage = () => {
   return (
     <>
       <NavBar />
-      <div className="outer-container">
+      <div className="container">
         <SideBar />
         <Dashboard />
       </div>

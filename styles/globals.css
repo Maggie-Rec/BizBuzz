@@ -2,7 +2,7 @@
     box-sizing: border-box;
     margin: 0;
 }
-.outer-container{
+.container{
     display: flex;
     justify-content: space-between;
 }

@@ -1,5 +1,7 @@
+'use client'
+
 import React from 'react'
-import '@styles/LoginWindow.css'
+import '@styles/LoginWindow.module.css'
 
 const LoginWindow = () => {
   return (

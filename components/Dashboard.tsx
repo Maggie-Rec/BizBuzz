@@ -1,7 +1,7 @@
 'use client'
 
 import React from "react";
-import "@/styles/Dashboard.css";
+import styles from '../styles/Dashboard.module.css'
 import type { MenuProps } from "antd";
 import { Button, Dropdown, Space } from "antd";
 
@@ -29,13 +29,13 @@ const Dashboard = () => {
     },
   ];
   return (
-    <div className="container-dashboard">
-      <div className="tool-bar">
+    <div className={styles.containerDashboard}>
+      <div className={styles.toolBar}>
         <div>
-          <Space direction="vertical" style={{ width: "100%" }}>
+          <Space direction="vertical">
             <Space wrap>
               <Dropdown menu={{ items }} placement="bottom">
-                <div className="button">
+                <div className={styles.button}>
                   <Button size="large">Filter by</Button>
                 </div>
               </Dropdown>
