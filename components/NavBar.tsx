@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import "../styles/NavBar.css";
+import styles from '../styles/NavBar.module.css'
 import type { MenuProps } from "antd";
 import { Button, Dropdown, Space } from "antd";
 import Profile from "./Profile";
@@ -19,11 +19,11 @@ const NavBar = () => {
   ];
 
   return (
-    <div className="container">
-      <div className="logo">Logo</div>
-      <h1>BizBuzz Dashboard</h1>
-      <div className="user">
-        <div className="dropdown">
+    <div className={styles.container}>
+      <div className={styles.logo}>Logo</div>
+      <h1 className={styles.title}>BizBuzz Dashboard</h1>
+      <div className={styles.user}>
+        <div className={styles.dropdown}>
           <Space direction="vertical">
             <Space wrap>
               <Dropdown menu={{ items }} placement="bottom">

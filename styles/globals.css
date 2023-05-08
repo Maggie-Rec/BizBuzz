@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
 }
-.outer-container{
+.container{
     display: flex;
     justify-content: space-between;
 }

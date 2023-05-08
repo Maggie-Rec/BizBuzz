@@ -1,4 +1,4 @@
-.container-dashboard {
+.containerDashboard {
   display: flex;
   border: 1px solid black;
   height: 736px;
@@ -8,14 +8,17 @@
   background-color: #ffffff;
   opacity: 1;
 }
-.tool-bar {
-  border: 1px solid black;
+.toolBar {
+  /* border: 1px solid black; */
   width: 1300px;
   height: 80px;
   background-color: #ffffff;
-}
-.button {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+  box-shadow: 0px 10px 45px 0px #cacaca;
+}
+
+.dateSelector {
+  margin-left: 10px;
 }
