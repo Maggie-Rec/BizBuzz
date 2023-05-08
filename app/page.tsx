@@ -1,3 +1,4 @@
+
 "use client";
 
 import NavBar from "@/components/NavBar";
@@ -7,10 +8,19 @@ import LoginPage from "../app/login/page";
 import { SessionProvider } from "next-auth/react";
 import { useState } from "react";
 
+
+/* COMPONENTS */
+import NavBar from "@/components/NavBar"
+import SideBar from "@/components/SideBar";
+import Dashboard from "@/components/Dashboard";
+import ReportsView from "@/components/ReportsView";
+
+
 const MainPage = () => {
   const [isLogged, setIsLogged] = useState(false);
 
   return (
+
     <div>
       {isLogged ? (
         <LoginPage />
@@ -24,6 +34,16 @@ const MainPage = () => {
         </div>
       )}
     </div>
+
+    <>
+      <NavBar />
+      <div className="outer-container">
+        <SideBar />
+        {/* <Dashboard /> */}
+        <ReportsView></ReportsView>
+      </div>
+    </>
+
   );
 };
 

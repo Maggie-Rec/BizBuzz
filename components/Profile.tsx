@@ -1,3 +1,4 @@
+
 "use client";
 
 import styles from "../styles/Profile.module.css";
@@ -11,6 +12,7 @@ import ChangePasswordTab from "./ChangePasswordTab";
 import LogOutTab from "./LogOutTab";
 
 const Profile = () => {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openTab, setOpenTab] = useState(0);
 
@@ -26,7 +28,9 @@ const Profile = () => {
         footer={null}
         onCancel={() => setIsModalOpen(!isModalOpen)}
         style={{
+
           top: 20,
+
         }}
         width={1000}
       >
@@ -38,6 +42,7 @@ const Profile = () => {
               <span
                 style={{ backgroundColor: openTab === 0 ? "" : "#E59500" }}
                 onClick={() => setOpenTab(0)}
+
               >
                 User Details
               </span>
