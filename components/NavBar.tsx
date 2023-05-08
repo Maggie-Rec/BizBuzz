@@ -4,6 +4,7 @@ import React from "react";
 import "../styles/NavBar.css";
 import type { MenuProps } from "antd";
 import { Button, Dropdown, Space } from "antd";
+import Profile from "./Profile";
 
 const NavBar = () => {
   const items: MenuProps["items"] = [
@@ -31,7 +32,7 @@ const NavBar = () => {
             </Space>
           </Space>
         </div>
-        <div className="user-img">user Pic from google</div>
+        <Profile></Profile>
       </div>
     </div>
   );
