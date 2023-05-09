@@ -2,7 +2,7 @@
 
 // import { SessionProvider } from "next-auth/react";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 /* COMPONENTS */
 
@@ -24,8 +24,8 @@ const MainPage = () => {
           <NavBar />
           <div className="container">
             <SideBar />
-            {/* <Dashboard /> */}
-            <ReportsView />
+            <Dashboard />
+            {/* <ReportsView /> */}
           </div>
         </div>
       )}

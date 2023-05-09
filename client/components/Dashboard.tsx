@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import styles from "../styles/Dashboard.module.css"
+import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
 import LineChart from "./widgets/LineChart/lineChart";
 import PieMenu from "./widgets/PieChart/pieMenu";
 import LineMenu from "./widgets/LineChart/lineMenu";
 import BarMenu from "./widgets/BarChart/barMenu";
-import BigNoMenu from "./widgets/bigNoMenu";
+import ProgressMenu from "./widgets/Progress/ProgressMenu";
 import PieChart from "./widgets/PieChart/pieChart";
 import BarChart from "./widgets/BarChart/barChart";
+import ProgressChart from "./widgets/Progress/progressChart";
 
 import type { MenuProps } from "antd";
 import {
@@ -41,10 +42,10 @@ const Dashboard = () => {
 
   const showWidget = (chartType: string) => {
     setOpenWidget({ chartType });
+    
   };
   const handleOk = () => {
     setIsOpen(false);
-    // showWidget("Bar Chart");
   };
 
   const handleCancel = () => {
@@ -88,7 +89,7 @@ const Dashboard = () => {
       label: (
         <div style={{ display: "flex" }} onClick={showWindow}>
           <DollarOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
-          <h2>Big number Chart</h2>
+          <h2>Progress Chart</h2>
         </div>
       ),
     },
@@ -128,6 +129,9 @@ const Dashboard = () => {
       {openWidget.chartType === "Line Chart" && (
         <LineChart showWidget={() => setOpenWidget({})} />
       )}
+      {openWidget.chartType === "Progress Chart" && (
+        <ProgressChart showWidget={() => setOpenWidget({})} />
+      )}
 
       <Modal
         title="insert data"
@@ -143,8 +147,8 @@ const Dashboard = () => {
               return <BarMenu showWidget={showWidget} />;
             case "Line Chart":
               return <LineMenu showWidget={showWidget} />;
-            case "Big number Chart":
-              return <BigNoMenu />;
+            case "Progress Chart":
+              return <ProgressMenu showWidget={showWidget} />;
             default:
               return null;
           }
