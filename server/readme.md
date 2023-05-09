@@ -67,7 +67,7 @@ Warning: do not include `record_id` field in your queries. It exists only to be 
       // to filter based on date
       date: {
         // `gt` stands for `greater than`, there is also `lt` which is `less than`
-        // date field accepts date strings in ISO format or YYYY-MM-DD format
+        // date field accepts date strings in ISO format like this `2023-01-01T00:00:00.000Z`
         // you should be able to generate a string with a library or built-in `.toISOString()` method applicable to `Date` objects
         gt: "2023-03-01T08:00:00.009Z"
       }
@@ -96,8 +96,32 @@ Warning: do not include `record_id` field in your queries. It exists only to be 
   }
 }
 
+// to get records related to a specific time period, e.g. 1 Mar 2023 and 7 Match 2023
+// use AND operator that will give you data that meets all the conditions that go into an array
+{
+  query: {
+    where: {
+      AND: [
+        {
+          date: {
+            gt: '2023-03-01T00:00:00.000Z'
+          }
+        },
+        {
+          date: {
+            lt: '2023-03-07T00:00:00.000Z'
+          }
+        }
+      ]
+    }
+  },
+  select: {
+    date: true,
+    total_with_tax: true
+  }
+}
+
 // to get records related to multiple locations - use OR operator and include an array
-// there is also AND operator that will give you data that meets all the conditions
 { 
   query: {
     where: {
