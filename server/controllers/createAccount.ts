@@ -22,7 +22,8 @@ export async function createAccount(req: Request, res: Response) {
   addCustomersTable(userID);
 
   // Migrate to database
-  await execaCommand(`npx prisma migrate dev --name 'added transaction_${userID}'`);
+  // await execaCommand(`npx prisma migrate deploy --name added_transaction_${userID}`);
+  await execaCommand('npx prisma db push');
 
   // send required info back to user
   res.status(201);
