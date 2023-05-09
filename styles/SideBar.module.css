@@ -1,6 +1,7 @@
 .containerSidebar {
   height: 88vh;
   background-color: #fde1ad;
+  padding-top: 10vh;
 }
 .component {
   /* border-top: 1px solid rgb(115, 113, 113); */
