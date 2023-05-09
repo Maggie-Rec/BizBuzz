@@ -111,5 +111,5 @@ describe('server should not crash on invalid requests and should respond to them
 })
 
 describe('server should register a new user and new database tables and accept requests to them', async () => {
-  
+  // ...
 })
