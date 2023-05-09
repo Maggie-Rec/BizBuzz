@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 0 2vw;
+  padding: 0 1vw;
 }
 
 .filterSelector {
@@ -25,5 +25,11 @@
 }
 
 .tableContainer {
-  
+  max-height: 78vh;
+  max-width: 87vw;
+  overflow-y: hidden;
+}
+
+.tableContainer *::-webkit-scrollbar {
+  display: none;
 }
