@@ -2,7 +2,7 @@
 
 import styles from '../styles/ReportsView.module.css';
 import React, { useState } from 'react';
-import { Button, Segmented, DatePicker, TreeSelect } from 'antd';
+import { Button, Segmented, DatePicker, TreeSelect, Table } from 'antd';
 import { filters } from '@/utils/filters';
 const { RangePicker } = DatePicker;
 
@@ -14,21 +14,21 @@ const ReportsView = () => {
     <div className={styles.container}>
       <div className={styles.controls}>
         <div className={styles.filterSelector}>
-        <TreeSelect
-      showSearch
-      style={{
-        width: '15vw',
-      }}
-      dropdownStyle={{
-        maxHeight: 400,
-        overflow: 'auto',
-      }}
-      placeholder="Select filters"
-      allowClear
-      multiple
-      treeDefaultExpandAll
-      treeData={filters}
-    />
+          <TreeSelect
+            showSearch
+            style={{
+              width: '15vw',
+            }}
+            dropdownStyle={{
+              maxHeight: 400,
+              overflow: 'auto',
+            }}
+            placeholder="Select filters"
+            allowClear
+            multiple
+            treeDefaultExpandAll
+            treeData={filters}
+          />
           <Button type='primary' style={{ minWidth: "6vw" }}>Apply</Button>
         </div>
         <div className={styles.dateSelector}>
@@ -36,9 +36,12 @@ const ReportsView = () => {
           <RangePicker style={{ width: "15vw" }}></RangePicker>
         </div>
         <Button type='primary'>Upload Data</Button>
-        </div>
       </div>
-      )
+      <div className={styles.tableContainer}>
+        <Table style={{height: "100%"}}/>
+      </div>
+    </div>
+  )
 }
 
-      export default ReportsView;
+export default ReportsView;
