@@ -26,7 +26,7 @@ const Dashboard = () => {
           <AreaChartOutlined
             style={{ fontSize: "40px", marginRight: "20px" }}
           />{" "}
-          <h2>Widget 2</h2>
+          <h2>Area Chart</h2>
         </div>
       ),
     },
@@ -35,7 +35,7 @@ const Dashboard = () => {
       label: (
         <div style={{ display: "flex" }}>
           <PieChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
-          <h2>Widget 2</h2>
+          <h2>Pie Chart</h2>
         </div>
       ),
     },
@@ -44,7 +44,7 @@ const Dashboard = () => {
       label: (
         <div style={{ display: "flex" }}>
           <BarChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
-          <h2>Widget 2</h2>
+          <h2>Bar Chart</h2>
         </div>
       ),
     },
@@ -55,7 +55,7 @@ const Dashboard = () => {
           <LineChartOutlined
             style={{ fontSize: "40px", marginRight: "20px" }}
           />
-          <h2>Widget 2</h2>
+          <h2>Line Chart</h2>
         </div>
       ),
     },
@@ -64,7 +64,7 @@ const Dashboard = () => {
       label: (
         <div style={{ display: "flex" }}>
           <DollarOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
-          <h2>Widget 2</h2>
+          <h2>Big number Chart</h2>
         </div>
       ),
     },

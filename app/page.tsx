@@ -1,15 +1,13 @@
 
 "use client";
 
-import NavBar from "@/components/NavBar";
-import SideBar from "@/components/SideBar";
-import Dashboard from "@/components/Dashboard";
-import LoginPage from "../app/login/page";
+
 import { SessionProvider } from "next-auth/react";
 import { useState } from "react";
 
 
 /* COMPONENTS */
+import LoginPage from "../app/login/page";
 import NavBar from "@/components/NavBar"
 import SideBar from "@/components/SideBar";
 import Dashboard from "@/components/Dashboard";
@@ -34,16 +32,6 @@ const MainPage = () => {
         </div>
       )}
     </div>
-
-    <>
-      <NavBar />
-      <div className="outer-container">
-        <SideBar />
-        {/* <Dashboard /> */}
-        <ReportsView></ReportsView>
-      </div>
-    </>
-
   );
 };
 
