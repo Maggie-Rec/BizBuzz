@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import styles from "../styles/Dashboard.module.css";
+import styles from "../styles/Dashboard.module.css"
 import SMLCalendar from "./SmallCalendar";
 import LineChart from "./widgets/LineChart/lineChart";
 import PieMenu from "./widgets/PieChart/pieMenu";
@@ -10,7 +10,6 @@ import BarMenu from "./widgets/BarChart/barMenu";
 import BigNoMenu from "./widgets/bigNoMenu";
 import PieChart from "./widgets/PieChart/pieChart";
 import BarChart from "./widgets/BarChart/barChart";
-
 
 import type { MenuProps } from "antd";
 import {
@@ -24,7 +23,6 @@ import {
 } from "antd";
 import {
   PieChartOutlined,
- 
   BarChartOutlined,
   LineChartOutlined,
   DollarOutlined,
@@ -139,7 +137,7 @@ const Dashboard = () => {
       >
         {(() => {
           switch (openMenu) {
-         case "Pie Chart":
+            case "Pie Chart":
               return <PieMenu showWidget={showWidget} />;
             case "Bar Chart":
               return <BarMenu showWidget={showWidget} />;

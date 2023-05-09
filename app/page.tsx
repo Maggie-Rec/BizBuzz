@@ -9,11 +9,11 @@ import { useState } from "react";
 
 /* COMPONENTS */
 
-import NavBar from "@/components/NavBar"
-import SideBar from "@/components/SideBar";
-import Dashboard from "@/components/Dashboard";
+import NavBar from "../components/NavBar"
+import SideBar from "../components/SideBar";
+import Dashboard from "../components/Dashboard";
 import LoginPage from "../app/login/page";
-import ReportsView from "@/components/ReportsView";
+import ReportsView from "../components/ReportsView";
 
 
 const MainPage = () => {
