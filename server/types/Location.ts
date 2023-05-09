@@ -1,8 +1,8 @@
 export interface Location {
-  id: Number,
-  name: String,
-  full_address: String,
-  region: String,
-  city: String,
-  type: String
+  id: number,
+  name: string,
+  full_address: string,
+  region: string,
+  city: string,
+  type: string
 }
