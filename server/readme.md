@@ -138,6 +138,38 @@ Warning: do not include `record_id` field in your queries. It exists only to be 
   }
 }
 ```
+
+# Keywords
+
+The above will allow you to make "finding" requests from the server. In order to make more advanced requests, we will need to supplement the "query" property of the request with a "keyword". At the time of writing there are three accepted keywords: 'findAll', 'aggregate', and 'groupBy'; I expect that in the course of the project we will add the further keywords 'create', 'update', and 'delete'.
+
+In the absence of any supplied keyword, the server interprets requests as 'findAll'. The keywords correspond to the way they are used in Prisma documentation: 'aggregate' is used for operations which take sums, averages, maximum values, minimum values, and counts of database values. For example, the request below finds the total quantity of goods sold in all transactions:
+
+```
+{
+    "query": {
+        "_sum": {
+            "quantity": true
+        }
+    },
+    "keyword": "aggregate"
+}
+```
+
+The 'groupBy' keyword is used for operations which return combined values for groups of entities. Every query for a 'groupBy' request must have a 'by' property indicating the value used to group entities. The request below finds the quantity of goods sold in each individual location:
+
+```
+{
+    "query": {
+        "by": "location_id",
+        "_sum": {
+            "quantity": true
+        }
+    },
+    "keyword": "groupBy"
+}
+```
+
 You can also use ==Prisma playground== to look at how queries are made: [link](https://playground.prisma.io/examples/reading/find/find-all?host=playground.prisma.io&path=examples).
 
 `POST` `/register` route creates a new account, including new tables in database. At present creates these with a randomly generated userID between 0 and 9999.
