@@ -10,7 +10,11 @@ const NavBar = () => {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <a>Profile</a>,
+      label: (
+        <div>
+          <Profile />
+        </div>
+      ),
     },
     {
       key: "2",
@@ -26,13 +30,13 @@ const NavBar = () => {
         <div className={styles.dropdown}>
           <Space direction="vertical">
             <Space wrap>
-              <Dropdown menu={{ items }} placement="bottom">
-                <Button>dropdown</Button>
+              <Dropdown menu={{ items, selectable: true}} placement="bottom">
+                <Button>Menu</Button>
               </Dropdown>
             </Space>
           </Space>
         </div>
-        <Profile></Profile>
+        <Profile />
       </div>
     </div>
   );

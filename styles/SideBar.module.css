@@ -1,14 +1,32 @@
 .containerSidebar {
-    height: 100%;
-    width: 300px;
-    
+  height: 88vh;
+  background-color: #fde1ad;
 }
 .component {
-    border: 1px solid black;
-    background-color: #fde1ad;
-   height: 105px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+  /* border-top: 1px solid rgb(115, 113, 113); */
+  background-color: #fde1ad;
+  height: 6vh;
+  width: 13vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.component:hover {
+  cursor: pointer;
+  animation-name: shadowOnHover;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes shadowOnHover {
+  0% {
+    -webkit-box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    -webkit-box-shadow: inset 0 0 14px 0px rgba(119, 119, 119, 0.5);
+    box-shadow: inset 0 0 14px 0px rgba(117, 116, 116, 0.5);
+  }
 }
