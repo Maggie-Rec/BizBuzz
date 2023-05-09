@@ -1,7 +1,7 @@
 .containerDashboard {
   display: flex;
-  border: 1px solid black;
-  height: 100%;
+  /* border: 1px solid black; */
+  height: 88vh;
   width: 100vw;
   background: radial-gradient(circle, #f4f4f4 10%, transparent 11%);
   background-size: 2em 2em;
