@@ -1,18 +1,21 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import { Customer } from '../types/Customer';
+import { makePrismaQuery } from '../helpers/makePrismaQuery';
 
 const prisma = new PrismaClient();
 
 export async function getAllCustomers(req: Request, res: Response) {
   try {
     const { user, query } = req.body;
+    const keyword = req.body.keyword ? req.body.keyword : 'findMany';
     console.log('query:', query);
-    const customers = await prisma['customer_0'].findMany(query) as Customer[];
-    console.log(customers.length);
-    // customers.forEach((customer) => {
-    //   if (customer.record_id) customer.record_id = customer.record_id.toString(10);
-    // })
+    const customers = await makePrismaQuery({
+      keyword,
+      userID: user ? user.id : 0,
+      query,
+      table: 'customer_'
+    });
     res.status(200);
     res.send(JSON.stringify(customers));
   } catch (error) {

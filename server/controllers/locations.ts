@@ -1,18 +1,22 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import { Location } from '../types/Location';
+import { makePrismaQuery } from '../helpers/makePrismaQuery';
 
 const prisma = new PrismaClient();
 
 export async function getAllLocations(req: Request, res: Response) {
   try {
     const { user, query } = req.body;
+    const keyword = req.body.keyword ? req.body.keyword : 'findMany';
+    console.log('keyword:', keyword);
     console.log('query:', query);
-    const locations = await prisma['location_0'].findMany(query) as Location[];
-    console.log(locations.length);
-    // locations.forEach((location) => {
-    //   if (location.record_id) location.record_id = location.record_id.toString(10);
-    // })
+    const locations = await makePrismaQuery({
+      keyword,
+      userID: user ? user.id : 0,
+      query,
+      table: 'location_'
+    });
     res.status(200);
     res.send(JSON.stringify(locations));
   } catch (error) {
