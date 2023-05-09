@@ -37,6 +37,8 @@ router.post('/transactions', getAllTransactions)
 ```
 These allow you to run any getting queries on the database tables with transactions, locations, customers and items and use `findMany` method, so in each and every case you get back an array of objects in JSON format in response to a proper request.
 
+These endpoints, however, do not allow to get aggregate values. This can be done on the front end or the back end later.
+
 # How to make queries 
 
 Here is how to make a query to the server and the database.
@@ -112,6 +114,6 @@ Warning: do not include `record_id` field in your queries. It exists only to be 
   }
 }
 ```
-You can also use Prisma playground to look at how queries are made: [link](https://playground.prisma.io/examples/reading/find/find-all?host=playground.prisma.io&path=examples).
+You can also use ==Prisma playground== to look at how queries are made: [link](https://playground.prisma.io/examples/reading/find/find-all?host=playground.prisma.io&path=examples).
 
 `POST` `/register` route creates a new account, including new tables in database. At present creates these with a randomly generated userID between 0 and 9999.
