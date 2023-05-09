@@ -3,6 +3,8 @@
 
 This instruction describes how to set up the server and the mock database. Standalone tables per user logic has been implemented, but for now we do not use it.
 
+All the logic in this file is based upon Prisma; see the guide [here](https://playground.prisma.io/examples/reading/find/find-all?host=playground.prisma.io&path=examples).
+
 1. Install PostgresSQL on your machine, including pgAdmin 4 app.
 2. Create a `.env` file in the `server` directory. Populate the file with the following values:
 
@@ -170,6 +172,6 @@ The 'groupBy' keyword is used for operations which return combined values for gr
 }
 ```
 
-You can also use ==Prisma playground== to look at how queries are made: [link](https://playground.prisma.io/examples/reading/find/find-all?host=playground.prisma.io&path=examples).
+As a reminder, uou can also use ==Prisma playground== to look at how queries are made: [link](https://playground.prisma.io/examples/reading/find/find-all?host=playground.prisma.io&path=examples).
 
 `POST` `/register` route creates a new account, including new tables in database. At present creates these with a randomly generated userID between 0 and 9999.
