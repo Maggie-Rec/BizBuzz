@@ -2,8 +2,8 @@
 
 import styles from '../styles/ReportsView.module.css';
 import React, { useState } from 'react';
-import { Button, Segmented, DatePicker, Space, Dropdown, Checkbox } from 'antd';
-import { FilterOutlined } from '@ant-design/icons';
+import { Button, Segmented, DatePicker, TreeSelect } from 'antd';
+import { filters } from '@/utils/filters';
 const { RangePicker } = DatePicker;
 
 const ReportsView = () => {
@@ -14,6 +14,21 @@ const ReportsView = () => {
     <div className={styles.container}>
       <div className={styles.controls}>
         <div className={styles.filterSelector}>
+        <TreeSelect
+      showSearch
+      style={{
+        width: '15vw',
+      }}
+      dropdownStyle={{
+        maxHeight: 400,
+        overflow: 'auto',
+      }}
+      placeholder="Select filters"
+      allowClear
+      multiple
+      treeDefaultExpandAll
+      treeData={filters}
+    />
           <Button type='primary' style={{ minWidth: "6vw" }}>Apply</Button>
         </div>
         <div className={styles.dateSelector}>

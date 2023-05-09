@@ -73,35 +73,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-              >User Details</span>
-              <span
-                style={{ backgroundColor: openTab === 1 ? "" : "#E59500" }}
-                onClick={() => setOpenTab(1)}
-              >Change Password</span>
-              <span
-                style={{ backgroundColor: openTab === 2 ? "" : "#E59500" }}
-                onClick={() => setOpenTab(2)}
-              >Log Out</span>
-            </div>
-          </div>
-          <div className={styles.secondRow}>
-            {openTab === 0 &&
-              <ProfileInfoTab></ProfileInfoTab>
-            }
-            {openTab === 1 &&
-              <ChangePasswordTab></ChangePasswordTab>
-            }
-            {openTab === 2 &&
-              <LogOutTab></LogOutTab>
-            }
-          </div>
-        </div>
-      </Modal>
-    </div>
-  )
-}
-
-
-export default Profile;
-
