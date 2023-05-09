@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   height: 12vh;
- background-color: #FFC65C;
+  background-color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -10,13 +10,14 @@
 .logo {
   margin-left: 20px;
   border: 1px solid black;
-  height: 100px;
-  width: 100px;
+  height: 10vh;
+  width: 10vw;
 }
 
-.title{
+.title {
   font-size: 50px;
   text-align: center;
+  color: #ffc65c;
 }
 
 .user {
@@ -24,13 +25,13 @@
   justify-content: center;
   width: 400px;
 }
-.userImg {
+/* .userImg {
   margin-right: 20px;
   border: 1px solid black;
   border-radius: 50%;
-  height: 100px;
-  width: 100px;
-}
+  height: 10vh;
+  width: 10vw;
+} */
 
 .dropdown {
   margin: 40px;

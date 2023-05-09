@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
 import AreaMenu from "../components/widgets/areaMenu";
+import PieMenu from "./widgets/pieMenu";
 
 import type { MenuProps } from "antd";
 import {
@@ -27,8 +28,14 @@ const { RangePicker } = DatePicker;
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const showWindow = () => {
+  const showWindow = (event: any) => {
     setIsOpen(true);
+    console.log(event.target);
+    if (event.target === "<h2>Area Chart</h2>") {
+      <AreaMenu />;
+    } else {
+      <PieMenu />;
+    }
   };
 
   const handleOk = () => {
@@ -45,7 +52,7 @@ const Dashboard = () => {
     {
       key: "1",
       label: (
-        <div style={{ display: "flex" }} onClick={showWindow}>
+        <div style={{ display: "flex" }} onClick={(event) => showWindow(event)}>
           <AreaChartOutlined
             style={{ fontSize: "40px", marginRight: "20px" }}
           />{" "}
@@ -123,9 +130,7 @@ const Dashboard = () => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-       
-          <AreaMenu />
-
+        
       </Modal>
     </div>
   );
