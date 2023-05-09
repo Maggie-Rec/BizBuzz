@@ -2,7 +2,8 @@
 
 import styles from '../styles/ReportsView.module.css';
 import React, { useState } from 'react';
-import { Button, Segmented, DatePicker, TreeSelect, Table } from 'antd';
+import { Button, Segmented, DatePicker, TreeSelect, Table, Tooltip } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { filters } from '@/utils/filters';
 const { RangePicker } = DatePicker;
 
@@ -17,7 +18,8 @@ const ReportsView = () => {
           <TreeSelect
             showSearch
             style={{
-              width: '15vw',
+              minWidth: '20vw',
+              maxWidth: '25vw'
             }}
             dropdownStyle={{
               maxHeight: 400,
@@ -35,7 +37,9 @@ const ReportsView = () => {
           <Segmented options={['Today', 'Last Week', 'Last Month', 'Last Quarter', 'Last Year']}></Segmented>
           <RangePicker style={{ width: "15vw" }}></RangePicker>
         </div>
-        <Button type='primary'>Upload Data</Button>
+        <Tooltip title='Upload Data' placement='bottomLeft'>
+          <Button type='primary'><PlusOutlined/></Button>
+        </Tooltip>
       </div>
       <div className={styles.tableContainer}>
         <Table style={{height: "100%"}}/>
