@@ -1,11 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
+import AreaMenu from "../components/widgets/areaMenu";
 
 import type { MenuProps } from "antd";
-import { Button, Popover, Dropdown, Space, Segmented, DatePicker } from "antd";
+import {
+  Button,
+  Popover,
+  Dropdown,
+  Space,
+  Segmented,
+  DatePicker,
+  Modal,
+} from "antd";
 import {
   PieChartOutlined,
   AreaChartOutlined,
@@ -16,13 +25,27 @@ import {
 
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const showWindow = () => {
+    setIsOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+
   const calendar = <SMLCalendar />;
 
   const items: MenuProps["items"] = [
     {
       key: "1",
       label: (
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex" }} onClick={showWindow}>
           <AreaChartOutlined
             style={{ fontSize: "40px", marginRight: "20px" }}
           />{" "}
@@ -33,7 +56,7 @@ const Dashboard = () => {
     {
       key: "2",
       label: (
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex" }} onClick={showWindow}>
           <PieChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
           <h2>Pie Chart</h2>
         </div>
@@ -42,7 +65,7 @@ const Dashboard = () => {
     {
       key: "3",
       label: (
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex" }} onClick={showWindow}>
           <BarChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
           <h2>Bar Chart</h2>
         </div>
@@ -51,7 +74,7 @@ const Dashboard = () => {
     {
       key: "4",
       label: (
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex" }} onClick={showWindow}>
           <LineChartOutlined
             style={{ fontSize: "40px", marginRight: "20px" }}
           />
@@ -62,7 +85,7 @@ const Dashboard = () => {
     {
       key: "5",
       label: (
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex" }} onClick={showWindow}>
           <DollarOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
           <h2>Big number Chart</h2>
         </div>
@@ -94,6 +117,16 @@ const Dashboard = () => {
           <Button>Add Widget</Button>
         </Dropdown>
       </div>
+      <Modal
+        title="insert data"
+        open={isOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+       
+          <AreaMenu />
+
+      </Modal>
     </div>
   );
 };
