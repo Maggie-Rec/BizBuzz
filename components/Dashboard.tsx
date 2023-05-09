@@ -3,7 +3,14 @@
 import React, { useState } from "react";
 import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
-import AreaMenu from "../components/widgets/areaMenu";
+import LineChart from "./widgets/LineChart/lineChart";
+import PieMenu from "./widgets/PieChart/pieMenu";
+import LineMenu from "./widgets/LineChart/lineMenu";
+import BarMenu from "./widgets/BarChart/barMenu";
+import BigNoMenu from "./widgets/bigNoMenu";
+import PieChart from "./widgets/PieChart/pieChart";
+import BarChart from "./widgets/BarChart/barChart";
+
 
 import type { MenuProps } from "antd";
 import {
@@ -17,7 +24,7 @@ import {
 } from "antd";
 import {
   PieChartOutlined,
-  AreaChartOutlined,
+ 
   BarChartOutlined,
   LineChartOutlined,
   DollarOutlined,
@@ -26,13 +33,20 @@ import {
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState("");
+  const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
 
-  const showWindow = () => {
+  const showWindow = (event: any) => {
     setIsOpen(true);
+    setOpenMenu(event.target.textContent);
   };
 
+  const showWidget = (chartType: string) => {
+    setOpenWidget({ chartType });
+  };
   const handleOk = () => {
     setIsOpen(false);
+    // showWidget("Bar Chart");
   };
 
   const handleCancel = () => {
@@ -43,20 +57,9 @@ const Dashboard = () => {
 
   const items: MenuProps["items"] = [
     {
-      key: "1",
-      label: (
-        <div style={{ display: "flex" }} onClick={showWindow}>
-          <AreaChartOutlined
-            style={{ fontSize: "40px", marginRight: "20px" }}
-          />{" "}
-          <h2>Area Chart</h2>
-        </div>
-      ),
-    },
-    {
       key: "2",
       label: (
-        <div style={{ display: "flex" }} onClick={showWindow}>
+        <div style={{ display: "flex" }} onClick={(event) => showWindow(event)}>
           <PieChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
           <h2>Pie Chart</h2>
         </div>
@@ -117,15 +120,37 @@ const Dashboard = () => {
           <Button>Add Widget</Button>
         </Dropdown>
       </div>
+
+      {openWidget.chartType === "Pie Chart" && (
+        <PieChart showWidget={() => setOpenWidget({})} />
+      )}
+      {openWidget.chartType === "Bar Chart" && (
+        <BarChart showWidget={() => setOpenWidget({})} />
+      )}
+      {openWidget.chartType === "Line Chart" && (
+        <LineChart showWidget={() => setOpenWidget({})} />
+      )}
+
       <Modal
         title="insert data"
         open={isOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
-       
-          <AreaMenu />
-
+        {(() => {
+          switch (openMenu) {
+         case "Pie Chart":
+              return <PieMenu showWidget={showWidget} />;
+            case "Bar Chart":
+              return <BarMenu showWidget={showWidget} />;
+            case "Line Chart":
+              return <LineMenu showWidget={showWidget} />;
+            case "Big number Chart":
+              return <BigNoMenu />;
+            default:
+              return null;
+          }
+        })()}
       </Modal>
     </div>
   );

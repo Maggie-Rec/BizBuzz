@@ -67,7 +67,7 @@ const Profile = () => {
           </div>
         </div>
       </Modal>
-      <UserOutlined style={{ fontSize: "70px", color: "#FFC65C" }} />
+      <UserOutlined style={{ fontSize: "70px", color: "#FFF" }} />
     </div>
   );
 };

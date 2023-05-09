@@ -1,0 +1,17 @@
+.chart {
+    display: flex;
+    flex-direction: column;
+    margin: 1vh;
+    padding: 2vh;
+    border-radius: 15px;
+    width: 30vw;
+    height: 33vh;
+    box-shadow: 0px 40px 85px -20px #cacaca;
+    background-color: white;
+}
+
+.icons{
+     display: flex;
+   justify-content: space-between;
+    margin: 10px;
+}
