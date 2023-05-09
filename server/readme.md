@@ -48,32 +48,70 @@ Prisma ORM uses object-like syntax for queries that imitates the structure of wh
 
 Examples of query objects with comments:
 
+Warning: do not include `record_id` field in your queries. It exists only to be as a primary key in the transactions tables and serves no other purpose.
+
 ```TypeScript
 // to get all records from a table - can be most useful for locations and items
-query: {}
+{ 
+  query: {}
+}
 
 // an example of a transactions query that returns transactions related to a specific location after 1 March 2023
 // to get a filtered result include `where` into your query object
-query: {
-  where: {
-    location_id: 2, // returns all transactions related to a location id equal to 2
-    // to filter based on date
-    date: {
-      // `gt` stands for `greater than`, there is also `lt` which is `less than`
-      // date field accepts date strings in ISO format or YYYY-MM-DD format
-      // you should be able to generate a string with a library or built-in `.toISOString()` method applicable to `Date` objects
-      gt: "2023-03-01T08:00:00.009Z"
+{
+  query: {
+    where: {
+      location_id: 2, // returns all transactions related to a location id equal to 2
+      // to filter based on date
+      date: {
+        // `gt` stands for `greater than`, there is also `lt` which is `less than`
+        // date field accepts date strings in ISO format or YYYY-MM-DD format
+        // you should be able to generate a string with a library or built-in `.toISOString()` method applicable to `Date` objects
+        gt: "2023-03-01T08:00:00.009Z"
+      }
+    },
+    // to specify which fields you need exactly include `select` into your query object
+    select: {
+      location_id: true,
+      date: true,
+      total_with_tax: true,
+      is_member: true,
+      // if you want to get information from a related table as well, e.g. location data, add `location` to select
+      location: {
+        // same principle here
+        select: {
+          name: true,
+          region: true
+        }
+      },
+      // to get item info from the related table
+      item: {
+        select: {
+          description: true
+        }
+      }
     }
-  },
-  // to specify which fields you need exactly include `select` into your query object
-  select: {
-    location_id: true,
-    date: true,
-    total_with_tax: true,
-    is_member: true
+  }
+}
+
+// to get records related to multiple locations - use OR operator and include an array
+// there is also AND operator that will give you data that meets all the conditions
+{ 
+  query: {
+    where: {
+      OR: [{
+        location_id: 2
+      }, {
+        location_id: 3
+      }]
+    },
+    select: {
+      location_id: true,
+      total_with_tax: true
+    }
   }
 }
 ```
-You can also use Prisma playground to look at how queries are made.
+You can also use Prisma playground to look at how queries are made: [link](https://playground.prisma.io/examples/reading/find/find-all?host=playground.prisma.io&path=examples).
 
 `POST` `/register` route creates a new account, including new tables in database. At present creates these with a randomly generated userID between 0 and 9999.
