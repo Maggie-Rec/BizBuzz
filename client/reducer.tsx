@@ -21,13 +21,14 @@ const initialStateBar = {
   option1: "",
   option2: "",
   option3: "",
-  option4:"",
+  option4: "",
   monthsArray: [],
 };
 
 const barChartReducer = (state = initialStateBar, action) => {
   if (action.type === "SET_BAR_OPTION") {
-    const newState = {...state,
+    const newState = {
+      ...state,
       option1: action.payload.option1,
       option2: action.payload.option2,
       option3: action.payload.option3,
@@ -35,18 +36,34 @@ const barChartReducer = (state = initialStateBar, action) => {
     return newState;
   }
   if (action.type === "SET_MONTH") {
-    console.log('payload', action.payload)
+    console.log("payload", action.payload);
     return {
       ...state,
-      monthsArray: action.payload
+      monthsArray: action.payload,
     };
   }
   return state;
 };
 
+const initialStatePie = {
+  period: "",
+  dataTye: "",
+};
+
+const pieChartReducer = (state = initialStatePie, action) => {
+  if (action.type === "SET_PIE_CHART") {
+    return {
+      ...state,
+      period: action.payload.period,
+      dataType: action.payload.dataType,
+    };
+  }
+};
+
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
+  pieChart: pieChartReducer
 });
 
 export default rootReducer;
