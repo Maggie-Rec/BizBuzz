@@ -35,6 +35,8 @@ const Dashboard = () => {
   const [openMenu, setOpenMenu] = useState("");
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
 
+  const [myWidgets, setMyWidgets] = useState([]);
+
   const showWindow = (event: any) => {
     setIsOpen(true);
     setOpenMenu(event.target.textContent);
@@ -42,7 +44,7 @@ const Dashboard = () => {
 
   const showWidget = (chartType: string) => {
     setOpenWidget({ chartType });
-    
+    // myWidgets.push
   };
   const handleOk = () => {
     setIsOpen(false);
@@ -120,9 +122,6 @@ const Dashboard = () => {
         </Dropdown>
       </div>
 
-      {openWidget.chartType === "Pie Chart" && (
-        <PieChart showWidget={() => setOpenWidget({})} />
-      )}
       {openWidget.chartType === "Bar Chart" && (
         <BarChart showWidget={() => setOpenWidget({})} />
       )}
@@ -133,8 +132,11 @@ const Dashboard = () => {
         <ProgressChart showWidget={() => setOpenWidget({})} />
       )}
 
+      <section className={styles.widgetContainer}>
+        { myWidgets }
+      </section>
+
       <Modal
-        // title="insert data"
         open={isOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -142,7 +144,7 @@ const Dashboard = () => {
         {(() => {
           switch (openMenu) {
             case "Pie Chart":
-              return <PieMenu showWidget={showWidget} />;
+              return <PieMenu myWidgets={myWidgets} setMyWidgets={setMyWidgets} />;
             case "Bar Chart":
               return <BarMenu showWidget={showWidget} />;
             case "Line Chart":

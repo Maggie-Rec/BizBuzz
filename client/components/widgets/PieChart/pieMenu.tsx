@@ -4,27 +4,46 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Space, Select, Button } from "antd";
 import styles from "../../../styles/widgets/pieMenu.module.css";
 import { useDispatch } from "react-redux";
+import PieChart from "./pieChart";
 
 interface Props {
-  showWidget: (arg0: string) => void,
+  setMyWidgets: Dispatch<SetStateAction<any[]>>,
+  myWidgets: any[]
 }
-const PieMenu = ({ showWidget }: Props) => {
+const PieMenu = ({ myWidgets, setMyWidgets }: Props) => {
   const [period, setPeriod] = useState('');
   const [dataType, setDataType] = useState('');
-
-  const dispatch = useDispatch();
 
   function handleChange(value: string,
     setter: (selection: string) => void) {
       setter(value);
     }
+
+
+  // TODO: MOVE THE CLOSE HANDLER TO THE DASHBOARD, DRILL IT DOWN TO AVOID STATE PROBLEMS  
+  // MOVE THE WIDGETS ARRAY STATE TO REDUX STORE
+
+  function handleClose () {
+      // console.log(event.target);
+      console.log(myWidgets);
+      // let tbd = myWidgets.findIndex((element) => {
+      //   console.log(element.key);
+      //   console.log(element.key === key);
+      //   element.key.toString() === key ? true : false;
+      // });
+      // console.log('tbd', tbd);
+      // setMyWidgets([...myWidgets.splice(tbd, 1)]);
+    };
   
-  const openWidget = () => {
-    showWidget("Pie Chart");
-    dispatch({
-      type: "SET_PIECHART_SELECTION",
-      payload: [period, dataType]
-    })
+  const addWidget = () => {
+    const newPieChart = <PieChart 
+      pieChartSelection={[period, dataType]} 
+      key={(() => { return Date.now()})()} 
+      handleClose={handleClose}
+      />
+    console.log(newPieChart);
+    setMyWidgets([...myWidgets, newPieChart])
+    console.log(myWidgets);
   };
 
   return (
@@ -68,9 +87,14 @@ const PieMenu = ({ showWidget }: Props) => {
       <br />
       <br />
       {/* TODO: FIX DISPLAY LOGIC - THERE IS NO NEED TO HAVE SO MANY BUTTONS IN THE MODAL */}
-      <Button onClick={openWidget}>Display</Button>
+      {/* <Button onClick={openWidget}>Display</Button> */}
+      <Button onClick={addWidget}>Display</Button>
     </div>
   );
 };
 
 export default PieMenu;
+function showWidget(): void {
+  throw new Error("Function not implemented.");
+}
+
