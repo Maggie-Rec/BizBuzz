@@ -3,6 +3,9 @@
 // import { SessionProvider } from "next-auth/react";
 
 import React, { useState } from "react";
+import { Provider } from "react-redux";
+import { legacy_createStore } from "redux";
+import rootReducer from "../reducer"
 
 /* COMPONENTS */
 
@@ -12,24 +15,27 @@ import Dashboard from "../components/Dashboard";
 import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
 
+const store = legacy_createStore(rootReducer)
 const MainPage = () => {
   const [isLogged, setIsLogged] = useState(false);
 
   return (
-    <div>
-      {isLogged ? (
-        <LoginPage />
-      ) : (
-        <div>
-          <NavBar />
-          <div className="container">
-            <SideBar />
-            <Dashboard />
-            {/* <ReportsView /> */}
+    <Provider store={store}>
+      <div>
+        {isLogged ? (
+          <LoginPage />
+        ) : (
+          <div>
+            <NavBar />
+            <div className="container">
+              <SideBar />
+              <Dashboard />
+              {/* <ReportsView /> */}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    // </Provider>
   );
 };
 

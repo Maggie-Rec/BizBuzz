@@ -1,17 +1,19 @@
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
-import { Progress, Space } from "antd";
+import { Progress } from "antd";
 import styles from "../../../styles/widgets/progressChart.module.css";
+import { useSelector } from "react-redux";
 
 interface Props {
   showWidget: () => void;
 }
 
 const ProgressChart = ({ showWidget }: Props) => {
+    const percent = useSelector((state:any) => { return state.progressChart.percentage})
+    const inputValue = useSelector((state:any) => { return state.progressChart.userInput})
   const handleClose = () => {
     showWidget();
   };
 
-  const data = {};
 
   return (
     <div className={styles.chart}>
@@ -19,9 +21,9 @@ const ProgressChart = ({ showWidget }: Props) => {
         <DragOutlined />
         <CloseOutlined onClick={handleClose} />
       </div>
-      <h1 className={styles.bigNumber}>£32,459</h1>
+      <h1 className={styles.bigNumber}>{inputValue}</h1>
       <div className={styles.circle}>
-        <Progress type="circle" percent={73} />
+        <Progress type="circle" percent={percent} />
       </div>
     </div>
   );
