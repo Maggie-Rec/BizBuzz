@@ -1,45 +1,48 @@
-import React from "react";
-import { Space, Select, Button } from "antd";
+import React, { useState } from "react";
+import { Space, Select, Button, Input } from "antd";
 import styles from "../../../styles/widgets/progressChart.module.css";
+import { useDispatch } from "react-redux";
 
 interface Props {
   showWidget: (arg0: string) => void;
 }
 const Progress = ({ showWidget }: Props) => {
-  const openWidget = () => {
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState("");
+  const [totalValue, setTotalValue] = useState("");
+  const calculatePercentage = () => {
+    const part = Number(totalValue);
+    const whole = Number(inputValue);
+    const percent = Math.round((part / whole) * 100);
+
+    dispatch({ type: "GENERATE", payload: { inputValue, percent } });
+  };
+
+  const createWidget = () => {
     showWidget("Progress Chart");
+    calculatePercentage();
   };
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
+
   return (
     <div className={styles.container}>
       <h1>Area Chart</h1>
       <Space wrap>
+        <Input
+          type="number"
+          onChange={(event) => setInputValue(event.target.value)}
+        />
         <Select
-          defaultValue="location"
           style={{ width: 120 }}
-          onChange={handleChange}
+          onChange={setTotalValue}
           className={styles.input}
           options={[
-            { value: "location", label: "Location" },
-            { value: "quantity", label: "Item Quantity" },
-            { value: "memebr", label: "Membership" },
-            { value: "tax", label: "Tax" },
-            { value: "age", label: "Age" },
-            { value: "gender", label: "Gender" },
-            { value: "units", label: "Units" },
-            { value: "category", label: "Item Category" },
-            { value: "region", label: "Location Region" },
+            { value: "55798", label: "Total Sales" },
+            { value: "798", label: "Total Items " },
           ]}
         />
-       </Space>
+      </Space>
 
-       
-       
-       
-      
-      <Button onClick={openWidget}>Display</Button>
+      <Button onClick={createWidget}>Display</Button>
     </div>
   );
 };
