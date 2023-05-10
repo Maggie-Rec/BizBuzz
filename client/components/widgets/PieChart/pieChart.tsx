@@ -180,6 +180,7 @@ const PieChart = ({ showWidget }: Props) => {
         <CloseOutlined onClick={handleClose} />
       </div>
       <Pie data={data} />
+      Sales {pieChartSelection[0]} {pieChartSelection[1]}
     </div>
   );
 };
