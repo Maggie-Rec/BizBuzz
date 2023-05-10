@@ -45,18 +45,11 @@ const barChartReducer = (state = initialStateBar, action) => {
   return state;
 };
 
-const initialStatePie = {
-  period: "",
-  dataTye: "",
-};
-
-const pieChartReducer = (state = initialStatePie, action) => {
-  if (action.type === "SET_PIE_CHART") {
-    return {
-      ...state,
-      period: action.payload.period,
-      dataType: action.payload.dataType,
-    };
+const pieChartReducer = (state = [], action) => {
+  switch (action.type) {
+    case "SET_PIECHART_SELECTION":
+    return action.payload;
+    default: return state
   }
 };
 

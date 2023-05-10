@@ -26,21 +26,19 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/pieChart.module.css";
 import { useEffect, useState } from "react";
 import { fileURLToPath } from "url";
-import { useSelector } from "react-redux";
 
 interface Props {
   showWidget: () => void,
+  pieChartSelection: string[]
 }
 
-const PieChart = ({ showWidget }: Props) => {
+const PieChart = ({ showWidget, pieChartSelection }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
   const [pieData, setPieData] = useState([] as number[]);
-
-  const pieChartSelection = useSelector((state: any) => {
-    console.log('state', state);
-    console.log('pieChart', state.pieChart);
-    return state.pieChart;
-  })
+<<<<<<< HEAD
+  const [periodStart, setPeriodStart] = useState('');
+=======
+>>>>>>> bf4c850 (pie chart working, state via dashboard)
 
   const handleClose = () => {
     showWidget();
@@ -48,6 +46,21 @@ const PieChart = ({ showWidget }: Props) => {
 
   useEffect(() => {
 
+<<<<<<< HEAD
+    // let periodStart = '';
+    switch (pieChartSelection[0]) { // [0] for period, [1] for data type
+      case "past_week":
+        // periodStart = lastWeekTF[0].toISOString()
+        setPeriodStart('2023-03-23T23:00:00.000Z');
+        break;
+      case "past_month":
+        // periodStart = lastMonthTF[0].toISOString()
+        setPeriodStart('2023-03-01T23:00:00.000Z');
+        break;
+      case "past_quarter":
+        // periodStart = lastQuarterTF[0].toISOString()
+        setPeriodStart('2023-01-01T23:00:00.000Z');
+=======
     let periodStart = '';
     switch (pieChartSelection[0]) { // [0] for period, [1] for data type
       case "past_week":
@@ -61,6 +74,7 @@ const PieChart = ({ showWidget }: Props) => {
       case "past_quarter":
         // periodStart = lastQuarterTF[0].toISOString()
         periodStart = '2023-01-01T23:00:00.000Z';
+>>>>>>> bf4c850 (pie chart working, state via dashboard)
         break;
     };
 
@@ -103,12 +117,19 @@ const PieChart = ({ showWidget }: Props) => {
       if (filter.transaction) {
         filter = filter.transaction;
         for (let key in filter) {
+<<<<<<< HEAD
           if (filter[key] === 'true') {
             filter[key] = true;
           } else if (filter[key] === 'false') {
             filter[key] = false;
           } else {
             filter[key] = Number(filter[key]);
+=======
+          if (Number(filter[key])) {
+            filter[key] = Number(filter[key])
+          } else {
+            filter[key] = Boolean(filter[key])
+>>>>>>> bf4c850 (pie chart working, state via dashboard)
           }
         }
       }

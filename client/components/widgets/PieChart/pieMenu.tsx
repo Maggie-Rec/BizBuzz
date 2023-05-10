@@ -3,14 +3,16 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Space, Select, Button } from "antd";
 import styles from "../../../styles/widgets/pieMenu.module.css";
+import { useDispatch } from "react-redux";
 
 interface Props {
   showWidget: (arg0: string) => void,
-  setPieChartSelection: Dispatch<SetStateAction<string[]>>
 }
-const PieMenu = ({ showWidget, setPieChartSelection }: Props) => {
+const PieMenu = ({ showWidget }: Props) => {
   const [period, setPeriod] = useState('');
   const [dataType, setDataType] = useState('');
+
+  const dispatch = useDispatch();
 
   function handleChange(value: string,
     setter: (selection: string) => void) {
@@ -18,8 +20,11 @@ const PieMenu = ({ showWidget, setPieChartSelection }: Props) => {
     }
   
   const openWidget = () => {
-    setPieChartSelection([period, dataType]);
     showWidget("Pie Chart");
+    dispatch({
+      type: "SET_PIECHART_SELECTION",
+      payload: [period, dataType]
+    })
   };
 
   return (

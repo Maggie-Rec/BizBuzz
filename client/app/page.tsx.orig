@@ -20,6 +20,7 @@ const MainPage = () => {
   const [isLogged, setIsLogged] = useState(false);
 
   return (
+<<<<<<< HEAD
     <Provider store={store}>
       <div>
         {isLogged ? (
@@ -32,10 +33,22 @@ const MainPage = () => {
               <Dashboard />
               {/* <ReportsView /> */}
             </div>
+=======
+    <div>
+      {isLogged ? (
+        <LoginPage />
+      ) : (
+        <div>
+          <NavBar />
+          <div className="container">
+            <SideBar />
+            <Dashboard />
+            {/* <ReportsView /> */}
+>>>>>>> bf4c850 (pie chart working, state via dashboard)
           </div>
         )}
       </div>
-    </Provider>
+    // </Provider>
   );
 };
 
