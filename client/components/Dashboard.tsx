@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+
 import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
 import LineChart from "./widgets/LineChart/lineChart";
@@ -34,6 +35,9 @@ const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
+  const [deltaPosition, setDeltaPosition] = useState({x:0, y:0}) 
+  const [activeDrags, setActiveDrags] = useState(0) 
+ 
 
   const showWindow = (event: any) => {
     setIsOpen(true);
@@ -42,7 +46,6 @@ const Dashboard = () => {
 
   const showWidget = (chartType: string) => {
     setOpenWidget({ chartType });
-    
   };
   const handleOk = () => {
     setIsOpen(false);
@@ -95,65 +98,70 @@ const Dashboard = () => {
     },
   ];
 
+ 
   return (
-    <div className={styles.containerDashboard}>
-      <div className={styles.toolBar}>
-        <Space wrap>
-          <Popover content={calendar} trigger="click">
-            <Button className={styles.calendarBtn}>Calendar</Button>
-          </Popover>
-        </Space>
-        <div>
-          <Segmented
-            options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
-          />
-
-          <Space direction="vertical" size={12}>
-            <RangePicker className={styles.dateSelector} />
+    <div>
+        <div className={styles.toolBar}>
+          <Space wrap>
+            <Popover content={calendar} trigger="click">
+              <Button className={styles.calendarBtn}>Calendar</Button>
+            </Popover>
           </Space>
+          <div>
+            <Segmented
+              options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
+            />
+
+            <Space direction="vertical" size={12}>
+              <RangePicker className={styles.dateSelector} />
+            </Space>
+          </div>
+          <Dropdown
+            overlayStyle={{ width: "300px" }}
+            menu={{ items, selectable: true }}
+          >
+            <Button>Add Widget</Button>
+          </Dropdown>
         </div>
-        <Dropdown
-          overlayStyle={{ width: "300px" }}
-          menu={{ items, selectable: true }}
+      <div className={styles.containerDashboard}>
+
+        {openWidget.chartType === "Pie Chart" && (
+          <PieChart showWidget={() => setOpenWidget({})} />
+        )}
+
+        {openWidget.chartType === "Bar Chart" && (
+          <BarChart showWidget={() => setOpenWidget({})} />
+        )}
+
+        {openWidget.chartType === "Line Chart" && (
+          <LineChart showWidget={() => setOpenWidget({})} />
+        )}
+        {openWidget.chartType === "Progress Chart" && (
+          <ProgressChart showWidget={() => setOpenWidget({})} />
+        )}
+
+        <Modal
+          title="insert data"
+          open={isOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
         >
-          <Button>Add Widget</Button>
-        </Dropdown>
+          {(() => {
+            switch (openMenu) {
+              case "Pie Chart":
+                return <PieMenu showWidget={showWidget} />;
+              case "Bar Chart":
+                return <BarMenu showWidget={showWidget} />;
+              case "Line Chart":
+                return <LineMenu showWidget={showWidget} />;
+              case "Progress Chart":
+                return <ProgressMenu showWidget={showWidget} />;
+              default:
+                return null;
+            }
+          })()}
+        </Modal>
       </div>
-
-      {openWidget.chartType === "Pie Chart" && (
-        <PieChart showWidget={() => setOpenWidget({})} />
-      )}
-      {openWidget.chartType === "Bar Chart" && (
-        <BarChart showWidget={() => setOpenWidget({})} />
-      )}
-      {openWidget.chartType === "Line Chart" && (
-        <LineChart showWidget={() => setOpenWidget({})} />
-      )}
-      {openWidget.chartType === "Progress Chart" && (
-        <ProgressChart showWidget={() => setOpenWidget({})} />
-      )}
-
-      <Modal
-        title="insert data"
-        open={isOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        {(() => {
-          switch (openMenu) {
-            case "Pie Chart":
-              return <PieMenu showWidget={showWidget} />;
-            case "Bar Chart":
-              return <BarMenu showWidget={showWidget} />;
-            case "Line Chart":
-              return <LineMenu showWidget={showWidget} />;
-            case "Progress Chart":
-              return <ProgressMenu showWidget={showWidget} />;
-            default:
-              return null;
-          }
-        })()}
-      </Modal>
     </div>
   );
 };

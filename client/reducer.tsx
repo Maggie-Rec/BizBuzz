@@ -58,6 +58,7 @@ const pieChartReducer = (state = initialStatePie, action) => {
       dataType: action.payload.dataType,
     };
   }
+  return state
 };
 
 const rootReducer = combineReducers({
