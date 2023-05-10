@@ -17,8 +17,8 @@ export function createTransactionSchema(userID: number) {
     is_member      Boolean
     customer       Customer_${userID} @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     customer_id    Int
-    tax            Decimal  @db.Decimal
     total_with_tax Decimal  @db.Decimal
+    tax            Decimal  @db.Decimal
   }
   `
 };
