@@ -34,7 +34,6 @@ const LineChart = ({ showWidget }: Props) => {
   const handleClose = () => {
     showWidget();
   };
-
   const labels = [
     "January",
     "February",
@@ -55,11 +54,18 @@ const LineChart = ({ showWidget }: Props) => {
         backgroundColor: "#002642",
       },
       {
-        label: "Dataset 1",
+        label: "Dataset 2",
         data: ["78", "54", "2", "206", "26", '15'],
         fill: true,
         borderColor: "#840032",
         backgroundColor: "#840032",
+      },
+      {
+        label: "Dataset 3",
+        data: ["50", "48", "46", "40", "45", '42'],
+        fill: true,
+        borderColor: "#538927",
+        backgroundColor: "#538927",
       },
     ],
   };
