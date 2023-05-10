@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Select, Space, Button, Cascader, DatePicker } from "antd";
+import { Select, Space, Button, Cascader, DatePicker, Slider } from "antd";
 import styles from "../../../styles/widgets/lineChart.module.css";
 import { DataFilter } from './dataFilter';
 const { RangePicker } = DatePicker;
@@ -11,12 +11,30 @@ const LineMenu = ({ showWidget }: Props) => {
   const [yAxis, setYaxis] = useState(['salesValue', 'acrossLocations']);
   const [xAxis, setXaxis] = useState(['time', 'month']);
 
-  const openWidget = () => {
+  const handleSubmit = () => {
     showWidget("Line Chart");
   };
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
+  const filterOptions = [{ value: "location", label: "Location" }, // Filter should be a multi-select with search
+  { value: "gender", label: "Gender", baseFilterObject: { gender: ['male', 'female'] } },
+  { value: "region", label: "Location Region", baseFilterObject: { region: ['Greater London'] } },
+  { value: "quantity", label: "Item Quantity", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
+  { value: "age", label: "Age", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
+  { value: "member", label: "Membership", baseFilterObject: { is_member: true } },
+  { value: "category", label: "Item Category", baseFilterObject: { category: '' } }
+    // { value: "tax", label: "Tax" },
+    // { value: "units", label: "Units" },
+  ]
+
+  const [unusedFilters, setUnusedFilters] = useState(filterOptions)
+  const [filters, setFilters] = useState([[], []]);
+
+  function handleNewFilter(value: string) {
+    const copyFilters = [...filters];
+    copyFilters[0].push(filterOptions.find((filter) => { return value === filter.value }).baseFilterObject);
+    copyFilters[1].push(value);
+    setFilters(copyFilters);
+  }
+
   return (
     <div className={styles.container}>
       <h1>Line Graph</h1>
@@ -37,6 +55,9 @@ const LineMenu = ({ showWidget }: Props) => {
               }, {
                 value: 'inEachLocation',
                 label: 'In each location'
+              }, {
+                value: 'inSpecificLocations',
+                label: 'In specific locations'
               }]
             },
             {
@@ -48,6 +69,9 @@ const LineMenu = ({ showWidget }: Props) => {
               }, {
                 value: 'inEachLocation',
                 label: 'In each location'
+              }, {
+                value: 'inSpecificLocations',
+                label: 'In specific locations'
               }]
             },
             {
@@ -59,10 +83,31 @@ const LineMenu = ({ showWidget }: Props) => {
               }, {
                 value: 'inEachLocation',
                 label: 'In each location'
+              }, {
+                value: 'inSpecificLocations',
+                label: 'In specific locations'
               }]
             },
           ]}
         />
+        {
+          yAxis[1] === 'inSpecificLocations' ?
+            <Select
+              mode="multiple"
+              style={{ width: 200 }}
+              onChange={() => { }}
+              options={[
+                { value: 0, label: 'mock location 0' },
+                { value: 1, label: 'mock location 1' },
+                { value: 2, label: 'mock location 2' },
+                { value: 3, label: 'mock location 3' },
+                { value: 4, label: 'mock location 4' },
+              ]}
+
+            />
+            :
+            <></>
+        }
         <Space />
         <p>X-axis:</p>
         <Cascader
@@ -93,7 +138,7 @@ const LineMenu = ({ showWidget }: Props) => {
             },
             {
               value: "customerAge",
-              label: 'Customer Age',
+              label: 'Registered Customer Age',
               children: []
             },
           ]}
@@ -107,14 +152,33 @@ const LineMenu = ({ showWidget }: Props) => {
                 style={{ width: 300 }}
               />
             </Space>
-            : <></>
+            : <Slider
+              style={{ width: 300 }}
+              defaultValue={[18, 65]}
+              range
+            />
         }
+        <Space>
+          <p>Add a filter:</p>
+          <Select
+            options={unusedFilters}
+            style={{ width: 180 }}
+            onChange={handleNewFilter}
+          />
+        </Space>
+        <Space>
+          {filters[1].includes('location') ?
+            <p>Location filter detail</p>
+            :
+            <></>
+          }
+        </Space>
 
 
-        <DataFilter isLast={true} />
+
 
       </Space>
-      <Button onClick={openWidget}>Display</Button>
+      <Button onClick={handleSubmit}>Display</Button>
     </div>
   );
 };
