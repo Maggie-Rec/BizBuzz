@@ -24,8 +24,8 @@ const MainPage = () => {
           <NavBar />
           <div className="container">
             <SideBar />
-            {/* <Dashboard /> */}
-            <ReportsView />
+            <Dashboard />
+            {/* <ReportsView /> */}
           </div>
         </div>
       )}

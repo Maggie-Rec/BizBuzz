@@ -34,6 +34,9 @@ const Dashboard = () => {
   const [openMenu, setOpenMenu] = useState("");
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
 
+  // TO FIX: TEMPORARY STATE SOLUTION UNTIL SOMETHING ELSE IS IMPLEMENTED
+  const [pieChartSelection, setPieChartSelection] = useState([] as string[]);
+
   const showWindow = (event: any) => {
     setIsOpen(true);
     setOpenMenu(event.target.textContent);
@@ -120,7 +123,7 @@ const Dashboard = () => {
       </div>
 
       {openWidget.chartType === "Pie Chart" && (
-        <PieChart showWidget={() => setOpenWidget({})} />
+        <PieChart showWidget={() => setOpenWidget({})} pieChartSelection={pieChartSelection} />
       )}
       {openWidget.chartType === "Bar Chart" && (
         <BarChart showWidget={() => setOpenWidget({})} />
@@ -130,7 +133,7 @@ const Dashboard = () => {
       )}
 
       <Modal
-        title="insert data"
+        // title="insert data"
         open={isOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -138,7 +141,7 @@ const Dashboard = () => {
         {(() => {
           switch (openMenu) {
             case "Pie Chart":
-              return <PieMenu showWidget={showWidget} />;
+              return <PieMenu showWidget={showWidget} setPieChartSelection={setPieChartSelection} />;
             case "Bar Chart":
               return <BarMenu showWidget={showWidget} />;
             case "Line Chart":

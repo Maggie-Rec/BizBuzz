@@ -3,9 +3,9 @@
 import styles from '../styles/ReportsView.module.css';
 import React, { useState } from 'react';
 import { Button, Segmented, DatePicker, TreeSelect, Table, Tooltip } from 'antd';
-import { todayTimeFilter, lastWeekTF, lastMonthTF, lastQuarterTF, lastYearTF } from '@/utils/timeFilters';
+import { todayTimeFilter, lastWeekTF, lastMonthTF, lastQuarterTF, lastYearTF } from '../utils/timeFilters';
 import { PlusOutlined } from '@ant-design/icons';
-import { filters } from '@/utils/filters';
+import { filters } from '../utils/filters';
 const { RangePicker } = DatePicker;
 
 /* TABLE COLUMNS */
