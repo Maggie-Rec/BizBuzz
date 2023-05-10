@@ -35,6 +35,7 @@ interface Props {
 const PieChart = ({ showWidget, pieChartSelection }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
   const [pieData, setPieData] = useState([] as number[]);
+  const [periodStart, setPeriodStart] = useState('');
 
   const handleClose = () => {
     showWidget();
@@ -42,19 +43,19 @@ const PieChart = ({ showWidget, pieChartSelection }: Props) => {
 
   useEffect(() => {
 
-    let periodStart = '';
+    // let periodStart = '';
     switch (pieChartSelection[0]) { // [0] for period, [1] for data type
       case "past_week":
         // periodStart = lastWeekTF[0].toISOString()
-        periodStart = '2023-03-23T23:00:00.000Z';
+        setPeriodStart('2023-03-23T23:00:00.000Z');
         break;
       case "past_month":
         // periodStart = lastMonthTF[0].toISOString()
-        periodStart = '2023-03-01T23:00:00.000Z';
+        setPeriodStart('2023-03-01T23:00:00.000Z');
         break;
       case "past_quarter":
         // periodStart = lastQuarterTF[0].toISOString()
-        periodStart = '2023-01-01T23:00:00.000Z';
+        setPeriodStart('2023-01-01T23:00:00.000Z');
         break;
     };
 
@@ -97,10 +98,12 @@ const PieChart = ({ showWidget, pieChartSelection }: Props) => {
       if (filter.transaction) {
         filter = filter.transaction;
         for (let key in filter) {
-          if (Number(filter[key])) {
-            filter[key] = Number(filter[key])
+          if (filter[key] === 'true') {
+            filter[key] = true;
+          } else if (filter[key] === 'false') {
+            filter[key] = false;
           } else {
-            filter[key] = Boolean(filter[key])
+            filter[key] = Number(filter[key]);
           }
         }
       }
