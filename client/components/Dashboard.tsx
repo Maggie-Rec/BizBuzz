@@ -107,64 +107,60 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <div className={styles.containerDashboard}>
-      <div className={styles.toolBar}>
-        <Space wrap>
-          <Popover content={calendar} trigger="click">
-            <Button className={styles.calendarBtn}>Calendar</Button>
-          </Popover>
-        </Space>
-        <div>
-          <Segmented
-            options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
-          />
-
-          <Space direction="vertical" size={12}>
-            <RangePicker className={styles.dateSelector} />
+    <div>
+        <div className={styles.toolBar}>
+          <Space wrap>
+            <Popover content={calendar} trigger="click">
+              <Button className={styles.calendarBtn}>Calendar</Button>
+            </Popover>
           </Space>
+          <div>
+            <Segmented
+              options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
+            />
+
+            <Space direction="vertical" size={12}>
+              <RangePicker className={styles.dateSelector} />
+            </Space>
+          </div>
+          <Dropdown
+            overlayStyle={{ width: "300px" }}
+            menu={{ items, selectable: true }}
+          >
+            <Button>Add Widget</Button>
+          </Dropdown>
         </div>
-        <Dropdown
-          overlayStyle={{ width: "300px" }}
-          menu={{ items, selectable: true }}
-        >
-          <Button>Add Widget</Button>
-        </Dropdown>
+      <div className={styles.containerDashboard}>
+
+        {openWidget.chartType === "Bar Chart" && (
+          <BarChart showWidget={() => setOpenWidget({})} />
+        )}
+        {openWidget.chartType === "Line Chart" && (
+          <LineChart showWidget={() => setOpenWidget({})} />
+        )}
+        {openWidget.chartType === "Progress Chart" && (
+          <ProgressChart showWidget={() => setOpenWidget({})} />
+        )}
+
+        <section className={styles.widgetContainer}>{widgetSelection}</section>
+
+        <Modal open={isOpen} onOk={handleOk} onCancel={handleCancel}>
+          {(() => {
+            switch (openMenu) {
+              case "Pie Chart":
+                return <PieMenu />;
+              case "Bar Chart":
+                return <BarMenu showWidget={showWidget} />;
+              case "Line Chart":
+                return <LineMenu showWidget={showWidget} />;
+              case "Progress Chart":
+                return <ProgressMenu showWidget={showWidget} />;
+              default:
+                return null;
+            }
+          })()}
+        </Modal>
       </div>
-
-      {openWidget.chartType === "Bar Chart" && (
-        <BarChart showWidget={() => setOpenWidget({})} />
-      )}
-      {openWidget.chartType === "Line Chart" && (
-        <LineChart showWidget={() => setOpenWidget({})} />
-      )}
-      {openWidget.chartType === "Progress Chart" && (
-        <ProgressChart showWidget={() => setOpenWidget({})} />
-      )}
-
-      <section className={styles.widgetContainer}>
-        { widgetSelection }
-      </section>
-
-      <Modal
-        open={isOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        {(() => {
-          switch (openMenu) {
-            case "Pie Chart":
-              return <PieMenu />;
-            case "Bar Chart":
-              return <BarMenu showWidget={showWidget} />;
-            case "Line Chart":
-              return <LineMenu showWidget={showWidget} />;
-            case "Progress Chart":
-              return <ProgressMenu showWidget={showWidget} />;
-            default:
-              return null;
-          }
-        })()}
-      </Modal>
     </div>
   );
 };
