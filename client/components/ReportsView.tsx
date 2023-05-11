@@ -1,7 +1,7 @@
 'use client';
 
 import styles from '../styles/ReportsView.module.css';
-import React, { use, useEffect, useState } from 'react';
+import React, { ReactNode, use, useEffect, useState } from 'react';
 import { Button, Segmented, DatePicker, TreeSelect, Table, Tooltip, Tree } from 'antd';
 import { todayTimeFilter, lastWeekTF, lastMonthTF, lastQuarterTF, lastYearTF } from '../utils/timeFilters';
 import { PlusOutlined } from '@ant-design/icons';
@@ -9,71 +9,15 @@ import { filters } from '../utils/filters';
 import { generateQuery } from '../utils/queryKing';
 const { RangePicker } = DatePicker;
 
-/* TABLE COLUMNS */
-const columns = [
-  {
-    title: 'Transaction ID',
-    dataIndex: 'transaction_id',
-    sorter: (a, b) => a.transaction_id - b.transaction_id,
-    width: '10vw',
-  },
-  {
-    title: 'Date',
-    dataIndex: 'date',
-    sorter: (a, b) => a.date - b.date
-  },
-  {
-    title: 'Time',
-    dataIndex: 'time',
-    sorter: (a, b) => a.time - b.time
-  },
-  {
-    title: 'Quantity',
-    dataIndex: 'quantity',
-    sorter: (a, b) => a.quantity - b.quantity
-  },
-  {
-    title: 'SKU',
-    dataIndex: 'sku',
-    sorter: (a, b) => a.sku - b.sku
-  },
-]
-
-/* TABLE DATA */
-const dataSource = [
-  {
-    key: '1',
-    transaction_id: '1',
-    date: '2022-12-21',
-    time: '9:07:04',
-    quantity: '15',
-    sku: '12323'
-  },
-  {
-    key: '2',
-    transaction_id: '2',
-    date: '2022-12-21',
-    time: '12:03:19',
-    quantity: '17',
-    sku: '12323'
-  },
-  {
-    key: '3',
-    transaction_id: '3',
-    date: '2022-12-14',
-    time: '10:31:47',
-    quantity: '18',
-    sku: '12323'
-  },
-  {
-    key: '4',
-    transaction_id: '4',
-    date: '2022-12-08',
-    time: '11:41:35',
-    quantity: '6',
-    sku: '12323'
-  },
-]
+interface IColumn {
+  title: string, 
+  dataIndex: string,
+  maxWidth?: string,
+  width?: string,
+  align?: string,
+  sorter?: (a, b) => number,
+  render?: (el) => ReactNode
+}
 
 async function getTableData(stringifiedQuery: string) {
   try {
@@ -98,14 +42,40 @@ function getColumns(data: { [key: string]: {} | string }) {
     propertyArr.splice(propertyArr.indexOf('location'), 1)
     propertyArr.push(...Object.getOwnPropertyNames(data.location))
   }
-  let columns = [];
+  let columns : IColumn[] = [{
+    title: 'ID',
+    dataIndex: 'record_id',
+    width: '8%',
+    align: 'center',
+    sorter: (a, b) => b.record_id - a.record_id
+  }];
 
   propertyArr.forEach((el) => {
-    columns.push({
-      title: el,
-      dataIndex: el
-    })
+    if (el !== 'record_id' && el !== 'total_with_tax') {
+      columns.push({
+        title: el.charAt(0).toUpperCase() + el.slice(1),
+        dataIndex: el,
+        width: '15%',
+        align: 'center',
+      })
+    }
   })
+
+    columns.push({
+      title: '',
+      dataIndex: '',
+      maxWidth: '84%'
+    })
+
+  columns.push({
+    title: 'Total',
+    dataIndex: 'total_with_tax',
+    width: '8%',
+    align: 'center',
+    sorter: (a, b) => b.total_with_tax - a.total_with_tax,
+    render: (el) => el + '£'
+  })
+
 
   return columns;
 }
@@ -123,10 +93,14 @@ function getRows(data: { [key: string]: {} | string } []) {
 
     let newRow = {key: `${i}`};
     propertyArr.forEach(prop => {
-      if(prop === 'date' || prop === 'time') {
+      if(prop === 'date' || prop === 'time' || prop ==='record_id' || prop === 'total_with_tax') {
         newRow = {
           ...newRow,
-          [prop]: el[prop]
+          [prop]: `${prop === 'date' 
+            ? (new Date(el[prop].toString())).toLocaleDateString("en-UK") 
+            : prop === 'time'
+            ? (new Date(el[prop].toString())).toLocaleTimeString("en-UK") 
+            : el[prop]}`
         } 
       } else {
         newRow = {
@@ -162,20 +136,21 @@ const ReportsView = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   /* TABLE DATA */
-  const [tableData, setTableData] = useState([{}]);
+  const [tableData, setTableData] = useState([]);
   /* TABLE COLUMNS */
-  const [tableColumns, setTableColumns] = useState([{}]);
+  const [tableColumns, setTableColumns] = useState([]);
 
   useEffect(() => {
     // console.log(generateQuery(activePropertyFilter, activeTimeFilter));
     setIsLoading(true);
     getTableData(generateQuery(activePropertyFilter, activeTimeFilter))
       .then(res => {
-        console.log('res', res[0])
-        console.log('cols', getColumns(res[0]))
-        console.log('rows', getRows(res))
-        setTableColumns(getColumns(res[0]))
-        setTableData(getRows(res))
+        if (res.length > 0) {
+          setTableColumns(getColumns(res[0]))
+          setTableData(getRows(res))
+        } else {
+          setTableData([])
+        }
       })
       .finally(() =>  setIsLoading(false))
   }, [activeTimeFilter, activePropertyFilter]);
@@ -227,7 +202,12 @@ const ReportsView = () => {
 
   /* HANDLE NEW FILTER SELECTION */
   function handleCustomFiltersChange(filterArr: string[]) {
-    setSelectedPropertyFilters(filterArr);
+    if (filterArr.length !== 0) {
+      setSelectedPropertyFilters(filterArr);
+    } else {
+      setSelectedPropertyFilters(filterArr);
+      setActivePropertyFilter(filterArr);
+    }
   }
 
   /* APPLY NEW CUSTOM FILTERS AS ACTIVE FILTERS */
@@ -286,14 +266,19 @@ const ReportsView = () => {
         </Tooltip>
       </div>
       <div className={styles.tableContainer}>
-        {JSON.stringify(activeTimeFilter)}
-        {JSON.stringify(activePropertyFilter)}
         <Table
           loading={isLoading}
           sticky={true}
-          pagination={false}
+          pagination={{
+            position: ['bottomCenter'],
+            defaultPageSize: 50
+          }}
+          scroll={{
+            y: "60vh",
+          }}      
           columns={tableColumns}
           dataSource={tableData}
+          bordered
         />
       </div>
     </div>

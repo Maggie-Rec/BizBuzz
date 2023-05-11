@@ -18,8 +18,10 @@ import ReportsView from "../components/ReportsView";
 const store = legacy_createStore(rootReducer);
 const MainPage = () => {
   const [isLogged, setIsLogged] = useState(false);
+  const [isOnReports, setIsOnReports] = useState(true);
 
   return (
+
     <Provider store={store}>
       <div>
         {isLogged ? (
