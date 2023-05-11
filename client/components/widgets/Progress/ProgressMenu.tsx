@@ -1,48 +1,65 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Space, Select, Button, Input } from "antd";
 import styles from "../../../styles/widgets/progressChart.module.css";
 import { useDispatch } from "react-redux";
+import ProgressChart from "./progressChart";
+import randomAlphaNumeric from "../../../utils/randomizer";
 
-interface Props {
-  showWidget: (arg0: string) => void;
-}
-const Progress = ({ showWidget }: Props) => {
+function Progress() {
   const dispatch = useDispatch();
-  const [inputValue, setInputValue] = useState("");
-  const [totalValue, setTotalValue] = useState("");
-  const calculatePercentage = () => {
-    const part = Number(totalValue);
-    const whole = Number(inputValue);
-    const percent = Math.round((part / whole) * 100);
+  const [target, setTarget] = useState(0);
+  const [period, setPeriod] = useState("");
 
-    dispatch({ type: "GENERATE", payload: { inputValue, percent } });
-  };
+  function handleChange(event: ChangeEvent<HTMLInputElement>,
+    setter: Dispatch<SetStateAction<number | string>>) {
+    setter(event.target.value as number | string);
+  }
 
-  const createWidget = () => {
-    showWidget("Progress Chart");
-    calculatePercentage();
+  function addWidget() {
+    function newProgressChart() {
+      return <ProgressChart
+        id={Date.now()}
+        target={target}
+        period={period}
+        key={randomAlphaNumeric()}
+      />
+    }
+    dispatch({
+      type: "ADD_WIDGET",
+      payload: newProgressChart()
+    });
   };
 
   return (
     <div className={styles.container}>
-      <h1>Area Chart</h1>
+      <h1>Set your sales target</h1>
+      <br />
       <Space wrap>
-        <Input
-          type="number"
-          onChange={(event) => setInputValue(event.target.value)}
-        />
+        <label>
+          <span>
+            I want to earn
+          </span>
+          <Input
+            style={{ width: 120, marginLeft: 10 }}
+            type="number"
+            onChange={(event) => handleChange(event, setTarget)}
+          />
+
+        </label>
         <Select
           style={{ width: 120 }}
-          onChange={setTotalValue}
+          onChange={setPeriod}
           className={styles.input}
+          defaultValue={'this month'}
           options={[
-            { value: "55798", label: "Total Sales" },
-            { value: "798", label: "Total Items " },
+            { value: "this_month", label: "this month" },
+            { value: "this_quarter", label: "this quarter" },
+            { value: "this_year", label: "this year" },
           ]}
         />
       </Space>
-
-      <Button onClick={createWidget}>Display</Button>
+      <br />
+      <Button onClick={addWidget}>Display</Button>
     </div>
   );
 };

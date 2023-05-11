@@ -49,7 +49,7 @@ const Dashboard = () => {
     }if (value === "line-chart") {
       setActiveMenu(<LineMenu showWidget={showWidget} />);
     }if (value === "progress-chart") {
-      setActiveMenu(<ProgressMenu showWidget={showWidget} />);
+      setActiveMenu(<ProgressMenu />);
     }
     // setOpenMenu(event.target.textContent);
   };
@@ -156,9 +156,6 @@ const Dashboard = () => {
         )} */}
         {openWidget.chartType === "Line Chart" && (
           <LineChart showWidget={() => setOpenWidget({})} />
-        )}
-        {openWidget.chartType === "Progress Chart" && (
-          <ProgressChart showWidget={() => setOpenWidget({})} />
         )}
 
         <section className={styles.widgetContainer}>{widgetSelection}</section>

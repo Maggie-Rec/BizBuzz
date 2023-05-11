@@ -57,6 +57,7 @@ const barChartReducer = (state = initialStateBar, action) => {
 function stringifyWidgets(newState) {
   return JSON.stringify(
     newState.map((item) => {
+      console.log(item);
       let widgetType = item.type.name;
       let toSave = {} as { widgetType: string };
       toSave.widgetType = widgetType;
@@ -109,6 +110,7 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
 const widgetReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_WIDGET":
+      console.log(action.payload);
       window.localStorage.setItem("widgets",
         stringifyWidgets(state.concat([action.payload]))
       );

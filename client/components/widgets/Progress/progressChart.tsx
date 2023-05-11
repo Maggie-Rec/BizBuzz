@@ -1,38 +1,85 @@
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import { Progress } from "antd";
 import styles from "../../../styles/widgets/progressChart.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import getThisPeriod from "../../../utils/thisTimePeriod";
 
 interface Props {
-  showWidget: () => void;
+  id: number,
+  target: number,
+  period: string
 }
 
-const ProgressChart = ({ showWidget }: Props) => {
+const ProgressChart = ({ id, target, period }: Props) => {
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
+  const [current, setCurrent] = useState(0);
 
+  const dispatch = useDispatch();
 
-    const percent = useSelector((state:any) => { return state.progressChart.percentage})
-    const inputValue = useSelector((state:any) => { return state.progressChart.userInput})
-  const handleClose = () => {
-    showWidget();
+  function handleClose() {
+    dispatch({
+      type: "REMOVE_WIDGET",
+      payload: id,
+    });
   };
 
-const onDragStop = (e, d) => {
-  setPosition({ x: d.x, y: d.y });
-};
+  const onDragStop = (e, d) => {
+    setPosition({ x: d.x, y: d.y });
+  };
 
-const onResizeStop = (e, direction, ref, delta, position) => {
-  setSize({
-    width: parseInt(ref.style.width),
-    height: parseInt(ref.style.height),
-  });
-  setPosition(position);
-  console.log(size);
-};
+  const onResizeStop = (e, direction, ref, delta, position) => {
+    setSize({
+      width: parseInt(ref.style.width),
+      height: parseInt(ref.style.height),
+    });
+    setPosition(position);
+    console.log(size);
+  };
 
+  async function fetchTotals() {
+    console.log(getThisPeriod(period));
+    let response = await fetch("http://localhost:3456/transactions", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        query: {
+          _sum: {
+            total_with_tax: true
+          },
+          where: {
+            AND: [
+              {
+                date: {
+                  gt: getThisPeriod(period)[0]
+                }
+              },
+              {
+                date: {
+                  lt: getThisPeriod(period)[1]
+                }
+              }
+            ]
+          }
+        },
+        keyword: "aggregate"
+      })
+    });
+    response = await response.json();
+    return response;
+  };
+
+  useEffect(() => {
+    fetchTotals()
+      .then((data: any) => {
+        console.log(data);
+        setCurrent(Number(data._sum.total_with_tax) as number);
+      })
+  }, [current]);
 
   return (
     <Rnd
@@ -54,8 +101,8 @@ const onResizeStop = (e, direction, ref, delta, position) => {
           <CloseOutlined onClick={handleClose} />
         </div>
         <div className={styles.circle}>
-          <h1 className={styles.bigNumber}>{inputValue}</h1>
-          <Progress type="circle" percent={percent} />
+          <h1>{current} of {target}<br />{period}</h1>
+          <Progress type="circle" percent={Math.ceil(current / target * 100)} />
         </div>
       </div>
     </Rnd>

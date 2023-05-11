@@ -27,7 +27,6 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Rnd } from "react-rnd";
 import { useDispatch } from "react-redux";
-import randomAlphaNumeric from "../../../utils/randomizer";
 import savePositionLocal from "../../../utils/posSaver";
 
 interface Props {
@@ -41,6 +40,8 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
 
+  const [period, setPeriod] = useState(pieChartSelection[0] as string);
+
   const dispatch = useDispatch();
 
   function handleClose() {
@@ -51,9 +52,9 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
   }
 
   useEffect(() => {
-    let periodStart = "";
+    let periodStart = '';
     switch (
-    pieChartSelection[0] // [0] for period, [1] for data type
+    period // [0] for period, [1] for data type
     ) {
       case "past_week":
         // periodStart = lastWeekTF[0].toISOString()
@@ -191,7 +192,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
       {
         data: pieData,
         backgroundColor: ["#F47A1F", "#FDBB2F", "#377B2B", "#7AC142", "#007CC3",
-        "#00529B", "#F66D44", "#FEAE65", "#E6F69D", "#AADEA7", "#64C2A6", "#2D87BB"]
+          "#00529B", "#F66D44", "#FEAE65", "#E6F69D", "#AADEA7", "#64C2A6", "#2D87BB"]
       },
     ],
   };
