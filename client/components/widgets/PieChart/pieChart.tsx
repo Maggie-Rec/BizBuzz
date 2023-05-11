@@ -190,7 +190,8 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
     datasets: [
       {
         data: pieData,
-        backgroundColor: ["#002642", "#840032", "#FFC65C"],
+        backgroundColor: ["#F47A1F", "#FDBB2F", "#377B2B", "#7AC142", "#007CC3",
+        "#00529B", "#F66D44", "#FEAE65", "#E6F69D", "#AADEA7", "#64C2A6", "#2D87BB"]
       },
     ],
   };
