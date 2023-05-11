@@ -24,27 +24,21 @@ ChartJS.register(
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 
 import styles from "../../../styles/widgets/pieChart.module.css";
-import { useEffect, useState } from "react";
-import { fileURLToPath } from "url";
-import { useSelector } from "react-redux";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface Props {
-  showWidget: () => void,
+  pieChartSelection: string[],
+  key: number
 }
 
-const PieChart = ({ showWidget }: Props) => {
+const PieChart = ({ pieChartSelection, key }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
   const [pieData, setPieData] = useState([] as number[]);
 
-  const pieChartSelection = useSelector((state: any) => {
-    console.log('state', state);
-    console.log('pieChart', state.pieChart);
-    return state.pieChart;
-  })
+  function handleClose() {
+    
+  }
 
-  const handleClose = () => {
-    showWidget();
-  };
 
   useEffect(() => {
 
@@ -66,7 +60,7 @@ const PieChart = ({ showWidget }: Props) => {
 
     async function getLabelsPossibleValues() {
       let filter = getFilterObject(pieChartSelection[1], 'value');
-      console.log(filter);
+      // console.log(filter);
       let path = Object.keys(filter)[0];
       let relatedCriterion = filter[path];
       Object.keys(relatedCriterion).forEach(key => relatedCriterion[key] = true);
@@ -87,7 +81,7 @@ const PieChart = ({ showWidget }: Props) => {
 
       response = await response.json();
 
-      console.log('Possible values', response);
+      // console.log('Possible values', response);
       return response;
     }
 
@@ -98,7 +92,7 @@ const PieChart = ({ showWidget }: Props) => {
     async function getSumBy(value) {
       let filter = getFilterObject(pieChartSelection[1], value);
       // POSSIBLE VALUE OF A CRITERION
-      console.log(periodStart);
+      // console.log(periodStart);
 
       if (filter.transaction) {
         filter = filter.transaction;
@@ -113,7 +107,7 @@ const PieChart = ({ showWidget }: Props) => {
         }
       }
 
-      console.log(filter);
+      // console.log(filter);
 
       filter.date = { gt: periodStart };
 
@@ -147,14 +141,13 @@ const PieChart = ({ showWidget }: Props) => {
       await Promise.all(possibleValues.map(async (obj) => {
         const sum = await getSumBy(Object.values(obj)[0]) as dataResponse;
         sum.label = Object.values(obj)[0] as string;
-        console.log(sum);
         data.push(sum);
       }))
         .then(() => {
           setLabels(data.map(item => item.label));
-          console.log(labels);
+          // console.log(labels);
           setPieData(data.map(item => Number(item._sum.total_with_tax)));
-          console.log(pieData);
+          // console.log(pieData);
         })
     }
 
@@ -177,7 +170,7 @@ const PieChart = ({ showWidget }: Props) => {
     <div className={styles.chart}>
       <div className={styles.icons}>
         <DragOutlined />
-        <CloseOutlined onClick={handleClose} />
+        <CloseOutlined onClick={(event) => handleClose()} />
       </div>
       <Pie data={data} />
       Sales {pieChartSelection[0]} {pieChartSelection[1]}

@@ -32,3 +32,9 @@
   background-color: white;
 }
 
+.widgetContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
