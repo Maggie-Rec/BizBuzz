@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
 import LineChart from "./widgets/LineChart/lineChart";
@@ -31,30 +31,38 @@ import {
 
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [openMenu, setOpenMenu] = useState("");
+  const [activeMenu, setActiveMenu] = useState<ReactNode>();
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
 
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
-  })
+  });
 
   const dispatch = useDispatch();
 
-  const showWindow = (event: any) => {
-    setIsOpen(true);
-    setOpenMenu(event.target.textContent);
+  const showWindow = (value: string) => {
+    console.log(value);
+    if(value === "bar-chart"){
+    setActiveMenu(<BarMenu />);
+    } if (value === "pie-chart") {
+      setActiveMenu(<PieMenu />);
+    }if (value === "line-chart") {
+      setActiveMenu(<LineMenu showWidget={showWidget} />);
+    }if (value === "progress-chart") {
+      setActiveMenu(<ProgressMenu showWidget={showWidget} />);
+    }
+    // setOpenMenu(event.target.textContent);
   };
 
   const showWidget = (chartType: string) => {
     setOpenWidget({ chartType });
   };
   const handleOk = () => {
-    setIsOpen(false);
+    setActiveMenu(false);
   };
 
   const handleCancel = () => {
-    setIsOpen(false);
+    setActiveMenu(false);
   };
 
   const calendar = <SMLCalendar />;
@@ -63,7 +71,10 @@ const Dashboard = () => {
     {
       key: "2",
       label: (
-        <div style={{ display: "flex" }} onClick={(event) => showWindow(event)}>
+        <div
+          style={{ display: "flex" }}
+          onClick={() => showWindow("pie-chart")}
+        >
           <PieChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
           <h2>Pie Chart</h2>
         </div>
@@ -72,7 +83,10 @@ const Dashboard = () => {
     {
       key: "3",
       label: (
-        <div style={{ display: "flex" }} onClick={showWindow}>
+        <div
+          style={{ display: "flex" }}
+          onClick={() => showWindow("bar-chart")}
+        >
           <BarChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
           <h2>Bar Chart</h2>
         </div>
@@ -81,7 +95,10 @@ const Dashboard = () => {
     {
       key: "4",
       label: (
-        <div style={{ display: "flex" }} onClick={showWindow}>
+        <div
+          style={{ display: "flex" }}
+          onClick={() => showWindow("line-chart")}
+        >
           <LineChartOutlined
             style={{ fontSize: "40px", marginRight: "20px" }}
           />
@@ -92,7 +109,10 @@ const Dashboard = () => {
     {
       key: "5",
       label: (
-        <div style={{ display: "flex" }} onClick={showWindow}>
+        <div
+          style={{ display: "flex" }}
+          onClick={() => showWindow("progress-chart")}
+        >
           <DollarOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
           <h2>Progress Chart</h2>
         </div>
@@ -102,39 +122,38 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch({
-      type: "REPOPULATE_DASHBOARD"
-    })
-  }, [])
+      type: "REPOPULATE_DASHBOARD",
+    });
+  }, []);
 
   return (
     <div>
-        <div className={styles.toolBar}>
-          <Space wrap>
-            <Popover content={calendar} trigger="click">
-              <Button className={styles.calendarBtn}>Calendar</Button>
-            </Popover>
+      <div className={styles.toolBar}>
+        <Space wrap>
+          <Popover content={calendar} trigger="click">
+            <Button className={styles.calendarBtn}>Calendar</Button>
+          </Popover>
+        </Space>
+        <div>
+          <Segmented
+            options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
+          />
+
+          <Space direction="vertical" size={12}>
+            <RangePicker className={styles.dateSelector} />
           </Space>
-          <div>
-            <Segmented
-              options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
-            />
-
-            <Space direction="vertical" size={12}>
-              <RangePicker className={styles.dateSelector} />
-            </Space>
-          </div>
-          <Dropdown
-            overlayStyle={{ width: "300px" }}
-            menu={{ items, selectable: true }}
-          >
-            <Button>Add Widget</Button>
-          </Dropdown>
         </div>
+        <Dropdown
+          overlayStyle={{ width: "300px" }}
+          menu={{ items, selectable: true }}
+        >
+          <Button>Add Widget</Button>
+        </Dropdown>
+      </div>
       <div className={styles.containerDashboard}>
-
-        {openWidget.chartType === "Bar Chart" && (
+        {/* {openWidget.chartType === "Bar Chart" && (
           <BarChart showWidget={() => setOpenWidget({})} />
-        )}
+        )} */}
         {openWidget.chartType === "Line Chart" && (
           <LineChart showWidget={() => setOpenWidget({})} />
         )}
@@ -144,21 +163,8 @@ const Dashboard = () => {
 
         <section className={styles.widgetContainer}>{widgetSelection}</section>
 
-        <Modal open={isOpen} onOk={handleOk} onCancel={handleCancel}>
-          {(() => {
-            switch (openMenu) {
-              case "Pie Chart":
-                return <PieMenu />;
-              case "Bar Chart":
-                return <BarMenu showWidget={showWidget} />;
-              case "Line Chart":
-                return <LineMenu showWidget={showWidget} />;
-              case "Progress Chart":
-                return <ProgressMenu showWidget={showWidget} />;
-              default:
-                return null;
-            }
-          })()}
+        <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
+          {activeMenu}
         </Modal>
       </div>
     </div>

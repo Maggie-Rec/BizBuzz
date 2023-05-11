@@ -22,7 +22,6 @@ const initialStateBar = {
   option1: "",
   option2: "",
   option3: "",
-  option4: "",
   monthsArray: [],
 };
 
@@ -47,45 +46,51 @@ const barChartReducer = (state = initialStateBar, action) => {
 };
 
 function stringifyWidgets(newState) {
-  return JSON.stringify(newState
-    .map((item) => {
+  return JSON.stringify(
+    newState.map((item) => {
       let widgetType = item.type.name;
       let toSave = {} as { widgetType: string };
       toSave.widgetType = widgetType;
       Object.assign(toSave, item);
       return toSave;
-    }));
+    })
+  );
 }
 
 const widgetReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_WIDGET":
-      console.log(action.payload);
-      window.localStorage.setItem("widgets", 
-        stringifyWidgets(state.concat([action.payload])));
+      window.localStorage.setItem(
+        "widgets",
+        stringifyWidgets(state.concat([action.payload]))
+      );
+      // console.log(state.concat([action.payload]));
       return state.concat([action.payload]);
     case "REMOVE_WIDGET":
-      let newSelection = state.filter(element => action.payload !== element.props.id);
-      window.localStorage.setItem("widgets", 
-        stringifyWidgets(newSelection));
+      let newSelection = state.filter(
+        (element) => action.payload !== element.props.id
+      );
+      window.localStorage.setItem("widgets", stringifyWidgets(newSelection));
+
       return newSelection;
     case "REPOPULATE_DASHBOARD":
       let savedWidgetsData = JSON.parse(window.localStorage.getItem("widgets"));
-      console.log(savedWidgetsData[0]);
-      let restoredWidgets = savedWidgetsData.map((item) => {
-        let component = <item.widgetType {...item.props} key={Date.now()} />
-        return component;
-      });
-      // IF STATEMENT FOR ALL TYPES OF WIDGETS
-      return restoredWidgets;
-    default: return state;
+
+    // let restoredWidgets = savedWidgetsData.map((item) => {
+    //   let component = <item.widgetType {...item.props} key={Date.now()} />
+    //   return component;
+    // });
+    // IF STATEMENT FOR ALL TYPES OF WIDGETS
+    // return restoredWidgets;
+    default:
+      return state;
   }
-}
+};
 
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
-  widgetSelection: widgetReducer
+  widgetSelection: widgetReducer,
 });
 
 export default rootReducer;

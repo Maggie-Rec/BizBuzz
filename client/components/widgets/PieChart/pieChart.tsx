@@ -29,19 +29,13 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 
 import styles from "../../../styles/widgets/pieChart.module.css";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { Rnd } from "react-rnd";
 
 interface Props {
   pieChartSelection: string[];
-  key: number;
-
-import { useDispatch } from "react-redux";
-
-interface Props {
-  pieChartSelection: string[],
-  id: number
-
+  id: number;
 }
 
 const PieChart = ({ pieChartSelection, id }: Props) => {
@@ -50,19 +44,14 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
 
-
-  function handleClose() {}
-
   const dispatch = useDispatch();
 
   function handleClose() {
     dispatch({
       type: "REMOVE_WIDGET",
-      payload: id
-    })
+      payload: id,
+    });
   }
-
-
 
   useEffect(() => {
     let periodStart = "";
@@ -93,7 +82,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
       );
       let selection = relatedCriterion;
 
-      let response = await fetch(`http://localhost:3456/${path}s`, {
+      let response = await fetch(`http://localhost:3020/${path}s`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -107,7 +96,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
       });
 
       response = await response.json();
-
+      console.log(response);
       // console.log('Possible values', response);
       return response;
     }
@@ -138,7 +127,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
 
       filter.date = { gt: periodStart };
 
-      let response = await fetch("http://localhost:3456/transactions", {
+      let response = await fetch("http://localhost:3020/transactions", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
