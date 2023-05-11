@@ -5,6 +5,7 @@ import BarChart from "./components/widgets/BarChart/barChart";
 import LineChart from "./components/widgets/LineChart/lineChart";
 import ProgressChart from "./components/widgets/Progress/progressChart";
 import randomAlphaNumeric from "./utils/randomizer";
+import { removePositionLocal } from "./utils/posSaver";
 
 const initialStateProgress = {
   userInput: "",
@@ -78,24 +79,31 @@ const widgetReducer = (state = [], action) => {
       window.localStorage.setItem("widgets",
         stringifyWidgets(newSelection)
       );
+      removePositionLocal(action.payload);
       return newSelection;
     case "REPOPULATE_DASHBOARD":
       let savedWidgetsData = JSON.parse(window.localStorage.getItem("widgets"));
-      let restoredWidgets = savedWidgetsData.map((item) => {
-        if (item.widgetType === "PieChart") {
-          return <PieChart {...item.props} key={randomAlphaNumeric()} />
-        } else if (item.type.name === "BarChart") {
-          return <BarChart {...item.props} key={randomAlphaNumeric()} />
-        } else if (item.type.name === "LineChart") {
-          return <LineChart {...item.props} key={randomAlphaNumeric()} />
-        } else if (item.type.name === "ProgressChart") {
-          return <ProgressChart {...item.props} key={randomAlphaNumeric()} />
-        } else {
-          return null;
-        };
-      });
-      console.log(restoredWidgets);
-      return restoredWidgets;
+      if (savedWidgetsData) {
+        let restoredWidgets = savedWidgetsData.map((item) => {
+          try {
+            if (item.widgetType === "PieChart") {
+              return <PieChart {...item.props} key={randomAlphaNumeric()} />
+            } else if (item.type.name === "BarChart") {
+              return <BarChart {...item.props} key={randomAlphaNumeric()} />
+            } else if (item.type.name === "LineChart") {
+              return <LineChart {...item.props} key={randomAlphaNumeric()} />
+            } else if (item.type.name === "ProgressChart") {
+              return <ProgressChart {...item.props} key={randomAlphaNumeric()} />
+            } else {
+              return null;
+            };
+          } catch (error) {
+            console.error(error);
+          }
+        });
+        console.log(restoredWidgets);
+        return restoredWidgets;
+      };
     default: return state;
   }
 }

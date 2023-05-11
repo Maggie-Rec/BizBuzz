@@ -79,7 +79,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
       );
       let selection = relatedCriterion;
 
-      let response = await fetch(`http://localhost:3020/${path}s`, {
+      let response = await fetch(`http://localhost:3456/${path}s`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -124,7 +124,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
 
       filter.date = { gt: periodStart };
 
-      let response = await fetch("http://localhost:3020/transactions", {
+      let response = await fetch("http://localhost:3456/transactions", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -166,6 +166,23 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
     }
 
     fetchData();
+
+    function restorePosition() {
+      try {
+        let positions = JSON.parse(window.localStorage.getItem("widgetPositions"));
+        let index = positions.findIndex(element => element.widgetId === id);
+        console.log(index);
+        if (index >= 0) {
+          setPosition(positions[index].position);
+          setSize(positions[index].size);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    restorePosition();
+
   }, [pieChartSelection]);
 
   const data = {
@@ -180,6 +197,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
 
   const onDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });
+    savePositionLocal(id, size, position);
   };
 
   const onResizeStop = (e, direction, ref, delta, position) => {
@@ -188,6 +206,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
       height: parseInt(ref.style.height),
     });
     setPosition(position);
+    savePositionLocal(id, size, position);
     console.log(size);
   };
 
