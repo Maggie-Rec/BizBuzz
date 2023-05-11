@@ -1,62 +1,89 @@
-import { Space, Select, InputNumber } from 'antd';
-import { useState } from 'react';
+import { Space, Select, Slider, Input } from 'antd';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-export const DataFilter = ({ isLast }: { isLast: boolean }) => {
-  const filterOptions = [
-    { value: "location", label: "Location" }, // Filter should be a multi-select with search
-    { value: "gender", label: "Gender" }, // Filter should be a multi-select with search
-    { value: "region", label: "Location Region" }, // Filter should be a multi-select with search
-    { value: "quantity", label: "Item Quantity" }, // Filters should be min and max
-    { value: "age", label: "Age" }, // Filters should be min and max
-    { value: "member", label: "Membership" }, // Filter should be member or no
-    { value: "category", label: "Item Category" }, // Filter should be write-in
-    // { value: "tax", label: "Tax" },
-    // { value: "units", label: "Units" },
-  ];
-  const multiSelectFilters = {
-    location: ['Mock location 0', 'Mock location 1', 'Mock location 2', 'Mock location 3', 'Mock location 4'],
-    gender: ['Male', 'Female', 'Agender', 'Genderqueer', 'Bigender', 'anonymous', 'Genderfluid', 'Non-binary', 'Polygender'],
-    region: ['Greater London', 'Manchester', 'Falmouth']
-  }
-  const [filter, setFilter] = useState(filterOptions[5].value);
-  const [filterSecondOptions, setFilterSecondOption] = useState(multiSelectFilters[0])
-  const [secondFilter, setSecondFilter] = useState() as any;
-  function handleFirstFilterChange(value: string) {
-    setFilter(value);
-    setFilterSecondOption(multiSelectFilters[value]);
+export const DataFilter = ({ filter }) => {
+  const dispatch = useDispatch();
+  const filterOptions = {
+    location: {
+      value: "location", label: "Location", baseFilterObject: { location: 0 },
+      options: [
+        { value: 0, label: 'Mock location 0' },
+        { value: 1, label: 'Mock location 1' },
+        { value: 2, label: 'Mock location 2' },
+        { value: 3, label: 'Mock location 3' },
+        { value: 4, label: 'Mock location 4' }
+      ]
+    },
+    quantity: { value: "quantity", label: "Item Quantity", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
+    gender: { value: "gender", label: "Gender", baseFilterObject: { gender: [] } },
+    region: {
+      value: "region", label: "Location Region", baseFilterObject: { region: [] },
+      options: [
+        { value: 'Greater London', label: 'Greater London' },
+        { value: 'Manchester', label: 'Manchester' },
+        { value: 'Falmouth', label: 'Falmouth' }
+      ]
+    },
+    age: { value: "age", label: "Age", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
+    is_member: {
+      value: "is_member", label: "Membership", baseFilterObject: { is_member: true },
+      options: [{ value: true, label: 'Customer is member' },
+      { value: false, label: 'Customer is not member' }]
+    },
+    category: { value: "category", label: "Item Category", baseFilterObject: { category: '' } }
   }
 
+  const [filterQueryObject, setFilterQueryObject] = useState(filterOptions[filter].baseFilterObject);
+  useEffect(() => {
+    dispatch({
+      type: 'ADD_FILTER',
+      payload: { filter, obj: filterQueryObject }
+    });
+  }, [filterQueryObject])
 
   return (
     <>
-      <Space />
-      <p>{isLast ? "Filter:" : "Filtering by"}</p>
-      <Select
-        defaultValue={filterOptions[5].value}
-        style={{ width: 120 }}
-        onChange={handleFirstFilterChange}
-        // className={styles.input}
-        value={filter}
-        options={filterOptions}
-      />
-      {filter === 'location' || filter === 'gender' || filter === 'region' ?
+      <p>Filtering for {filter}</p>
+      {filter === 'location' || filter === 'region' || filter === 'is_member' ?
         <Select
-          options={filterSecondOptions}
-          onChange={setSecondFilter}
+          mode="multiple"
+          options={filterOptions[filter].options}
+          style={{ width: 200 }}
+          onChange={(value) => {
+            const copyFilterObject = { ...filterQueryObject };
+            copyFilterObject[filter] = value;
+            setFilterQueryObject(copyFilterObject);
+          }}
         />
-        :
-        <></>
-      }
-      {filter === 'quantity' || filter === 'age' ?
-        <InputNumber
-          min={0}
-          max={100}
-        />
-        :
-        <></>
+        : <p>{filter}</p>}
+      {
+        filter === 'age' || filter === 'quantity' ?
+          <Slider
+            range
+            defaultValue={[18, 65]}
+            style={{ width: 200 }}
+            onChange={(value) => {
+              const copyFilterObject = { ...filterQueryObject };
+              copyFilterObject[filter] = value;
+              setFilterQueryObject(copyFilterObject);
+            }}
 
+          />
+          : <></>
       }
-
+      {
+        filter === 'gender' || filter === 'category' ?
+          <Input
+            style={{ width: 200 }}
+            onChange={(value) => {
+              const copyFilterObject = { ...filterQueryObject };
+              copyFilterObject[filter] = value;
+              setFilterQueryObject(copyFilterObject);
+            }}
+          />
+          : <></>
+      }
     </>
   )
 }

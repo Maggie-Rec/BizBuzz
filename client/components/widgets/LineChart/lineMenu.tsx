@@ -1,39 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Select, Space, Button, Cascader, DatePicker, Slider } from "antd";
 import styles from "../../../styles/widgets/lineChart.module.css";
 import { DataFilter } from './dataFilter';
+import { useDispatch } from "react-redux";
 const { RangePicker } = DatePicker;
-
 interface Props {
   showWidget: (arg0: string) => void;
 }
 const LineMenu = ({ showWidget }: Props) => {
   const [yAxis, setYaxis] = useState(['salesValue', 'acrossLocations']);
   const [xAxis, setXaxis] = useState(['time', 'month']);
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
     showWidget("Line Chart");
   };
-  const filterOptions = [{ value: "location", label: "Location" }, // Filter should be a multi-select with search
-  { value: "gender", label: "Gender", baseFilterObject: { gender: ['male', 'female'] } },
-  { value: "region", label: "Location Region", baseFilterObject: { region: ['Greater London'] } },
-  { value: "quantity", label: "Item Quantity", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
-  { value: "age", label: "Age", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
-  { value: "member", label: "Membership", baseFilterObject: { is_member: true } },
-  { value: "category", label: "Item Category", baseFilterObject: { category: '' } }
-    // { value: "tax", label: "Tax" },
-    // { value: "units", label: "Units" },
+  const filterOptions = [
+    { value: "location", label: "Location" },
+    { value: "gender", label: "Gender", baseFilterObject: { gender: ['male', 'female'] } },
+    { value: "region", label: "Location Region", baseFilterObject: { region: ['Greater London'] } },
+    { value: "quantity", label: "Item Quantity", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
+    { value: "age", label: "Age", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
+    { value: "is_member", label: "Membership", baseFilterObject: { is_member: true } },
+    { value: "category", label: "Item Category", baseFilterObject: { category: '' } }
   ]
 
-  const [unusedFilters, setUnusedFilters] = useState(filterOptions)
-  const [filters, setFilters] = useState([[], []]);
+  const [filters, setFilters] = useState([]);
 
   function handleNewFilter(value: string) {
-    const copyFilters = [...filters];
-    copyFilters[0].push(filterOptions.find((filter) => { return value === filter.value }).baseFilterObject);
-    copyFilters[1].push(value);
-    setFilters(copyFilters);
+    setFilters(value);
   }
+  const filterDetails = filters.map((filter, i) => {
+    return (
+      <DataFilter filter={filter} key={i} />
+    )
+  })
+  useEffect(() => {
+    dispatch({
+      type: "SET_AXES",
+      payload: {
+        y: yAxis,
+        x: xAxis
+      }
+    })
+  }, [yAxis, xAxis])
 
   return (
     <div className={styles.container}>
@@ -159,20 +169,16 @@ const LineMenu = ({ showWidget }: Props) => {
             />
         }
         <Space>
-          <p>Add a filter:</p>
+          <p>Filter by:</p>
           <Select
-            options={unusedFilters}
+            mode="multiple"
+            options={filterOptions}
             style={{ width: 180 }}
             onChange={handleNewFilter}
           />
         </Space>
-        <Space>
-          {filters[1].includes('location') ?
-            <p>Location filter detail</p>
-            :
-            <></>
-          }
-        </Space>
+        {filterDetails}
+
 
 
 

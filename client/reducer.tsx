@@ -48,7 +48,26 @@ const barChartReducer = (state = initialStateBar, action) => {
 const pieChartReducer = (state = [], action) => {
   switch (action.type) {
     case "SET_PIECHART_SELECTION":
-    return action.payload;
+      return action.payload;
+    default: return state
+  }
+};
+
+const lineChartReducer = (state = { question: [], filters: [], filterNames: [] } as { question: any[], filters: object[], filterNames: string[] }
+  , action) => {
+  switch (action.type) {
+    case "ADD_FILTER":
+      const newState = { ...state };
+      const index = newState.filterNames.findIndex((filterName) => filterName === action.payload.filter);
+      index === -1 ?
+        (newState.filters.push(action.payload.obj),
+          newState.filterNames.push(action.payload.filter))
+        : newState.filters[index] = action.payload.obj;
+      ;
+      console.log(newState);
+      return newState;
+    case "SET_AXES":
+      return [action.payload.x, action.payload.y];
     default: return state
   }
 };
@@ -56,7 +75,8 @@ const pieChartReducer = (state = [], action) => {
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
-  pieChart: pieChartReducer
+  pieChart: pieChartReducer,
+  lineChart: lineChartReducer
 });
 
 export default rootReducer;
