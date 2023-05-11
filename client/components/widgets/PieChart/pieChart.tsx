@@ -29,20 +29,40 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 
 import styles from "../../../styles/widgets/pieChart.module.css";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+
 import { Rnd } from "react-rnd";
 
 interface Props {
   pieChartSelection: string[];
   key: number;
+
+import { useDispatch } from "react-redux";
+
+interface Props {
+  pieChartSelection: string[],
+  id: number
+
 }
 
-const PieChart = ({ pieChartSelection, key }: Props) => {
+const PieChart = ({ pieChartSelection, id }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
   const [pieData, setPieData] = useState([] as number[]);
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
 
+
   function handleClose() {}
+
+  const dispatch = useDispatch();
+
+  function handleClose() {
+    dispatch({
+      type: "REMOVE_WIDGET",
+      payload: id
+    })
+  }
+
+
 
   useEffect(() => {
     let periodStart = "";

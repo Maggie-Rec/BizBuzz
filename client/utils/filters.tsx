@@ -1,68 +1,46 @@
 export const filters = [
   {
-    key: '1',
-    value: 'location',
-    title: 'Location',
-    children: []
+    value: 'location_id',
+    title: 'All Locations',
+    children: [
+      {
+        value: 'location_id:1',
+        title: 'Barcelona'
+      },
+      {
+        value: 'location_id:2',
+        title: 'London'
+      },
+    ]
   },
   {
-    key: '2',
-    value: 'quantity',
-    title: 'Quantity',
-    children: []
+    value: 'SKU',
+    title: 'All Items',
+    children: [
+      {
+        value: 'SKU:1',
+        title: 'Latte'
+      },
+      {
+        value: 'SKU:2',
+        title: 'Croissant'
+      },
+      {
+        value: 'SKU:3',
+        title: 'Baguette'
+      },
+      {
+        value: 'SKU:4',
+        title: 'Water'
+      },
+    ]
   },
   {
-    key: '3',
-    value: 'member',
-    title: 'Member',
-    children: []
+    value: 'date',
+    title: 'Date'
   },
   {
-    key: '4',
-    value: 'tax',
-    title: 'Tax',
-    children: []
-  },
-  {
-    key: '5',
-    value: 'age',
-    title: 'Age',
-    children: []
-  },
-  {
-    key: '6',
-    value: 'gender',
-    title: 'Gender',
-    children: []
-  },
-  {
-    key: '7',
-    value: 'units',
-    title: 'Units',
-    children: []
-  },
-  {
-    key: '8',
-    value: 'category',
-    title: 'Category',
-    children: []
-  },
-  {
-    key: '9',
-    value: 'region',
-    title: 'Region',
-    children: []
-  },
-  {
-    key: '10',
-    value: 'city',
-    title: 'City',
-    children: []
-  },
-  {
-    key: '11',
-    value: 'type',
-    title: 'Type',
-    children: []
+    value: 'time',
+    title: 'Time'
   },
 ];
