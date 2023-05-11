@@ -77,7 +77,7 @@ const BarChart = ({ barChartSelection, barChartPeriod, id }: Props) => {
       height: parseInt(ref.style.height),
     });
     setPosition(position);
-    console.log(size);
+   
   };
 
 
