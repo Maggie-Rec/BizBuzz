@@ -4,15 +4,24 @@ import styles from "../../../styles/widgets/lineChart.module.css";
 import { DataFilter } from './dataFilter';
 import { useDispatch } from "react-redux";
 const { RangePicker } = DatePicker;
+
 interface Props {
   showWidget: (arg0: string) => void;
 }
+type ValidXAxis = [
+  "time" | "age",
+  "time" | "month" | "day" | "week" | "quarter" | "year"
+] | undefined
+
 const LineMenu = ({ showWidget }: Props) => {
   const [yAxis, setYaxis] = useState(['salesValue', 'acrossLocations']);
-  const [xAxis, setXaxis] = useState(['time', 'month']);
+  const [xAxis, setXaxis] = useState<ValidXAxis>(['time', 'month']);
+  const [xStartEnd, setXStartEnd] = useState({ start: Date(), end: Date() } as { start: any, end: any })
+
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
+    console.log('dates:', xStartEnd);
     showWidget("Line Chart");
   };
   const filterOptions = [
@@ -43,7 +52,13 @@ const LineMenu = ({ showWidget }: Props) => {
         x: xAxis
       }
     })
-  }, [yAxis, xAxis])
+  }, [yAxis, xAxis]);
+  useEffect(() => {
+    dispatch({
+      type: "SET_DATES",
+      payload: xStartEnd
+    })
+  }, [xStartEnd])
 
   return (
     <div className={styles.container}>
@@ -55,6 +70,7 @@ const LineMenu = ({ showWidget }: Props) => {
           style={{ width: 300 }}
           onChange={(value: string[]) => { setYaxis(value) }}
           className={styles.input}
+          multiple
           options={[
             {
               value: 'salesQuantity',
@@ -67,7 +83,14 @@ const LineMenu = ({ showWidget }: Props) => {
                 label: 'In each location'
               }, {
                 value: 'inSpecificLocations',
-                label: 'In specific locations'
+                label: 'In specific locations',
+                children: [
+                  { value: 0, label: 'mock location 0' },
+                  { value: 1, label: 'mock location 1' },
+                  { value: 2, label: 'mock location 2' },
+                  { value: 3, label: 'mock location 3' },
+                  { value: 4, label: 'mock location 4' },
+                ]
               }]
             },
             {
@@ -81,7 +104,14 @@ const LineMenu = ({ showWidget }: Props) => {
                 label: 'In each location'
               }, {
                 value: 'inSpecificLocations',
-                label: 'In specific locations'
+                label: 'In specific locations',
+                children: [
+                  { value: 0, label: 'mock location 0' },
+                  { value: 1, label: 'mock location 1' },
+                  { value: 2, label: 'mock location 2' },
+                  { value: 3, label: 'mock location 3' },
+                  { value: 4, label: 'mock location 4' },
+                ]
               }]
             },
             {
@@ -95,35 +125,26 @@ const LineMenu = ({ showWidget }: Props) => {
                 label: 'In each location'
               }, {
                 value: 'inSpecificLocations',
-                label: 'In specific locations'
+                label: 'In specific locations',
+                children: [
+                  { value: 0, label: 'mock location 0' },
+                  { value: 1, label: 'mock location 1' },
+                  { value: 2, label: 'mock location 2' },
+                  { value: 3, label: 'mock location 3' },
+                  { value: 4, label: 'mock location 4' },
+                ]
               }]
             },
           ]}
         />
-        {
-          yAxis[1] === 'inSpecificLocations' ?
-            <Select
-              mode="multiple"
-              style={{ width: 200 }}
-              onChange={() => { }}
-              options={[
-                { value: 0, label: 'mock location 0' },
-                { value: 1, label: 'mock location 1' },
-                { value: 2, label: 'mock location 2' },
-                { value: 3, label: 'mock location 3' },
-                { value: 4, label: 'mock location 4' },
-              ]}
-
-            />
-            :
-            <></>
-        }
         <Space />
         <p>X-axis:</p>
         <Cascader
           aria-label="X-axis"
           style={{ width: 300 }}
-          onChange={(value: string[]) => { setXaxis(value) }}
+          onChange={(value: ValidXAxis) => {
+            setXaxis(value);
+          }}
           className={styles.input}
           options={[
             {
@@ -154,12 +175,28 @@ const LineMenu = ({ showWidget }: Props) => {
           ]}
         />
         {
-          xAxis[0] === 'time' ?
+          xAxis && xAxis[0] === 'time' ?
             <Space>
               <p>Between</p>
               <RangePicker
                 picker={xAxis[1]}
                 style={{ width: 300 }}
+                onChange={(value) => {
+                  const [start, end] = [{ year: value[0].year() }, { year: value[1].year() }] as [any, any];
+                  console.log('here1', start, end);
+                  if (xAxis[1] === 'year') {
+                    setXStartEnd({ start, end });
+                    return;
+                  };
+                  start.month = value[0].month();
+                  end.month = value[1].month();
+                  if (xAxis[1] === 'day' || xAxis[1] === 'week') {
+                    start.day = value[0].day();
+                    end.day = value[1].day();
+                  }
+                  console.log(start, end);
+                  setXStartEnd({ start, end });
+                }}
               />
             </Space>
             : <Slider

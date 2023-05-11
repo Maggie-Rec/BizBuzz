@@ -1,4 +1,6 @@
+import { Alex_Brush } from "next/font/google";
 import { combineReducers } from "redux";
+import { generateTimePeriods } from "./utils/generateTimePeriods";
 
 const initialStateProgress = {
   userInput: "",
@@ -53,7 +55,7 @@ const pieChartReducer = (state = [], action) => {
   }
 };
 
-const lineChartReducer = (state = { question: [], filters: [], filterNames: [] } as { question: any[], filters: object[], filterNames: string[] }
+const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNames: [] } as { axes: any, filters: object[], period: any, filterNames: string[] }
   , action) => {
   switch (action.type) {
     case "ADD_FILTER":
@@ -64,10 +66,31 @@ const lineChartReducer = (state = { question: [], filters: [], filterNames: [] }
           newState.filterNames.push(action.payload.filter))
         : newState.filters[index] = action.payload.obj;
       ;
-      console.log(newState);
       return newState;
     case "SET_AXES":
-      return [action.payload.x, action.payload.y];
+      const copy = { ...state };
+      copy.axes = action.payload;
+      return copy;
+    case "FETCH_DATA":
+      console.log(state);
+      let requests = [];
+      if (state.axes.x && state.axes.x[1]) {
+        const { startDates, endDates } = generateTimePeriods({
+          start: state.period.start,
+          end: state.period.end,
+          unit: state.axes.x[1]
+        });
+        for (let i = 0; i < startDates.length; i++) {
+          requests.push([[startDates[i], endDates[i]], state.filters])
+        }
+        console.log('Need to make requests with:', requests);
+      }
+      return state;
+    case "SET_DATES": {
+      const adjust = { ...state };
+      adjust.period = action.payload;
+      return adjust;
+    }
     default: return state
   }
 };

@@ -23,7 +23,8 @@ ChartJS.register(
   Title
 );
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
-
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styles from "../../../styles/widgets/lineChart.module.css";
 
 interface Props {
@@ -31,6 +32,7 @@ interface Props {
 }
 
 const LineChart = ({ showWidget }: Props) => {
+  const dispatch = useDispatch();
   const handleClose = () => {
     showWidget();
   };
@@ -69,6 +71,11 @@ const LineChart = ({ showWidget }: Props) => {
       },
     ],
   };
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_DATA"
+    })
+  }, [])
 
   return (
     <div className={styles.chart}>
