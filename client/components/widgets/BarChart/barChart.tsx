@@ -22,21 +22,28 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { generateQuery } from "../../../utils/queryKing";
 
 interface Props {
   barChartSelection: string[];
-  barChartPeriod: () => void;
+  barChartPeriod: string[];
   id: number;
+  selectedData: string;
 }
 
-const BarChart = ({ barChartSelection, barChartPeriod, id }: Props) => {
+const BarChart = ({
+  barChartSelection,
+  barChartPeriod,
+  selectedData,
+  id,
+}: Props) => {
   const dispatch = useDispatch();
+  console.log(selectedData);
+  console.log(barChartPeriod);
 
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
-
-
 
   const handleClose = () => {
     dispatch({
@@ -45,8 +52,24 @@ const BarChart = ({ barChartSelection, barChartPeriod, id }: Props) => {
     });
   };
 
+  const getData = async (selectedData: string) => {
+    let response = await fetch(`http://localhost:3020/transactions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: selectedData,
+    });
+    response = await response.json();
+    return response;
+  };
+
+  useEffect(() => {
+    getData(selectedData).then((data) => console.log("data", data));
+  }, []);
+
   const labels = barChartPeriod;
-  const data: any = {
+  let data: any = {
     labels,
     datasets: [
       {
@@ -77,9 +100,14 @@ const BarChart = ({ barChartSelection, barChartPeriod, id }: Props) => {
       height: parseInt(ref.style.height),
     });
     setPosition(position);
-   
   };
 
+  useEffect(() => {
+    data = {
+      ...data,
+      labels: barChartPeriod
+    }
+  }, [barChartPeriod])
 
   return (
     <Rnd
@@ -98,7 +126,9 @@ const BarChart = ({ barChartSelection, barChartPeriod, id }: Props) => {
           <DragOutlined />
           <CloseOutlined onClick={handleClose} />
         </div>
-        <Bar data={data} />
+        {barChartPeriod && barChartPeriod.length > 0 &&  
+          <Bar data={data} />
+        }
       </div>
     </Rnd>
   );

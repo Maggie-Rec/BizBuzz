@@ -41,7 +41,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const showWindow = (value: string) => {
-    console.log(value);
+   
     if(value === "bar-chart"){
     setActiveMenu(<BarMenu />);
     } if (value === "pie-chart") {

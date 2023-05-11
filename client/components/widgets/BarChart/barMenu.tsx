@@ -1,26 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Space, Select, Button, DatePicker } from "antd";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useDispatch } from "react-redux";
 import BarChart from "./barChart";
+import { generateQuery } from "../../../utils/queryKing";
 
 const { RangePicker } = DatePicker;
 const BarMenu = () => {
   const dispatch = useDispatch();
   const [option1, setOption1] = useState("");
-  const [option2, setOption2] = useState("");
-  const [option3, setOption3] = useState("");
+  // const [option2, setOption2] = useState("");
+  // const [option3, setOption3] = useState("");
   const [monthStart, setMonthStart] = useState("");
   const [monthEnd, setMonthEnd] = useState("");
+  const [period, setPeriod] = useState([] as string[]);
+  const [months, setMonths] = useState([] as string[]);
 
   const addWidget = () => {
+    handleChange(period);
+    //  generateQuery([option1], [new Date(period[0]), new Date(period[1])]);
+
     function newBarChart() {
       return (
         <BarChart
-          barChartSelection={[option1, option2, option3]}
-          barChartPeriod = {monthArray}
+          barChartSelection={[option1]}
+          barChartPeriod={months}
           id={Date.now()}
           key={Date.now()}
+          selectedData={generateQuery(
+            [option1],
+            [new Date(period[0]), new Date(period[1])]
+          )}
         />
       );
     }
@@ -45,6 +55,7 @@ const BarMenu = () => {
     "November",
     "December",
   ];
+
   const handleChange = (string: string[]) => {
     const monthNumber1: Number = new Date(string[0]).getMonth();
     const monthNumber2: Number = new Date(string[1]).getMonth();
@@ -57,6 +68,9 @@ const BarMenu = () => {
     setMonthEnd(getMonthName(monthNumber2));
   };
 
+  useEffect(() => {
+    monthArray();
+  }, [monthEnd]);
   const monthArray = () => {
     let startIndex = allMonths.indexOf(monthStart);
     let endIndex = allMonths.indexOf(monthEnd);
@@ -66,13 +80,17 @@ const BarMenu = () => {
     for (let i = startIndex; i <= endIndex; i++) {
       monthsArray.push(allMonths[i]);
     }
+
+    setMonths(monthsArray);
+
+    // return monthsArray;
   };
 
   return (
     <div className={styles.container}>
       <h1>Bar Chart</h1>
       <Space wrap>
-        <Select
+        {/* <Select
           defaultValue="option"
           style={{ width: 120 }}
           onChange={setOption1}
@@ -88,8 +106,8 @@ const BarMenu = () => {
             { value: "category", label: "Item Category" },
             { value: "region", label: "Location Region" },
           ]}
-        />
-        <Select
+        /> */}
+        {/* <Select
           defaultValue="option"
           style={{ width: 120 }}
           onChange={setOption2}
@@ -105,30 +123,26 @@ const BarMenu = () => {
             { value: "category", label: "Item Category" },
             { value: "region", label: "Location Region" },
           ]}
-        />
+        /> */}
 
         <Select
           defaultValue="option"
           style={{ width: 120 }}
-          onChange={setOption3}
+          onChange={setOption1}
           className={styles.input}
           options={[
-            { value: "location", label: "Location" },
-            { value: "quantity", label: "Item Quantity" },
-            { value: "membership", label: "Membership" },
-            { value: "tax", label: "Tax" },
-            { value: "age", label: "Age" },
-            { value: "gender", label: "Gender" },
-            { value: "units", label: "Units" },
-            { value: "category", label: "Item Category" },
-            { value: "region", label: "Location Region" },
+            { value: "item", label: "Item Category" },
+            {
+              value: "customer",
+              label: "Client gender",
+            },
           ]}
         />
 
         <Space direction="vertical" size={12}>
           <RangePicker
             picker="month"
-            onChange={(value, string) => handleChange(string)}
+            onChange={(value, string) => setPeriod(string)}
           />
         </Space>
       </Space>
