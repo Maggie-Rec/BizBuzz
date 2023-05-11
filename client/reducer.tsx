@@ -45,18 +45,18 @@ const barChartReducer = (state = initialStateBar, action) => {
   return state;
 };
 
-const pieChartReducer = (state = [], action) => {
+const widgetReducer = (state = [], action) => {
   switch (action.type) {
-    case "SET_PIECHART_SELECTION":
-    return action.payload;
-    default: return state
+    case "ADD_WIDGET":
+      return [...state, action.payload];
+    default: return state;
   }
-};
+}
 
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
-  pieChart: pieChartReducer
+  widgetSelection: widgetReducer
 });
 
 export default rootReducer;

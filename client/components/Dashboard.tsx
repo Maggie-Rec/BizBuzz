@@ -8,9 +8,9 @@ import PieMenu from "./widgets/PieChart/pieMenu";
 import LineMenu from "./widgets/LineChart/lineMenu";
 import BarMenu from "./widgets/BarChart/barMenu";
 import ProgressMenu from "./widgets/Progress/ProgressMenu";
-import PieChart from "./widgets/PieChart/pieChart";
 import BarChart from "./widgets/BarChart/barChart";
 import ProgressChart from "./widgets/Progress/progressChart";
+import { useSelector } from "react-redux";
 
 import type { MenuProps } from "antd";
 import {
@@ -35,7 +35,9 @@ const Dashboard = () => {
   const [openMenu, setOpenMenu] = useState("");
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
 
-  const [myWidgets, setMyWidgets] = useState([]);
+  const widgetSelection = useSelector((state: any) => {
+    return state.widgetSelection;
+  })
 
   const showWindow = (event: any) => {
     setIsOpen(true);
@@ -44,7 +46,6 @@ const Dashboard = () => {
 
   const showWidget = (chartType: string) => {
     setOpenWidget({ chartType });
-    // myWidgets.push
   };
   const handleOk = () => {
     setIsOpen(false);
@@ -133,7 +134,7 @@ const Dashboard = () => {
       )}
 
       <section className={styles.widgetContainer}>
-        { myWidgets }
+        { widgetSelection }
       </section>
 
       <Modal
@@ -144,7 +145,7 @@ const Dashboard = () => {
         {(() => {
           switch (openMenu) {
             case "Pie Chart":
-              return <PieMenu myWidgets={myWidgets} setMyWidgets={setMyWidgets} />;
+              return <PieMenu />;
             case "Bar Chart":
               return <BarMenu showWidget={showWidget} />;
             case "Line Chart":

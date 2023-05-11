@@ -28,13 +28,17 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface Props {
   pieChartSelection: string[],
-  key: number,
-  handleClose: () => void
+  key: number
 }
 
-const PieChart = ({ pieChartSelection, key, handleClose }: Props) => {
+const PieChart = ({ pieChartSelection, key }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
   const [pieData, setPieData] = useState([] as number[]);
+
+  function handleClose() {
+    
+  }
+
 
   useEffect(() => {
 
@@ -137,7 +141,6 @@ const PieChart = ({ pieChartSelection, key, handleClose }: Props) => {
       await Promise.all(possibleValues.map(async (obj) => {
         const sum = await getSumBy(Object.values(obj)[0]) as dataResponse;
         sum.label = Object.values(obj)[0] as string;
-        // console.log(sum);
         data.push(sum);
       }))
         .then(() => {
@@ -167,7 +170,7 @@ const PieChart = ({ pieChartSelection, key, handleClose }: Props) => {
     <div className={styles.chart}>
       <div className={styles.icons}>
         <DragOutlined />
-        <CloseOutlined onClick={handleClose} />
+        <CloseOutlined onClick={(event) => handleClose()} />
       </div>
       <Pie data={data} />
       Sales {pieChartSelection[0]} {pieChartSelection[1]}

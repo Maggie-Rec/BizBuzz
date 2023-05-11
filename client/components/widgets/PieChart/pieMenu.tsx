@@ -6,44 +6,26 @@ import styles from "../../../styles/widgets/pieMenu.module.css";
 import { useDispatch } from "react-redux";
 import PieChart from "./pieChart";
 
-interface Props {
-  setMyWidgets: Dispatch<SetStateAction<any[]>>,
-  myWidgets: any[]
-}
-const PieMenu = ({ myWidgets, setMyWidgets }: Props) => {
+const PieMenu = () => {
   const [period, setPeriod] = useState('');
   const [dataType, setDataType] = useState('');
 
+  const dispatch = useDispatch();
+
   function handleChange(value: string,
     setter: (selection: string) => void) {
-      setter(value);
-    }
+    setter(value);
+  }
 
-
-  // TODO: MOVE THE CLOSE HANDLER TO THE DASHBOARD, DRILL IT DOWN TO AVOID STATE PROBLEMS  
-  // MOVE THE WIDGETS ARRAY STATE TO REDUX STORE
-
-  function handleClose () {
-      // console.log(event.target);
-      console.log(myWidgets);
-      // let tbd = myWidgets.findIndex((element) => {
-      //   console.log(element.key);
-      //   console.log(element.key === key);
-      //   element.key.toString() === key ? true : false;
-      // });
-      // console.log('tbd', tbd);
-      // setMyWidgets([...myWidgets.splice(tbd, 1)]);
-    };
-  
   const addWidget = () => {
-    const newPieChart = <PieChart 
-      pieChartSelection={[period, dataType]} 
-      key={(() => { return Date.now()})()} 
-      handleClose={handleClose}
-      />
-    console.log(newPieChart);
-    setMyWidgets([...myWidgets, newPieChart])
-    console.log(myWidgets);
+    const newPieChart = <PieChart
+      pieChartSelection={[period, dataType]}
+      key={(() => { return Date.now() })()}
+    />;
+    dispatch({
+      type: "ADD_WIDGET",
+      payload: newPieChart
+    });
   };
 
   return (
