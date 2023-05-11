@@ -42,8 +42,6 @@ const BarMenu = ({ showWidget }: Props) => {
     const monthNumber1: Number = new Date(string[0]).getMonth();
     const monthNumber2: Number = new Date(string[1]).getMonth();
 
-    
-
     const getMonthName = (monthNumber) => {
       return allMonths[monthNumber];
     };
@@ -53,7 +51,6 @@ const BarMenu = ({ showWidget }: Props) => {
   };
 
   const monthArray = () => {
-
     let startIndex = allMonths.indexOf(monthStart);
     let endIndex = allMonths.indexOf(monthEnd);
 
@@ -62,8 +59,6 @@ const BarMenu = ({ showWidget }: Props) => {
     for (let i = startIndex; i <= endIndex; i++) {
       monthsArray.push(allMonths[i]);
     }
-
-    console.log(monthsArray);
 
     dispatch({ type: "SET_MONTH", payload: monthsArray });
   };

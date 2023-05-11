@@ -21,12 +21,17 @@ ChartJS.register(
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useSelector } from "react-redux";
+import { Rnd } from "react-rnd";
+import { useState } from "react";
 
 interface Props {
   showWidget: () => void;
 }
 
 const BarChart = ({ showWidget }: Props) => {
+  const [size, setSize] = useState({ width: 300, height: 300 });
+  const [position, setPosition] = useState({ x: 40, y: 10 });
+
   const option1 = useSelector((state: any) => {
     return state.barChart.option1;
   });
@@ -37,10 +42,8 @@ const BarChart = ({ showWidget }: Props) => {
     return state.barChart.option3;
   });
   const monthsArray = useSelector((state: any) => {
-   
     return state.barChart.monthsArray;
   });
-  
 
   const handleClose = () => {
     showWidget();
@@ -68,13 +71,39 @@ const BarChart = ({ showWidget }: Props) => {
     ],
   };
 
+  const onDragStop = (e, d) => {
+    setPosition({ x: d.x, y: d.y });
+  };
+
+  const onResizeStop = (e, direction, ref, delta, position) => {
+    setSize({
+      width: parseInt(ref.style.width),
+      height: parseInt(ref.style.height),
+    });
+    setPosition(position);
+  };
+  console.log(position);
+
   return (
-    <div className={styles.chart}>
-      <div className={styles.icons}>
-        <DragOutlined />
-        <CloseOutlined onClick={handleClose} />
-      </div>
-      <Bar data={data} />
+    <div>
+      <Rnd
+        size={size}
+        position={position}
+        onDragStop={onDragStop}
+        onResizeStop={onResizeStop}
+        dragGrid={[30, 30]}
+        resizeGrid={[10, 10]}
+        bounds="parent"
+      >
+        <div className={styles.chart}>
+          <div className={styles.icons}>
+            <DragOutlined />
+            <CloseOutlined onClick={handleClose} />
+          </div>
+          <Bar data={data} />
+        </div>
+      </Rnd>
+  
     </div>
   );
 };
