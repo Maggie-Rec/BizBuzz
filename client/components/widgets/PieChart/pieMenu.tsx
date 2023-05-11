@@ -4,11 +4,9 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Space, Select, Button } from "antd";
 import styles from "../../../styles/widgets/pieMenu.module.css";
 import { useDispatch } from "react-redux";
+import PieChart from "./pieChart";
 
-interface Props {
-  showWidget: (arg0: string) => void,
-}
-const PieMenu = ({ showWidget }: Props) => {
+const PieMenu = () => {
   const [period, setPeriod] = useState('');
   const [dataType, setDataType] = useState('');
 
@@ -16,15 +14,21 @@ const PieMenu = ({ showWidget }: Props) => {
 
   function handleChange(value: string,
     setter: (selection: string) => void) {
-      setter(value);
+    setter(value);
+  }
+
+  const addWidget = () => {
+    function newPieChart() {
+      return <PieChart
+        pieChartSelection={[period, dataType]}
+        id={Date.now()}
+        key={Date.now()}
+      />;
     }
-  
-  const openWidget = () => {
-    showWidget("Pie Chart");
     dispatch({
-      type: "SET_PIECHART_SELECTION",
-      payload: [period, dataType]
-    })
+      type: "ADD_WIDGET",
+      payload: newPieChart()
+    });
   };
 
   return (
@@ -68,9 +72,13 @@ const PieMenu = ({ showWidget }: Props) => {
       <br />
       <br />
       {/* TODO: FIX DISPLAY LOGIC - THERE IS NO NEED TO HAVE SO MANY BUTTONS IN THE MODAL */}
-      <Button onClick={openWidget}>Display</Button>
+      <Button onClick={addWidget}>Display</Button>
     </div>
   );
 };
 
 export default PieMenu;
+function showWidget(): void {
+  throw new Error("Function not implemented.");
+}
+

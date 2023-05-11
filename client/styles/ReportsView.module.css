@@ -28,8 +28,9 @@
   max-height: 78vh;
   max-width: 87vw;
   overflow-y: hidden;
+  padding: 2vh 3vw;
 }
 
-.tableContainer *::-webkit-scrollbar {
-  display: none;
-}
+/* .tableContainer *::-webkit-scrollbar {
+
+} */

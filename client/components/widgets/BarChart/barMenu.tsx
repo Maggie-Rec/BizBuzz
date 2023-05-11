@@ -2,25 +2,32 @@ import React, { useState } from "react";
 import { Space, Select, Button, DatePicker } from "antd";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useDispatch } from "react-redux";
-import { log } from "console";
+import BarChart from "./barChart";
 
-interface Props {
-  showWidget: (arg0: string) => void;
-}
 const { RangePicker } = DatePicker;
-const BarMenu = ({ showWidget }: Props) => {
+const BarMenu = () => {
   const dispatch = useDispatch();
   const [option1, setOption1] = useState("");
   const [option2, setOption2] = useState("");
   const [option3, setOption3] = useState("");
   const [monthStart, setMonthStart] = useState("");
   const [monthEnd, setMonthEnd] = useState("");
-  const openWidget = () => {
-    monthArray();
-    showWidget("Bar Chart");
+
+  const addWidget = () => {
+    function newBarChart() {
+      return (
+        <BarChart
+          barChartSelection={[option1, option2, option3]}
+          barChartPeriod = {monthArray}
+          id={Date.now()}
+          key={Date.now()}
+        />
+      );
+    }
+
     dispatch({
-      type: "SET_BAR_OPTION",
-      payload: { option1, option2, option3 },
+      type: "ADD_WIDGET",
+      payload: newBarChart(),
     });
   };
 
@@ -42,8 +49,6 @@ const BarMenu = ({ showWidget }: Props) => {
     const monthNumber1: Number = new Date(string[0]).getMonth();
     const monthNumber2: Number = new Date(string[1]).getMonth();
 
-    
-
     const getMonthName = (monthNumber) => {
       return allMonths[monthNumber];
     };
@@ -53,7 +58,6 @@ const BarMenu = ({ showWidget }: Props) => {
   };
 
   const monthArray = () => {
-
     let startIndex = allMonths.indexOf(monthStart);
     let endIndex = allMonths.indexOf(monthEnd);
 
@@ -62,10 +66,6 @@ const BarMenu = ({ showWidget }: Props) => {
     for (let i = startIndex; i <= endIndex; i++) {
       monthsArray.push(allMonths[i]);
     }
-
-    console.log(monthsArray);
-
-    dispatch({ type: "SET_MONTH", payload: monthsArray });
   };
 
   return (
@@ -132,7 +132,7 @@ const BarMenu = ({ showWidget }: Props) => {
           />
         </Space>
       </Space>
-      <Button onClick={openWidget}>Display</Button>
+      <Button onClick={addWidget}>Display</Button>
     </div>
   );
 };
