@@ -20,52 +20,49 @@ ChartJS.register(
 );
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/barChart.module.css";
+import { useSelector } from "react-redux";
 
 interface Props {
   showWidget: () => void;
 }
 
 const BarChart = ({ showWidget }: Props) => {
-  //   const options: any = {
-  //     indexAxis: "y",
-  //     elements: {
-  //       bar: {
-  //         borderWidth: 2,
-  //       },
-  //     },
-  //     responsive: true,
-  //     plugins: {
-  //       legend: {
-  //         position: "left",
-  //       },
-  //       title: {
-  //         display: true,
-  //         text: "Chart.js Chart",
-  //       },
-  //     },
-  //   };
+  const option1 = useSelector((state: any) => {
+    return state.barChart.option1;
+  });
+  const option2 = useSelector((state: any) => {
+    return state.barChart.option2;
+  });
+  const option3 = useSelector((state: any) => {
+    return state.barChart.option3;
+  });
+  const monthsArray = useSelector((state: any) => {
+   
+    return state.barChart.monthsArray;
+  });
+  
 
   const handleClose = () => {
     showWidget();
   };
 
-  const labels = ["red", "yellow", "blue"];
-  const data = {
+  const labels = monthsArray;
+  const data: any = {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
-        data: [1, 2, 3, 4, 5],
+        label: option1,
+        data: [1, 20, 16],
         backgroundColor: "#002642",
       },
       {
-        label: "Dataset 2",
-        data: [1, 2, 3, 4, 5],
+        label: option2,
+        data: [3, 12, 28],
         backgroundColor: "#840032",
       },
       {
-        label: "Dataset 3",
-        data: [1, 2, 3, 4, 5],
+        label: option3,
+        data: [1, 5, 16],
         backgroundColor: "#FFC65C",
       },
     ],

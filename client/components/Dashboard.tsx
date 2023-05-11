@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import styles from "../styles/Dashboard.module.css"
+import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
 import LineChart from "./widgets/LineChart/lineChart";
 import PieMenu from "./widgets/PieChart/pieMenu";
 import LineMenu from "./widgets/LineChart/lineMenu";
 import BarMenu from "./widgets/BarChart/barMenu";
-import BigNoMenu from "./widgets/bigNoMenu";
-import PieChart from "./widgets/PieChart/pieChart";
+import ProgressMenu from "./widgets/Progress/ProgressMenu";
 import BarChart from "./widgets/BarChart/barChart";
+import ProgressChart from "./widgets/Progress/progressChart";
+import { useSelector } from "react-redux";
 
 import type { MenuProps } from "antd";
 import {
@@ -34,6 +35,10 @@ const Dashboard = () => {
   const [openMenu, setOpenMenu] = useState("");
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
 
+  const widgetSelection = useSelector((state: any) => {
+    return state.widgetSelection;
+  })
+
   const showWindow = (event: any) => {
     setIsOpen(true);
     setOpenMenu(event.target.textContent);
@@ -44,7 +49,6 @@ const Dashboard = () => {
   };
   const handleOk = () => {
     setIsOpen(false);
-    // showWidget("Bar Chart");
   };
 
   const handleCancel = () => {
@@ -88,7 +92,7 @@ const Dashboard = () => {
       label: (
         <div style={{ display: "flex" }} onClick={showWindow}>
           <DollarOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
-          <h2>Big number Chart</h2>
+          <h2>Progress Chart</h2>
         </div>
       ),
     },
@@ -119,18 +123,21 @@ const Dashboard = () => {
         </Dropdown>
       </div>
 
-      {openWidget.chartType === "Pie Chart" && (
-        <PieChart showWidget={() => setOpenWidget({})} />
-      )}
       {openWidget.chartType === "Bar Chart" && (
         <BarChart showWidget={() => setOpenWidget({})} />
       )}
       {openWidget.chartType === "Line Chart" && (
         <LineChart showWidget={() => setOpenWidget({})} />
       )}
+      {openWidget.chartType === "Progress Chart" && (
+        <ProgressChart showWidget={() => setOpenWidget({})} />
+      )}
+
+      <section className={styles.widgetContainer}>
+        { widgetSelection }
+      </section>
 
       <Modal
-        title="insert data"
         open={isOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -138,13 +145,13 @@ const Dashboard = () => {
         {(() => {
           switch (openMenu) {
             case "Pie Chart":
-              return <PieMenu showWidget={showWidget} />;
+              return <PieMenu />;
             case "Bar Chart":
               return <BarMenu showWidget={showWidget} />;
             case "Line Chart":
               return <LineMenu showWidget={showWidget} />;
-            case "Big number Chart":
-              return <BigNoMenu />;
+            case "Progress Chart":
+              return <ProgressMenu showWidget={showWidget} />;
             default:
               return null;
           }
