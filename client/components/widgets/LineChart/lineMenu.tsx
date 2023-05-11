@@ -21,7 +21,7 @@ const LineMenu = ({ showWidget }: Props) => {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    console.log('dates:', xStartEnd);
+    dispatch({ type: "FETCH_DATA" });
     showWidget("Line Chart");
   };
   const filterOptions = [
@@ -62,6 +62,36 @@ const LineMenu = ({ showWidget }: Props) => {
 
   return (
     <div className={styles.container}>
+      {/* <Button
+        style={{
+          color: 'white',
+          backgroundColor: 'red'
+        }}
+        onClick={() => {
+          dispatch({
+            type: "SET_AXES",
+            payload: {
+              x: ["time", "month"],
+              y: ["salesValue", "acrossLocations"]
+            }
+          });
+          dispatch({
+            type: "SET_DATES",
+            payload: {
+              start: { year: 2022, month: 9 },
+              end: { year: 2023, month: 3 }
+            }
+          });
+          dispatch({
+            type: "ADD_FILTER",
+            payload: {
+              obj: { is_member: [true] },
+              filter: 'is_member'
+            }
+          });
+        }}>
+        Shortcut for testing purposes only
+      </Button> */}
       <h1>Line Graph</h1>
       <Space wrap>
         <p>Y-axis:</p>
@@ -183,18 +213,16 @@ const LineMenu = ({ showWidget }: Props) => {
                 style={{ width: 300 }}
                 onChange={(value) => {
                   const [start, end] = [{ year: value[0].year() }, { year: value[1].year() }] as [any, any];
-                  console.log('here1', start, end);
                   if (xAxis[1] === 'year') {
                     setXStartEnd({ start, end });
                     return;
                   };
-                  start.month = value[0].month();
-                  end.month = value[1].month();
+                  start.month = value[0].month() + 1;
+                  end.month = value[1].month() + 1;
                   if (xAxis[1] === 'day' || xAxis[1] === 'week') {
                     start.day = value[0].day();
                     end.day = value[1].day();
                   }
-                  console.log(start, end);
                   setXStartEnd({ start, end });
                 }}
               />
