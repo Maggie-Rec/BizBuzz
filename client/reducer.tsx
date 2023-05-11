@@ -70,14 +70,14 @@ const widgetReducer = (state = [], action) => {
         stringifyWidgets(newSelection));
       return newSelection;
     case "REPOPULATE_DASHBOARD":
-      let savedWidgetsData = JSON.parse(window.localStorage.getItem("widgets"));
-      console.log(savedWidgetsData[0]);
-      let restoredWidgets = savedWidgetsData.map((item) => {
-        let component = <item.widgetType {...item.props} key={Date.now()} />
-        return component;
-      });
+      // let savedWidgetsData = JSON.parse(window.localStorage.getItem("widgets"));
+      // console.log(savedWidgetsData[0]);
+      // let restoredWidgets = savedWidgetsData.map((item) => {
+      //   let component = <item.widgetType {...item.props} key={Date.now()} />
+      //   return component;
+      // });
       // IF STATEMENT FOR ALL TYPES OF WIDGETS
-      return restoredWidgets;
+      // return restoredWidgets;
     default: return state;
   }
 }

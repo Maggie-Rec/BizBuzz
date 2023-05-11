@@ -31,12 +31,13 @@ import styles from "../../../styles/widgets/pieChart.module.css";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Rnd } from "react-rnd";
+import { useDispatch } from "react-redux";
 
 interface Props {
   pieChartSelection: string[];
   key: number;
+}
 
-import { useDispatch } from "react-redux";
 
 interface Props {
   pieChartSelection: string[],
@@ -50,8 +51,6 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
 
-
-  function handleClose() {}
 
   const dispatch = useDispatch();
 
