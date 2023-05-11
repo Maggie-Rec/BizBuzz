@@ -2,7 +2,7 @@
 
 // import { SessionProvider } from "next-auth/react";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { legacy_createStore } from "redux";
 import rootReducer from "../reducer";
@@ -16,9 +16,14 @@ import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
 
 const store = legacy_createStore(rootReducer);
+
 const MainPage = () => {
   const [isLogged, setIsLogged] = useState(false);
-  const [isOnReports, setIsOnReports] = useState(true);
+  const [isOnReports, setIsOnReports] = useState(false);
+
+  store.subscribe(() =>
+    setIsOnReports(store.getState().currentTab === 'reports')
+  )
 
   return (
 
@@ -31,8 +36,11 @@ const MainPage = () => {
             <NavBar />
             <div className="container">
               <SideBar />
-              <Dashboard />
-              {/* <ReportsView /> */}
+              {
+                isOnReports
+                ? <ReportsView/>
+                : <Dashboard/>
+              }
             </div>
           </div>
         )}

@@ -82,10 +82,20 @@ const widgetReducer = (state = [], action) => {
   }
 }
 
+const currentTabReducer = (state = 'dashboard', action) => {
+  switch (action.type) {
+    case 'CHANGE_CURRENT_TAB':
+      state = action.payload;
+      return state;
+    default: return state;
+  }
+}
+
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
-  widgetSelection: widgetReducer
+  widgetSelection: widgetReducer,
+  currentTab: currentTabReducer
 });
 
 export default rootReducer;
