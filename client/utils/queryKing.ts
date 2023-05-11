@@ -90,6 +90,11 @@ export function generateQuery (filterArr: string[], dateArr: Date[]) {
     })
   }
 
+  queryObj.query.select = {
+    ...queryObj.query.select,
+    record_id: true,
+  }
+
 
   filterArr.forEach((el) => {
     if (!el.includes(':')) {
@@ -130,12 +135,19 @@ export function generateQuery (filterArr: string[], dateArr: Date[]) {
     }
   })
 
+  queryObj.query.select = {
+    ...queryObj.query.select,
+    total_with_tax: true
+  }
+
   // DELETE AND or OR WHERE FIELDS IF THEY ARE EMPTY
   // OTHERWISE DB FETCH DOESNT WORK
   if (queryObj.query.where.AND.length === 0) delete queryObj.query.where.AND;
   if (queryObj.query.where.OR.length === 0) delete queryObj.query.where.OR;
 
-  
+  // DELETE SELECT IF EMPTY
+  // OTHERWISE DB FETCH DOESNT WORK
+  if (Object.keys(queryObj.query.select).length === 0) delete queryObj.query.select;
 
   return JSON.stringify(queryObj);
 }

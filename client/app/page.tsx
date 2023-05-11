@@ -14,6 +14,7 @@ import ReportsView from "../components/ReportsView";
 
 const MainPage = () => {
   const [isLogged, setIsLogged] = useState(false);
+  const [isOnReports, setIsOnReports] = useState(true);
 
   return (
     <div>
@@ -24,8 +25,11 @@ const MainPage = () => {
           <NavBar />
           <div className="container">
             <SideBar />
-            {/* <Dashboard /> */}
-            <ReportsView />
+            {
+              isOnReports
+              ? <ReportsView />
+              : <Dashboard />
+            }
           </div>
         </div>
       )}
