@@ -49,6 +49,9 @@ const widgetReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_WIDGET":
       return [...state, action.payload];
+    case "REMOVE_WIDGET":
+      let newSelection = state.filter(element => action.payload !== element.props.id);
+      return newSelection;
     default: return state;
   }
 }

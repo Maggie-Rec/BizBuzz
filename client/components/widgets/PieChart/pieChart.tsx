@@ -25,18 +25,24 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 
 import styles from "../../../styles/widgets/pieChart.module.css";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface Props {
   pieChartSelection: string[],
-  key: number
+  id: number
 }
 
-const PieChart = ({ pieChartSelection, key }: Props) => {
+const PieChart = ({ pieChartSelection, id }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
   const [pieData, setPieData] = useState([] as number[]);
 
+  const dispatch = useDispatch();
+
   function handleClose() {
-    
+    dispatch({
+      type: "REMOVE_WIDGET",
+      payload: id
+    })
   }
 
 

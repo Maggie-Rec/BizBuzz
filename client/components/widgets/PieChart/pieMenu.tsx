@@ -18,13 +18,15 @@ const PieMenu = () => {
   }
 
   const addWidget = () => {
-    const newPieChart = <PieChart
-      pieChartSelection={[period, dataType]}
-      key={(() => { return Date.now() })()}
-    />;
+    function newPieChart() {
+      return <PieChart
+        pieChartSelection={[period, dataType]}
+        id={Date.now()}
+      />;
+    }
     dispatch({
       type: "ADD_WIDGET",
-      payload: newPieChart
+      payload: newPieChart()
     });
   };
 
