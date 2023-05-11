@@ -22,6 +22,7 @@ const PieMenu = () => {
       return <PieChart
         pieChartSelection={[period, dataType]}
         id={Date.now()}
+        key={Date.now()}
       />;
     }
     dispatch({
@@ -71,7 +72,6 @@ const PieMenu = () => {
       <br />
       <br />
       {/* TODO: FIX DISPLAY LOGIC - THERE IS NO NEED TO HAVE SO MANY BUTTONS IN THE MODAL */}
-      {/* <Button onClick={openWidget}>Display</Button> */}
       <Button onClick={addWidget}>Display</Button>
     </div>
   );

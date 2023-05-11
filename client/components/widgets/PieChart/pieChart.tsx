@@ -1,9 +1,4 @@
 "use client";
-import {
-  lastWeekTF,
-  lastMonthTF,
-  lastQuarterTF,
-} from "../../../utils/timeFilters";
 
 import {
   Chart as ChartJS,
@@ -29,14 +24,16 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 
 import styles from "../../../styles/widgets/pieChart.module.css";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { Rnd } from "react-rnd";
+import { useDispatch } from "react-redux";
+import randomAlphaNumeric from "../../../utils/randomizer";
+import savePositionLocal from "../../../utils/posSaver";
 
 interface Props {
-  pieChartSelection: string[];
-  id: number;
-}
+  pieChartSelection: string[],
+  id: number
+};
 
 const PieChart = ({ pieChartSelection, id }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
@@ -56,7 +53,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
   useEffect(() => {
     let periodStart = "";
     switch (
-      pieChartSelection[0] // [0] for period, [1] for data type
+    pieChartSelection[0] // [0] for period, [1] for data type
     ) {
       case "past_week":
         // periodStart = lastWeekTF[0].toISOString()
