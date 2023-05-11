@@ -30,7 +30,7 @@ interface Props {
 
 const BarChart = ({ showWidget }: Props) => {
   const [size, setSize] = useState({ width: 300, height: 300 });
-  const [position, setPosition] = useState({ x: 40, y: 10 });
+  const [position, setPosition] = useState({ x: 10, y: 10 });
 
   const option1 = useSelector((state: any) => {
     return state.barChart.option1;
@@ -76,35 +76,34 @@ const BarChart = ({ showWidget }: Props) => {
   };
 
   const onResizeStop = (e, direction, ref, delta, position) => {
+   
     setSize({
       width: parseInt(ref.style.width),
       height: parseInt(ref.style.height),
     });
     setPosition(position);
+    console.log(size);
   };
-  console.log(position);
+  // console.log(position);
 
   return (
-    <div>
-      <Rnd
-        size={size}
-        position={position}
-        onDragStop={onDragStop}
-        onResizeStop={onResizeStop}
-        dragGrid={[30, 30]}
-        resizeGrid={[10, 10]}
-        bounds="parent"
-      >
-        <div className={styles.chart}>
-          <div className={styles.icons}>
-            <DragOutlined />
-            <CloseOutlined onClick={handleClose} />
-          </div>
-          <Bar data={data} />
+    <Rnd
+      size={size}
+      position={position}
+      onDragStop={onDragStop}
+      onResizeStop={onResizeStop}
+      dragGrid={[30, 30]}
+      // resizeGrid={[30, 30]}
+      bounds="parent"
+    >
+      <div className={styles.chart}>
+        <div className={styles.icons}>
+          <DragOutlined />
+          <CloseOutlined onClick={handleClose} />
         </div>
-      </Rnd>
-  
-    </div>
+        <Bar data={data} />
+      </div>
+    </Rnd>
   );
 };
 
