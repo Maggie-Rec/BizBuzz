@@ -35,7 +35,7 @@ const MainPage = () => {
           </div>
         )}
       </div>
-    </Provider>
+     </Provider>
   );
 };
 
