@@ -76,7 +76,6 @@ const BarChart = ({ showWidget }: Props) => {
   };
 
   const onResizeStop = (e, direction, ref, delta, position) => {
-   
     setSize({
       width: parseInt(ref.style.width),
       height: parseInt(ref.style.height),
@@ -93,8 +92,10 @@ const BarChart = ({ showWidget }: Props) => {
       onDragStop={onDragStop}
       onResizeStop={onResizeStop}
       dragGrid={[30, 30]}
-      // resizeGrid={[30, 30]}
+      resizeGrid={[30, 30]}
       bounds="parent"
+      minWidth={500}
+      minHeight={300}
     >
       <div className={styles.chart}>
         <div className={styles.icons}>
