@@ -103,7 +103,7 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
       return adjust;
     }
     default: return state
-      }
+  }
 };
 
 const widgetReducer = (state = [], action) => {
@@ -161,7 +161,7 @@ const currentTabReducer = (state = 'dashboard', action) => {
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
-  lineChart: lineChartReducer
+  lineChart: lineChartReducer,
   widgetSelection: widgetReducer,
   currentTab: currentTabReducer
 });
