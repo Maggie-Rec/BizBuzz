@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
 import LineChart from "./widgets/LineChart/lineChart";
@@ -10,7 +10,7 @@ import BarMenu from "./widgets/BarChart/barMenu";
 import ProgressMenu from "./widgets/Progress/ProgressMenu";
 import BarChart from "./widgets/BarChart/barChart";
 import ProgressChart from "./widgets/Progress/progressChart";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import type { MenuProps } from "antd";
 import {
@@ -38,6 +38,8 @@ const Dashboard = () => {
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
   })
+
+  const dispatch = useDispatch();
 
   const showWindow = (event: any) => {
     setIsOpen(true);
@@ -97,6 +99,12 @@ const Dashboard = () => {
       ),
     },
   ];
+
+  useEffect(() => {
+    dispatch({
+      type: "REPOPULATE_DASHBOARD"
+    })
+  }, [])
 
   return (
     <div className={styles.containerDashboard}>
