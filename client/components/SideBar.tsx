@@ -2,11 +2,23 @@
 
 import React from 'react'
 import styles from '../styles/SideBar.module.css'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SideBar = () => {
+
+  const currTab = useSelector((state: any) => state.currentTab);
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.containerSidebar}>
-      <div className={styles.component}>Reports</div>
+      <div 
+        className={styles.component}
+        onClick={() => dispatch({type: 'CHANGE_CURRENT_TAB', payload: 'dashboard'})}
+      >Dashboard</div>
+      <div 
+        className={styles.component}
+        onClick={() => dispatch({type: 'CHANGE_CURRENT_TAB', payload: 'reports'})}
+      >Reports</div>
       <div className={styles.component}>Emails</div>
       <div className={styles.component}>Campaigns</div>
       <div className={styles.component}>Complaints</div>

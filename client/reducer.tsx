@@ -74,16 +74,25 @@ const widgetReducer = (state = [], action) => {
 
       return newSelection;
     case "REPOPULATE_DASHBOARD":
-      let savedWidgetsData = JSON.parse(window.localStorage.getItem("widgets"));
+      // let savedWidgetsData = JSON.parse(window.localStorage.getItem("widgets"));
+      // console.log(savedWidgetsData[0]);
+      // let restoredWidgets = savedWidgetsData.map((item) => {
+      //   let component = <item.widgetType {...item.props} key={Date.now()} />
+      //   return component;
+      // });
+      // IF STATEMENT FOR ALL TYPES OF WIDGETS
+      // return restoredWidgets;
+    default: return state;
+  }
+}
 
-    // let restoredWidgets = savedWidgetsData.map((item) => {
-    //   let component = <item.widgetType {...item.props} key={Date.now()} />
-    //   return component;
-    // });
-    // IF STATEMENT FOR ALL TYPES OF WIDGETS
-    // return restoredWidgets;
-    default:
+const currentTabReducer = (state = 'dashboard', action) => {
+  switch (action.type) {
+    case 'CHANGE_CURRENT_TAB':
+      state = action.payload;
       return state;
+    default: return state;
+
   }
 };
 
@@ -91,6 +100,9 @@ const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
   widgetSelection: widgetReducer,
+
+  currentTab: currentTabReducer
+
 });
 
 export default rootReducer;
