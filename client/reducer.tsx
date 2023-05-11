@@ -1,3 +1,5 @@
+import { Alex_Brush } from "next/font/google";
+import { generateTimePeriods } from "./utils/generateTimePeriods";
 import { ReactComponentElement } from "react";
 import { combineReducers } from "redux";
 import PieChart from "./components/widgets/PieChart/pieChart";
@@ -6,6 +8,7 @@ import LineChart from "./components/widgets/LineChart/lineChart";
 import ProgressChart from "./components/widgets/Progress/progressChart";
 import randomAlphaNumeric from "./utils/randomizer";
 import { removePositionLocal } from "./utils/posSaver";
+
 
 const initialStateProgress = {
   userInput: "",
@@ -63,7 +66,45 @@ function stringifyWidgets(newState) {
   );
 }
 
-
+const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNames: [] } as { axes: any, filters: object[], period: any, filterNames: string[] }
+  , action) => {
+  switch (action.type) {
+    case "ADD_FILTER":
+      const newState = { ...state };
+      const index = newState.filterNames.findIndex((filterName) => filterName === action.payload.filter);
+      index === -1 ?
+        (newState.filters.push(action.payload.obj),
+          newState.filterNames.push(action.payload.filter))
+        : newState.filters[index] = action.payload.obj;
+      ;
+      return newState;
+    case "SET_AXES":
+      const copy = { ...state };
+      copy.axes = action.payload;
+      return copy;
+    case "FETCH_DATA":
+      console.log(state);
+      let requests = [];
+      if (state.axes.x && state.axes.x[1]) {
+        const { startDates, endDates } = generateTimePeriods({
+          start: state.period.start,
+          end: state.period.end,
+          unit: state.axes.x[1]
+        });
+        for (let i = 0; i < startDates.length; i++) {
+          requests.push([[startDates[i], endDates[i]], state.filters])
+        }
+        console.log('Need to make requests with:', requests);
+      }
+      return state;
+    case "SET_DATES": {
+      const adjust = { ...state };
+      adjust.period = action.payload;
+      return adjust;
+    }
+    default: return state
+      }
+};
 
 const widgetReducer = (state = [], action) => {
   switch (action.type) {
@@ -114,17 +155,15 @@ const currentTabReducer = (state = 'dashboard', action) => {
       state = action.payload;
       return state;
     default: return state;
-
   }
 };
 
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
+  lineChart: lineChartReducer
   widgetSelection: widgetReducer,
-
   currentTab: currentTabReducer
-
 });
 
 export default rootReducer;
