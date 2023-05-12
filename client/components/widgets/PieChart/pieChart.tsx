@@ -74,9 +74,11 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
 
     async function getLabelsPossibleValues() {
       let filter = getFilterObject(pieChartSelection[1], "value");
-      // console.log(filter);
+      console.log(filter);
       let path = Object.keys(filter)[0];
+      // console.log(path);
       let relatedCriterion = filter[path];
+      
       Object.keys(relatedCriterion).forEach(
         (key) => (relatedCriterion[key] = true)
       );
@@ -164,7 +166,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
         setLabels(data.map((item) => item.label));
         // console.log(labels);
         setPieData(data.map((item) => Number(item._sum.total_with_tax)));
-        // console.log(pieData);
+        console.log(pieData);
       });
     }
 

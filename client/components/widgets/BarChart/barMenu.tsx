@@ -15,7 +15,6 @@ const BarMenu = ({ func }) => {
   const [period, setPeriod] = useState([] as string[]);
   const [isShowing, setIsShowing] = useState(true);
 
-
   const addWidget = () => {
     dispatch({
       type: "ADD_WIDGET",
@@ -25,14 +24,15 @@ const BarMenu = ({ func }) => {
           barChartPeriod={monthArray(period)}
           id={Date.now()}
           key={Date.now()}
+          period={period}
           selectedData={generateQuery(
-            [option1],
-            [new Date(period[0]), new Date(period[1])]
+            [option1, "date"],
+            [new Date(period[0]), new Date(new Date(period[1]).setMonth(new Date(period[1]).getMonth() + 1))]
           )}
         />
       ),
     });
-    handleCancel()
+    handleCancel();
   };
 
   const monthArray = (period) => {
@@ -53,13 +53,11 @@ const BarMenu = ({ func }) => {
     const monthNumber1 = new Date(period[0]).getMonth();
     const monthNumber2 = new Date(period[1]).getMonth();
 
-    
     let selectedMonths: string[] = [];
 
     for (let i: any = monthNumber1; i <= monthNumber2; i++) {
       selectedMonths.push(allMonths[i]);
     }
-    
 
     return selectedMonths;
   };
@@ -124,10 +122,10 @@ const BarMenu = ({ func }) => {
             onChange={setOption1}
             className={styles.input}
             options={[
-              { value: "item", label: "Item Category" },
+              { value: "transaction", label: "Total items sold" },
               {
                 value: "customer",
-                label: "Client gender",
+                label: "Total amount of customers",
               },
             ]}
           />

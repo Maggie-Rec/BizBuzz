@@ -22,14 +22,15 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
-import { useState, useEffect } from "react";
-import { generateQuery } from "../../../utils/queryKing";
+import { useState, useEffect, SetStateAction } from "react";
+// import { generateQuery } from "../../../utils/queryKing";
 
 interface Props {
   barChartSelection: string[];
   barChartPeriod: string[];
   id: number;
   selectedData: string;
+  period: string[];
 }
 
 const BarChart = ({
@@ -37,13 +38,15 @@ const BarChart = ({
   barChartPeriod,
   selectedData,
   id,
+  period,
 }: Props) => {
   const dispatch = useDispatch();
-  // console.log(selectedData);
+  console.log(selectedData);
   // console.log(barChartPeriod);
 
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
+  const [barData, setBarData] = useState([] as string[]);
 
   const handleClose = () => {
     dispatch({
@@ -60,12 +63,30 @@ const BarChart = ({
       },
       body: selectedData,
     });
-    response = await response.json();
-    return response;
+    let data = (await response.json()) as unknown as { [key: string]: any }[];
+    console.log(data);
+    return data;
   };
 
   useEffect(() => {
-    getData(selectedData).then((data) => console.log("data", data));
+    getData(selectedData).then((data) => {
+      // setBarData([...data.forEach((el, i) => {el.filter(item => new Date(item.date).getMonth() === i)}];
+      // console.log([...data.forEach((el, i) => {el.filter(item => new Date(item.date).getMonth() === i)}] )
+      let temp = [] as string[];
+      for (
+        let i = new Date(period[0]).getMonth();
+        i <= new Date(period[1]).getMonth();
+        i++
+      ) {
+        // console.log(i)
+        temp.push(
+          data.filter((el) => new Date(el.date).getMonth() === i).length + ""
+        );
+        // console.log(data.filter(el => (new Date(el.date).getMonth() === i)).length)
+      }
+
+      setBarData(temp);
+    });
   }, []);
 
   const labels = barChartPeriod;
@@ -74,7 +95,7 @@ const BarChart = ({
     datasets: [
       {
         label: barChartSelection[0],
-        data: [1, 6, 48],
+        data: [...barData],
         backgroundColor: "#002642",
       },
       // {
@@ -105,9 +126,9 @@ const BarChart = ({
   useEffect(() => {
     data = {
       ...data,
-      labels: barChartPeriod
-    }
-  }, [barChartPeriod])
+      labels: barChartPeriod,
+    };
+  }, [barChartPeriod]);
 
   return (
     <Rnd
@@ -126,10 +147,9 @@ const BarChart = ({
           <DragOutlined />
           <CloseOutlined onClick={handleClose} />
         </div>
-        {barChartPeriod && barChartPeriod.length > 0 &&  
-          <Bar data={data} />
-        }
+        {barChartPeriod && barChartPeriod.length > 0 && <Bar data={data} />}
       </div>
+      {JSON.stringify(barData)}
     </Rnd>
   );
 };
