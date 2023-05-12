@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon';
 
 export function generateTimePeriods({ start, end, unit }) {
-  console.log({ start, end, unit });
   if (unit === 'year') {
     return createYears({ start: start, number: end.year - start.year + 1 });
   } else if (unit === 'quarter') {
@@ -36,7 +35,6 @@ function monthData(month, year = 1) {
   if (month === 12) return { name: 'December', lastDay: 31 };
 }
 function createLastOfMonth({ month, year }) {
-  console.log(month, monthData(month));
   const last = new Date(`${monthData(month).lastDay} ${monthData(month).name} ${year} 23:59:59.999`).toISOString();
   return last;
 }

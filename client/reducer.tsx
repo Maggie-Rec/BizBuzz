@@ -83,7 +83,6 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
       copy.axes = action.payload;
       return copy;
     case "FETCH_DATA":
-      console.log(state);
       let requests = [];
       if (state.axes.x && state.axes.x[1]) {
         const { startDates, endDates } = generateTimePeriods({
@@ -94,7 +93,6 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
         for (let i = 0; i < startDates.length; i++) {
           requests.push([[startDates[i], endDates[i]], state.filters])
         }
-        console.log('Need to make requests with:', requests);
       }
       return state;
     case "SET_DATES": {
@@ -103,7 +101,7 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
       return adjust;
     }
     default: return state
-      }
+  }
 };
 
 const widgetReducer = (state = [], action) => {
@@ -161,7 +159,7 @@ const currentTabReducer = (state = 'dashboard', action) => {
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
-  lineChart: lineChartReducer
+  lineChart: lineChartReducer,
   widgetSelection: widgetReducer,
   currentTab: currentTabReducer
 });

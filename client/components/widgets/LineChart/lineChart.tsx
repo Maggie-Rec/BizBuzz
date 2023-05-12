@@ -24,7 +24,7 @@ ChartJS.register(
 );
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../../../styles/widgets/lineChart.module.css";
 import { Rnd } from "react-rnd";
 import { useState } from "react";
@@ -50,6 +50,8 @@ const LineChart = ({ showWidget }: Props) => {
     "June",
     "July",
   ];
+  const info = useSelector((state) => { return state.lineChart });
+  console.log('info:', info);
   const data = {
     labels: labels,
     datasets: [
