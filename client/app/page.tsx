@@ -8,7 +8,7 @@ import { legacy_createStore } from "redux";
 import rootReducer from "../reducer";
 
 /* COMPONENTS */
-import NewSideBar from "../components/newSideBar";
+import NewSideBar2 from "../components/newSidebar2";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Dashboard from "../components/Dashboard";
@@ -45,7 +45,10 @@ const MainPage = () => {
           </div>
         )}
       </div> */}
-    <NewSideBar/>
+      <div style={{display: 'flex'}}>
+        <NewSideBar2/>
+        <ReportsView/>
+      </div>
     </Provider>
   );
 };

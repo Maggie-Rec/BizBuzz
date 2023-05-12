@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../styles/newSideBar.module.css';
-import { CaretLeftOutlined, CaretRightOutlined, BarChartOutlined, DashboardOutlined, ControlOutlined } from '@ant-design/icons';
+import { CaretLeftOutlined, CaretRightOutlined, BarChartOutlined, DashboardOutlined, ControlOutlined, UserOutlined } from '@ant-design/icons';
 
 const NewSideBar = () => {
 
@@ -9,11 +9,8 @@ const NewSideBar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.userInfo}>
-        <div className={styles.profilePic} />
-        <div className={styles.profileInfo}>
-          <h2>Name</h2>
-          <p>Bussines Name</p>
-        </div>
+        <UserOutlined />
+        <h2>Name</h2>
       </div>
       <div className={styles.moduleList}>
         <div className={styles.moduleListContainer}>

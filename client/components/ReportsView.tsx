@@ -10,7 +10,7 @@ import { generateQuery } from '../utils/queryKing';
 const { RangePicker } = DatePicker;
 
 interface IColumn {
-  title: string, 
+  title: string,
   dataIndex: string,
   maxWidth?: string,
   width?: string,
@@ -42,7 +42,7 @@ function getColumns(data: { [key: string]: {} | string }) {
     propertyArr.splice(propertyArr.indexOf('location'), 1)
     propertyArr.push(...Object.getOwnPropertyNames(data.location))
   }
-  let columns : IColumn[] = [{
+  let columns: IColumn[] = [{
     title: 'ID',
     dataIndex: 'record_id',
     width: '8%',
@@ -61,11 +61,11 @@ function getColumns(data: { [key: string]: {} | string }) {
     }
   })
 
-    columns.push({
-      title: '',
-      dataIndex: '',
-      maxWidth: '84%'
-    })
+  columns.push({
+    title: '',
+    dataIndex: '',
+    maxWidth: '84%'
+  })
 
   columns.push({
     title: 'Total',
@@ -80,7 +80,7 @@ function getColumns(data: { [key: string]: {} | string }) {
   return columns;
 }
 
-function getRows(data: { [key: string]: {} | string } []) {
+function getRows(data: { [key: string]: {} | string }[]) {
 
   let finalRows = [];
 
@@ -91,22 +91,22 @@ function getRows(data: { [key: string]: {} | string } []) {
       propertyArr.push(...Object.getOwnPropertyNames(el.location))
     }
 
-    let newRow = {key: `${i}`};
+    let newRow = { key: `${i}` };
     propertyArr.forEach(prop => {
-      if(prop === 'date' || prop === 'time' || prop ==='record_id' || prop === 'total_with_tax') {
+      if (prop === 'date' || prop === 'time' || prop === 'record_id' || prop === 'total_with_tax') {
         newRow = {
           ...newRow,
-          [prop]: `${prop === 'date' 
-            ? (new Date(el[prop].toString())).toLocaleDateString("en-UK") 
+          [prop]: `${prop === 'date'
+            ? (new Date(el[prop].toString())).toLocaleDateString("en-UK")
             : prop === 'time'
-            ? (new Date(el[prop].toString())).toLocaleTimeString("en-UK") 
-            : el[prop]}`
-        } 
+              ? (new Date(el[prop].toString())).toLocaleTimeString("en-UK")
+              : el[prop]}`
+        }
       } else {
         newRow = {
           ...newRow,
           [prop]: el.location[prop]
-        } 
+        }
       }
     })
 
@@ -152,7 +152,7 @@ const ReportsView = () => {
           setTableData([])
         }
       })
-      .finally(() =>  setIsLoading(false))
+      .finally(() => setIsLoading(false))
   }, [activeTimeFilter, activePropertyFilter]);
 
   /* HANDLE FILTER CHANGE FROM SEGMENTED COMPONENT */
@@ -238,16 +238,13 @@ const ReportsView = () => {
             treeData={filters}
             onChange={(value) => handleCustomFiltersChange(value)}
           />
-          <Button
-            type='primary'
-            style={{
-              minWidth: "5vw",
-              backgroundColor: JSON.stringify(selectedPropertyFilters) === JSON.stringify(activePropertyFilter) ? 'transparent' : '#1677ff',
-              border: JSON.stringify(selectedPropertyFilters) === JSON.stringify(activePropertyFilter) ? '1px solid #1677ff' : 'none',
-              color: JSON.stringify(selectedPropertyFilters) === JSON.stringify(activePropertyFilter) ? '#1677ff' : 'white',
-            }}
-            onClick={() => applyNewCustomFilters()}
-          >Apply</Button>
+          {JSON.stringify(selectedPropertyFilters) !== JSON.stringify(activePropertyFilter) &&
+            <Button
+              type='primary'
+              style={{minWidth: "5vw"}}
+              onClick={() => applyNewCustomFilters()}
+            >Apply</Button>
+          }
         </div>
         <div className={styles.dateSelector}>
           <Segmented
@@ -274,8 +271,8 @@ const ReportsView = () => {
             defaultPageSize: 50
           }}
           scroll={{
-            y: "60vh",
-          }}      
+            y: "72vh",
+          }}
           columns={tableColumns}
           dataSource={tableData}
           bordered
