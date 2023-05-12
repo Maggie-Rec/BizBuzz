@@ -29,3 +29,17 @@ export function removePositionLocal(widgetId) {
   }
   window.localStorage.setItem("widgetPositions", JSON.stringify(positions));
 }
+
+export function restorePosition(id, setPosition, setSize) {
+  try {
+    let positions = JSON.parse(window.localStorage.getItem("widgetPositions"));
+    let index = positions.findIndex(element => element.widgetId === id);
+    console.log(index);
+    if (index >= 0) {
+      setPosition(positions[index].position);
+      setSize(positions[index].size);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

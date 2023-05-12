@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,7 +25,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Rnd } from "react-rnd";
 import { useDispatch } from "react-redux";
-import savePositionLocal from "../../../utils/posSaver";
+import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
 
 interface Props {
   pieChartSelection: string[],
@@ -169,21 +167,7 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
 
     fetchData();
 
-    function restorePosition() {
-      try {
-        let positions = JSON.parse(window.localStorage.getItem("widgetPositions"));
-        let index = positions.findIndex(element => element.widgetId === id);
-        console.log(index);
-        if (index >= 0) {
-          setPosition(positions[index].position);
-          setSize(positions[index].size);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    restorePosition();
+    restorePosition(id, setPosition, setSize);
 
   }, [pieChartSelection]);
 

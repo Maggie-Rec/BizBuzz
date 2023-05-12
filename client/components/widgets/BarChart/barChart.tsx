@@ -22,7 +22,8 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
 
 interface Props {
   barChartSelection: string[];
@@ -70,6 +71,7 @@ const BarChart = ({ barChartSelection, barChartPeriod, id, type }: Props) => {
 
   const onDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });
+    savePositionLocal(id, size, position);
   };
 
   const onResizeStop = (e, direction, ref, delta, position) => {
@@ -78,9 +80,12 @@ const BarChart = ({ barChartSelection, barChartPeriod, id, type }: Props) => {
       height: parseInt(ref.style.height),
     });
     setPosition(position);
-   
+    savePositionLocal(id, size, position);
   };
 
+  useEffect(() => {
+    restorePosition(id, setPosition, setSize);
+  }, [])
 
   return (
     <Rnd

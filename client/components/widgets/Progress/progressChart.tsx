@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
 import getThisPeriod from "../../../utils/thisTimePeriod";
-import savePositionLocal from "../../../utils/posSaver";
+import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
 
 interface Props {
   id: number,
@@ -76,20 +76,6 @@ const ProgressChart = ({ id, target, period, type }: Props) => {
     return response;
   };
 
-  function restorePosition() {
-    try {
-      let positions = JSON.parse(window.localStorage.getItem("widgetPositions"));
-      let index = positions.findIndex(element => element.widgetId === id);
-      console.log(index);
-      if (index >= 0) {
-        setPosition(positions[index].position);
-        setSize(positions[index].size);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     fetchTotals()
       .then((data: any) => {
@@ -97,7 +83,7 @@ const ProgressChart = ({ id, target, period, type }: Props) => {
         setCurrent(Number(data._sum.total_with_tax) as number);
       });
     
-    restorePosition();
+    restorePosition(id, setPosition, setSize);
   }, [current]);
 
   return (
