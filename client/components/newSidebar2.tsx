@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import styles from '../styles/newSideBar2.module.css';
-import { CaretLeftOutlined, CaretRightOutlined, BarChartOutlined, DashboardOutlined, ControlOutlined, UserOutlined } from '@ant-design/icons';
+import { CaretLeftOutlined, CaretRightOutlined, BarChartOutlined, DashboardOutlined, ControlOutlined, UserOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -17,16 +17,15 @@ const NewSideBar2 = () => {
     <div>
       <div
         className={styles.container}
-        style={{ width: isCollapsed ? '5vw' : '15vw' }}
+        style={{ width: isCollapsed ? '5vw' : '15vw', transition: "all 0.4s infinite" }}
       >
         <div className={styles.userInfoContainer}>
-          <div className={styles.iconContainer} style={{ justifyContent: isCollapsed ? 'center' : 'flex-start', paddingLeft: isCollapsed ? '' : '0.7vw' }}>
-            {isCollapsed
-              ? <h1>BB</h1>
-              : <h1>BizBuzz 🐝</h1>
-            }
+          <div className={styles.iconContainer}
+            style={{paddingRight: isCollapsed? '0' : '0.48vw', flexDirection: 'row-reverse'}}
+          >
+            <h1>BizBuzz 🐝</h1>
           </div>
-          <div className={styles.iconContainer} style={{ justifyContent: isCollapsed ? 'center' : 'flex-start', paddingLeft: isCollapsed ? '' : '0.7vw' }}>
+          <div className={styles.iconContainer}>
             <UserOutlined className={styles.icon} />
             {!isCollapsed && <h3>Your Name</h3>}
           </div>
@@ -35,7 +34,6 @@ const NewSideBar2 = () => {
           <div className={styles.moduleList}>
             <div
               className={styles.iconContainer}
-              style={{ justifyContent: isCollapsed ? 'center' : 'flex-start', paddingLeft: isCollapsed ? '' : '0.7vw' }}
               onClick={() => dispatch({ type: 'CHANGE_CURRENT_TAB', payload: 'dashboard' })}
             >
               <DashboardOutlined
@@ -45,7 +43,6 @@ const NewSideBar2 = () => {
             </div>
             <div
               className={styles.iconContainer}
-              style={{ justifyContent: isCollapsed ? 'center' : 'flex-start', paddingLeft: isCollapsed ? '' : '0.7vw' }}
               onClick={() => dispatch({ type: 'CHANGE_CURRENT_TAB', payload: 'reports' })}
             >
               <BarChartOutlined
@@ -53,9 +50,18 @@ const NewSideBar2 = () => {
               />
               {!isCollapsed && <p>Sales Reports</p>}
             </div>
+            <div
+              className={styles.iconContainer}
+              onClick={() => dispatch({ type: 'CHANGE_CURRENT_TAB', payload: 'reports' })}
+            >
+              <EnvironmentOutlined
+                className={styles.icon}
+              />
+              {!isCollapsed && <p>Locations</p>}
+            </div>
           </div>
           <div>
-            <div className={styles.iconContainer} style={{ justifyContent: isCollapsed ? 'center' : 'flex-start', paddingLeft: isCollapsed ? '' : '0.7vw' }}>
+            <div className={styles.iconContainer}>
               <ControlOutlined className={styles.icon} />
               {!isCollapsed && <p>Options</p>}
             </div>
@@ -65,7 +71,7 @@ const NewSideBar2 = () => {
       <div
         className={styles.collapseButton}
         onClick={() => setIsCollapsed(!isCollapsed)}
-        style={{ left: isCollapsed ? '5vw' : '15vw' }}
+        style={{ left: isCollapsed ? '5vw' : '15vw', transition: "all 0.4s" }}
       >{isCollapsed
         ? <CaretRightOutlined />
         : <CaretLeftOutlined />}

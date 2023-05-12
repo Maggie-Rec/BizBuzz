@@ -20,8 +20,15 @@
   background-color: antiquewhite;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   border-radius: 6px;
   gap: 0.7vw;
+  overflow: hidden;
+  padding-left: 0.75vw;
+}
+
+.iconContainer > * {
+  white-space: nowrap;
 }
 
 .icon {
