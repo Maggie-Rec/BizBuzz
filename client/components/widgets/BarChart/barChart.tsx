@@ -39,8 +39,8 @@ const BarChart = ({
   id,
 }: Props) => {
   const dispatch = useDispatch();
-  console.log(selectedData);
-  console.log(barChartPeriod);
+  // console.log(selectedData);
+  // console.log(barChartPeriod);
 
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
@@ -74,19 +74,19 @@ const BarChart = ({
     datasets: [
       {
         label: barChartSelection[0],
-        data: [1, 20, 16],
+        data: [1, 6, 48],
         backgroundColor: "#002642",
       },
-      {
-        label: barChartSelection[1],
-        data: [3, 12, 28],
-        backgroundColor: "#840032",
-      },
-      {
-        label: barChartSelection[2],
-        data: [1, 5, 16],
-        backgroundColor: "#FFC65C",
-      },
+      // {
+      //   label: barChartSelection[1],
+      //   data: [12],
+      //   backgroundColor: "#840032",
+      // },
+      // {
+      //   label: barChartSelection[2],
+      //   data: [16],
+      //   backgroundColor: "#FFC65C",
+      // },
     ],
   };
 

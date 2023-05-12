@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Space, Select, Button, DatePicker } from "antd";
+import { Space, Select, Button, DatePicker, Modal } from "antd";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useDispatch } from "react-redux";
 import BarChart from "./barChart";
 import { generateQuery } from "../../../utils/queryKing";
 
 const { RangePicker } = DatePicker;
-const BarMenu = () => {
+const BarMenu = ({ func }) => {
   const dispatch = useDispatch();
   const [option1, setOption1] = useState("");
   // const [option2, setOption2] = useState("");
@@ -15,10 +15,14 @@ const BarMenu = () => {
   const [monthEnd, setMonthEnd] = useState("");
   const [period, setPeriod] = useState([] as string[]);
   const [months, setMonths] = useState([] as string[]);
+  const [isShowing, setIsShowing] = useState(true);
 
+  useEffect(() => {
+    monthArray();
+  }, [monthEnd]);
   const addWidget = () => {
     handleChange(period);
-    //  generateQuery([option1], [new Date(period[0]), new Date(period[1])]);
+    //  console.log("addwidget",monthArray());
 
     function newBarChart() {
       return (
@@ -59,6 +63,7 @@ const BarMenu = () => {
   const handleChange = (string: string[]) => {
     const monthNumber1: Number = new Date(string[0]).getMonth();
     const monthNumber2: Number = new Date(string[1]).getMonth();
+    console.log(string)
 
     const getMonthName = (monthNumber) => {
       return allMonths[monthNumber];
@@ -68,9 +73,6 @@ const BarMenu = () => {
     setMonthEnd(getMonthName(monthNumber2));
   };
 
-  useEffect(() => {
-    monthArray();
-  }, [monthEnd]);
   const monthArray = () => {
     let startIndex = allMonths.indexOf(monthStart);
     let endIndex = allMonths.indexOf(monthEnd);
@@ -82,15 +84,31 @@ const BarMenu = () => {
     }
 
     setMonths(monthsArray);
+    console.log("from months Array", months, period);
 
     // return monthsArray;
   };
 
+  useEffect(() => {
+    setIsShowing(true);
+  }, []);
+
+  function handleCancel() {
+    setIsShowing(!isShowing);
+    func();
+  }
+
   return (
-    <div className={styles.container}>
-      <h1>Bar Chart</h1>
-      <Space wrap>
-        {/* <Select
+    <Modal
+      open={isShowing}
+      onCancel={() => handleCancel()}
+      cancelButtonProps={{ style: { display: "none" } }}
+      onOk={addWidget}
+    >
+      <div className={styles.container}>
+        <h1>Bar Chart</h1>
+        <Space wrap>
+          {/* <Select
           defaultValue="option"
           style={{ width: 120 }}
           onChange={setOption1}
@@ -107,7 +125,7 @@ const BarMenu = () => {
             { value: "region", label: "Location Region" },
           ]}
         /> */}
-        {/* <Select
+          {/* <Select
           defaultValue="option"
           style={{ width: 120 }}
           onChange={setOption2}
@@ -125,29 +143,30 @@ const BarMenu = () => {
           ]}
         /> */}
 
-        <Select
-          defaultValue="option"
-          style={{ width: 120 }}
-          onChange={setOption1}
-          className={styles.input}
-          options={[
-            { value: "item", label: "Item Category" },
-            {
-              value: "customer",
-              label: "Client gender",
-            },
-          ]}
-        />
-
-        <Space direction="vertical" size={12}>
-          <RangePicker
-            picker="month"
-            onChange={(value, string) => setPeriod(string)}
+          <Select
+            defaultValue="option"
+            style={{ width: 120 }}
+            onChange={setOption1}
+            className={styles.input}
+            options={[
+              { value: "item", label: "Item Category" },
+              {
+                value: "customer",
+                label: "Client gender",
+              },
+            ]}
           />
+
+          <Space direction="vertical" size={12}>
+            <RangePicker
+              picker="month"
+              onChange={(value, string) => setPeriod(string)}
+            />
+          </Space>
         </Space>
-      </Space>
-      <Button onClick={addWidget}>Display</Button>
-    </div>
+        <Button onClick={() => handleChange(period)}>Apply</Button>
+      </div>
+    </Modal>
   );
 };
 

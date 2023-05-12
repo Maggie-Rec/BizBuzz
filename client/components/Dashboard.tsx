@@ -40,12 +40,16 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
+  function refreshActiveMenu () {
+    setActiveMenu(undefined)
+  }
+
   const showWindow = (value: string) => {
    
     if(value === "bar-chart"){
-    setActiveMenu(<BarMenu />);
+    setActiveMenu(<BarMenu func={refreshActiveMenu}/>);
     } if (value === "pie-chart") {
-      setActiveMenu(<PieMenu />);
+      setActiveMenu(<PieMenu func={refreshActiveMenu}/>);
     }if (value === "line-chart") {
       setActiveMenu(<LineMenu showWidget={showWidget} />);
     }if (value === "progress-chart") {
@@ -163,9 +167,9 @@ const Dashboard = () => {
 
         <section className={styles.widgetContainer}>{widgetSelection}</section>
 
-        <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
+        {/* <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}> */}
           {activeMenu}
-        </Modal>
+        {/* </Modal> */}
       </div>
     </div>
   );
