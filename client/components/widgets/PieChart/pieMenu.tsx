@@ -4,7 +4,7 @@ import styles from "../../../styles/widgets/pieMenu.module.css";
 import { useDispatch } from "react-redux";
 import PieChart from "./pieChart";
 
-export default function PieMenu({ handleOk }) {
+export default function PieMenu() {
   const [period, setPeriod] = useState('past_week');
   const [dataType, setDataType] = useState('["transaction", { "location_id": "value" }]');
 

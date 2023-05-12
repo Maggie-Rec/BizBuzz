@@ -50,6 +50,32 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
     });
   }
 
+  const data = {
+    labels,
+    datasets: [
+      {
+        data: pieData,
+        backgroundColor: ["#F47A1F", "#FDBB2F", "#377B2B", "#7AC142", "#007CC3",
+          "#00529B", "#F66D44", "#FEAE65", "#E6F69D", "#AADEA7", "#64C2A6", "#2D87BB"]
+      },
+    ],
+  };
+
+  const onDragStop = (e, d) => {
+    setPosition({ x: d.x, y: d.y });
+    savePositionLocal(id, size, position);
+  };
+
+  const onResizeStop = (e, direction, ref, delta, position) => {
+    setSize({
+      width: parseInt(ref.style.width),
+      height: parseInt(ref.style.height),
+    });
+    setPosition(position);
+    savePositionLocal(id, size, position);
+    console.log(size);
+  };
+
   useEffect(() => {
     let periodStart = '';
     switch (
@@ -171,32 +197,6 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
 
   }, [pieChartSelection]);
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        data: pieData,
-        backgroundColor: ["#F47A1F", "#FDBB2F", "#377B2B", "#7AC142", "#007CC3",
-          "#00529B", "#F66D44", "#FEAE65", "#E6F69D", "#AADEA7", "#64C2A6", "#2D87BB"]
-      },
-    ],
-  };
-
-  const onDragStop = (e, d) => {
-    setPosition({ x: d.x, y: d.y });
-    savePositionLocal(id, size, position);
-  };
-
-  const onResizeStop = (e, direction, ref, delta, position) => {
-    setSize({
-      width: parseInt(ref.style.width),
-      height: parseInt(ref.style.height),
-    });
-    setPosition(position);
-    savePositionLocal(id, size, position);
-    console.log(size);
-  };
-
   return (
     <Rnd
       size={size}
@@ -214,8 +214,8 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
           <DragOutlined />
           <CloseOutlined onClick={(event) => handleClose()} />
         </div>
+        <p style={{ textAlign: "center" }}>Sales for the {pieChartSelection[0].replace('_', ' ')} by: {pieChartSelection[1].match(/\w+/g)[1]}</p>
         <Pie data={data} />
-        Sales {pieChartSelection[0]} {pieChartSelection[1]}
       </div>
     </Rnd>
   );

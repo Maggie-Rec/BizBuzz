@@ -1,10 +1,12 @@
-"use client";
+"use client"
 
 import React from "react";
 import styles from '../styles/NavBar.module.css'
 import type { MenuProps } from "antd";
 import { Button, Dropdown, Space } from "antd";
 import Profile from "./Profile";
+import Image from "next/image";
+import bee from "../assets/bee.jpg";
 
 const NavBar = () => {
   const items: MenuProps["items"] = [
@@ -24,7 +26,8 @@ const NavBar = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.logo}>Logo</div>
+      {/* <div className={styles.logo}>Logo</div> */}
+      <Image src={bee} height={200} alt="bee" />
       <h1 className={styles.title}>BizBuzz Dashboard</h1>
       <div className={styles.user}>
         <div className={styles.dropdown}>

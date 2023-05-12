@@ -106,7 +106,8 @@ const ProgressChart = ({ id, target, period, type }: Props) => {
           <CloseOutlined onClick={handleClose} />
         </div>
         <div className={styles.circle}>
-          <h1>{current} of {target}<br />{period}</h1>
+          <h1 style={{ textAlign: "center" }}>Earned £{Math.floor(current)} of £{target} {period.replace('_', ' ')}</h1>
+          <br />
           <Progress type="circle" percent={Math.ceil(current / target * 100)} />
         </div>
       </div>
