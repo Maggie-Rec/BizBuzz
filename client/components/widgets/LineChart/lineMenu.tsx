@@ -62,7 +62,7 @@ const LineMenu = ({ showWidget }: Props) => {
 
   return (
     <div className={styles.container}>
-      {/* <Button
+      <Button
         style={{
           color: 'white',
           backgroundColor: 'red'
@@ -91,7 +91,7 @@ const LineMenu = ({ showWidget }: Props) => {
           });
         }}>
         Shortcut for testing purposes only
-      </Button> */}
+      </Button>
       <h1>Line Graph</h1>
       <Space wrap>
         <p>Y-axis:</p>

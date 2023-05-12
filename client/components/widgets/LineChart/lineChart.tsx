@@ -24,10 +24,14 @@ ChartJS.register(
 );
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../../../styles/widgets/lineChart.module.css";
 import { Rnd } from "react-rnd";
 import { useState } from "react";
+import { generateKey } from "crypto";
+import { generateQuery } from "../../../utils/queryKing";
+import { generateTimePeriods } from '../../../utils/generateTimePeriods';
+import { Alex_Brush } from "next/font/google";
 
 interface Props {
   showWidget: () => void;
@@ -49,9 +53,54 @@ const LineChart = ({ showWidget }: Props) => {
     "May",
     "June",
     "July",
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
   ];
+
+  const queriesInfo = useSelector((state) => { return state.lineChart });
+
+
+  console.log('Queries info:', queriesInfo);
+
+  let requests = [];
+  let { startDates, endDates } = generateTimePeriods({
+    start: queriesInfo.period.start,
+    end: queriesInfo.period.end,
+    unit: queriesInfo.axes.x[1]
+  });
+  if (queriesInfo.axes.y[1] === 'acrossLocations') {
+    for (let i = 0; i < startDates.length; i++) {
+      requests.push({
+        label: 'Total',
+        query: generateQuery(queriesInfo.filters, [startDates[i], endDates[i], 'aggregate'])
+      });
+    }
+
+  } else if (queriesInfo.axes.y[1] === 'inSpecificLocations') {
+
+
+  } else if (queriesInfo.axes.y[1] === 'inEachLocation') {
+    for (let i = 0; i < startDates.length; i++) {
+      requests.push({
+        label: 'Total',
+        query: generateQuery(queriesInfo.filters, [startDates[i], endDates[i], 'aggregate'])
+      });
+    }
+  }
+  console.log(requests);
+
+
+
+  // Each locationRequest represents either total sales, or sales in a particular location
+  // Aim to convert these, through use of fetch requests, into objects as per below
+  // Each fetch request will provide one number for the data
+
+
   const data = {
-    labels: labels,
+    labels: labels.slice(0, 7),
     datasets: [
       {
         label: "Dataset 1",

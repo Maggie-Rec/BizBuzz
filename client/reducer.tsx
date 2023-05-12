@@ -71,11 +71,12 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
   switch (action.type) {
     case "ADD_FILTER":
       const newState = { ...state };
+      const newFilter = [action.payload.filter, action.payload.obj[action.payload.filter]];
       const index = newState.filterNames.findIndex((filterName) => filterName === action.payload.filter);
       index === -1 ?
-        (newState.filters.push(action.payload.obj),
+        (newState.filters.push(newFilter),
           newState.filterNames.push(action.payload.filter))
-        : newState.filters[index] = action.payload.obj;
+        : newState.filters[index] = newFilter;
       ;
       return newState;
     case "SET_AXES":
@@ -83,7 +84,6 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
       copy.axes = action.payload;
       return copy;
     case "FETCH_DATA":
-      console.log(state);
       let requests = [];
       if (state.axes.x && state.axes.x[1]) {
         const { startDates, endDates } = generateTimePeriods({
@@ -94,7 +94,6 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
         for (let i = 0; i < startDates.length; i++) {
           requests.push([[startDates[i], endDates[i]], state.filters])
         }
-        console.log('Need to make requests with:', requests);
       }
       return state;
     case "SET_DATES": {
