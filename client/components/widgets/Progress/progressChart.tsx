@@ -6,6 +6,7 @@ import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
 import getThisPeriod from "../../../utils/thisTimePeriod";
 import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
+import fetchTransactionData from "../../../APIs/database";
 
 interface Props {
   id: number,
@@ -43,76 +44,65 @@ const ProgressChart = ({ id, target, period, type }: Props) => {
   };
 
   async function fetchTotals() {
-    console.log(getThisPeriod(period));
-    let response = await fetch("http://localhost:3456/transactions", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
+    let response = await fetchTransactionData({
+      _sum: {
+        total_with_tax: true
       },
-      body: JSON.stringify({
-        query: {
-          _sum: {
-            total_with_tax: true
+      where: {
+        AND: [
+          {
+            date: {
+              gt: getThisPeriod(period)[0]
+            }
           },
-          where: {
-            AND: [
-              {
-                date: {
-                  gt: getThisPeriod(period)[0]
-                }
-              },
-              {
-                date: {
-                  lt: getThisPeriod(period)[1]
-                }
-              }
-            ]
+          {
+            date: {
+              lt: getThisPeriod(period)[1]
+            }
           }
-        },
-        keyword: "aggregate"
-      })
+        ]
+      }
+    }, "aggregate");
+  return response;
+};
+
+useEffect(() => {
+  fetchTotals()
+    .then((data: any) => {
+      console.log(data);
+      setCurrent(Number(data._sum.total_with_tax) as number);
     });
-    response = await response.json();
-    return response;
-  };
 
-  useEffect(() => {
-    fetchTotals()
-      .then((data: any) => {
-        console.log(data);
-        setCurrent(Number(data._sum.total_with_tax) as number);
-      });
-    
-    restorePosition(id, setPosition, setSize);
-  }, [current]);
+  restorePosition(id, setPosition, setSize);
+}, [current]);
 
-  return (
-    <Rnd
-      size={size}
-      position={position}
-      onDragStop={onDragStop}
-      onResizeStop={onResizeStop}
-      dragGrid={[30, 30]}
-      resizeGrid={[30, 30]}
-      bounds="parent"
-      minWidth={330}
-      maxWidth={330}
-      minHeight={300}
-      maxHeight={300}
-    >
-      <div className={styles.chart}>
-        <div className={styles.icons}>
-          <DragOutlined />
-          <CloseOutlined onClick={handleClose} />
-        </div>
-        <div className={styles.circle}>
-          <h1 style={{ textAlign: "center" }}>Earned £{Math.floor(current)} of £{target} {period.replace('_', ' ')}</h1>
-          <br />
-          <Progress type="circle" percent={Math.ceil(current / target * 100)} />
-        </div>
+return (
+  <Rnd
+    size={size}
+    position={position}
+    onDragStop={onDragStop}
+    onResizeStop={onResizeStop}
+    dragGrid={[30, 30]}
+    resizeGrid={[30, 30]}
+    bounds="parent"
+    minWidth={330}
+    maxWidth={330}
+    minHeight={300}
+    maxHeight={300}
+  >
+    <div className={styles.chart}>
+      <div className={styles.icons}>
+        <DragOutlined />
+        <CloseOutlined onClick={handleClose} />
       </div>
-    </Rnd>
-  );
+      <div className={styles.circle}>
+        <h1 style={{ textAlign: "center" }}>Earned £{Math.floor(current)} of £{target} {period.replace('_', ' ')}</h1>
+        <br />
+        <Progress type="circle" percent={Math.ceil(current / target * 100)} />
+      </div>
+    </div>
+  </Rnd>
+);
 };
 
 export default ProgressChart;
