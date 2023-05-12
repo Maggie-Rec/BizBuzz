@@ -71,11 +71,12 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
   switch (action.type) {
     case "ADD_FILTER":
       const newState = { ...state };
+      const newFilter = [action.payload.filter, action.payload.obj[action.payload.filter]];
       const index = newState.filterNames.findIndex((filterName) => filterName === action.payload.filter);
       index === -1 ?
-        (newState.filters.push(action.payload.obj),
+        (newState.filters.push(newFilter),
           newState.filterNames.push(action.payload.filter))
-        : newState.filters[index] = action.payload.obj;
+        : newState.filters[index] = newFilter;
       ;
       return newState;
     case "SET_AXES":

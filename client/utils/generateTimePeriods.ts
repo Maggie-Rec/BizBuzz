@@ -35,18 +35,18 @@ function monthData(month, year = 1) {
   if (month === 12) return { name: 'December', lastDay: 31 };
 }
 function createLastOfMonth({ month, year }) {
-  const last = new Date(`${monthData(month).lastDay} ${monthData(month).name} ${year} 23:59:59.999`).toISOString();
+  const last = new Date(`${monthData(month).lastDay} ${monthData(month).name} ${year} 23:59:59.999`);
   return last;
 }
 function createFirstOfMonth({ month, year }) {
-  const first = new Date(`1 ${monthData(month).name} ${year} 0:00:00.000`).toISOString();
+  const first = new Date(`1 ${monthData(month).name} ${year} 0:00:00.000`);
   return first;
 }
 function createYears({ start, number }) {
   let [yearStarts, yearEnds] = [[], []];
   for (let i = 0; i < number; i++) {
-    yearStarts.push(new Date(`31 December ${start.year + i - 1} 23:59:59.999`).toISOString());
-    yearEnds.push(new Date(`1 January ${start.year + i + 1} 00:00:00.000`).toISOString());
+    yearStarts.push(new Date(`31 December ${start.year + i - 1} 23:59:59.999`));
+    yearEnds.push(new Date(`1 January ${start.year + i + 1} 00:00:00.000`));
   }
   return { startDates: yearStarts, endDates: yearEnds };
 }
@@ -72,8 +72,8 @@ function createWeeks({ start, number }) {
   obj.hour = obj.minute = 0;
   let currentDay = DateTime.fromObject(obj);
   for (let i = 0; i < number; i += 1) {
-    weekStarts.push(currentDay.minus({ milliseconds: 1 }).toISO());
-    weekEnds.push(currentDay.plus({ days: 7 }).toISO());
+    weekStarts.push(currentDay.minus({ milliseconds: 1 }));
+    weekEnds.push(currentDay.plus({ days: 7 }));
     currentDay = currentDay.plus({ days: 7 });
   }
   return { startDates: weekStarts, endDates: weekEnds };
@@ -84,8 +84,8 @@ function createDays({ start, number }) {
   obj.hour = obj.minute = 0;
   let currentDay = DateTime.fromObject(obj);
   for (let i = 0; i < number; i++) {
-    dayStarts.push(currentDay.minus({ milliseconds: 1 }).toISO());
-    dayEnds.push(currentDay.plus({ days: 1 }).toISO());
+    dayStarts.push(currentDay.minus({ milliseconds: 1 }));
+    dayEnds.push(currentDay.plus({ days: 1 }));
     currentDay = currentDay.plus({ days: 1 });
   }
   return { startDates: dayStarts, endDates: dayEnds };
