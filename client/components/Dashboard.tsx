@@ -127,7 +127,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.toolBar}>
         <Space wrap>
           <Popover content={calendar} trigger="click">

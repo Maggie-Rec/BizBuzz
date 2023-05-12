@@ -1,16 +1,19 @@
+.container {
+  width: 100%;
+}
+
 .containerDashboard {
   display: flex;
   flex-direction: column;
-  height: 88vh;
-  width: 100vw;
+  height: 90vh;
+  min-width: 85vw;
   background: radial-gradient(circle, #f4f4f4 10%, transparent 11%);
   background-size: 2em 2em;
   background-color: #ffffff;
   opacity: 1;
 }
 .toolBar {
-  /* border: 1px solid black; */
-  width: 87vw;
+  min-width: 85vw;
   height: 10vh;
   background-color: #ffffff;
   display: flex;

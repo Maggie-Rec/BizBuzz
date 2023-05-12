@@ -28,27 +28,23 @@ const MainPage = () => {
   return (
 
     <Provider store={store}>
-      {/* <div>
+      <div>
         {isLogged ? (
           <LoginPage />
         ) : (
           <div>
-            <NavBar />
-            <div className="container">
-              <SideBar />
-              {
-                isOnReports
-                ? <ReportsView/>
-                : <Dashboard/>
+            {/* <NavBar /> */}
+            <div style={{ display: 'flex' }}>
+              <NewSideBar2 />
+              {isOnReports 
+                ? <ReportsView />
+                : <Dashboard />
               }
             </div>
           </div>
         )}
-      </div> */}
-      <div style={{display: 'flex'}}>
-        <NewSideBar2/>
-        <ReportsView/>
       </div>
+
     </Provider>
   );
 };
