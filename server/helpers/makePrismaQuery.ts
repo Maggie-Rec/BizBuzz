@@ -15,6 +15,12 @@ export function makePrismaQuery({ keyword, userID, query, table }: { keyword: st
       return prisma[`${table}${userID.toString()}`].aggregate(query);
     } else if (keyword === 'groupBy') {
       return prisma[`${table}${userID.toString()}`].groupBy(query);
+    } else if (keyword === 'create') {
+      return prisma[`${table}${userID.toString()}`].createMany(query);
+    } else if (keyword === 'update') {
+      return prisma[`${table}${userID.toString()}`].update(query);
+    } else if (keyword === 'delete') {
+      return prisma[`${table}${userID.toString()}`].deleteMany(query);
     } else {
       return false;
     }
