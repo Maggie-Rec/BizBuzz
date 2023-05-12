@@ -8,7 +8,7 @@ import { legacy_createStore } from "redux";
 import rootReducer from "../reducer";
 
 /* COMPONENTS */
-
+import NewSideBar from "../components/newSideBar";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Dashboard from "../components/Dashboard";
@@ -28,7 +28,7 @@ const MainPage = () => {
   return (
 
     <Provider store={store}>
-      <div>
+      {/* <div>
         {isLogged ? (
           <LoginPage />
         ) : (
@@ -44,7 +44,8 @@ const MainPage = () => {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
+    <NewSideBar/>
     </Provider>
   );
 };
