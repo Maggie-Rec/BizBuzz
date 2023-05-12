@@ -11,16 +11,20 @@ const SideBar = () => {
 
   return (
     <div className={styles.containerSidebar}>
-      <div 
+      <div
         className={styles.component}
-        onClick={() => dispatch({type: 'CHANGE_CURRENT_TAB', payload: 'dashboard'})}
+        onClick={() => dispatch({ type: 'CHANGE_CURRENT_TAB', payload: 'dashboard' })}
       >Dashboard</div>
-      <div 
+      <div
         className={styles.component}
-        onClick={() => dispatch({type: 'CHANGE_CURRENT_TAB', payload: 'reports'})}
+        onClick={() => dispatch({ type: 'CHANGE_CURRENT_TAB', payload: 'reports' })}
       >Reports</div>
       <div className={styles.component}>Emails</div>
       <div className={styles.component}>Campaigns</div>
+      <div
+        className={styles.component}
+        onClick={() => dispatch({ type: 'CHANGE_CURRENT_TAB', payload: 'locations' })}
+      >Locations</div>
       <div className={styles.component}>Complaints</div>
       <div className={styles.component}>Employee Manager</div>
       <div className={styles.component}>Inventory</div>

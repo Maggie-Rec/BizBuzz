@@ -1,0 +1,9 @@
+.card {
+  background-color: peachpuff;
+}
+
+.cardSection {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+}
