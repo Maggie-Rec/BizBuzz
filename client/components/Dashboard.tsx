@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect, ReactNode, useRef } from "react";
 import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
 import LineChart from "./widgets/LineChart/lineChart";
@@ -9,6 +9,7 @@ import ProgressMenu from "./widgets/Progress/ProgressMenu";
 import BarChart from "./widgets/BarChart/barChart";
 import ProgressChart from "./widgets/Progress/progressChart";
 import { useSelector, useDispatch } from "react-redux";
+import Note from "./widgets/Note";
 
 import type { MenuProps } from "antd";
 import {
@@ -26,6 +27,7 @@ import {
   LineChartOutlined,
   DollarOutlined,
 } from "@ant-design/icons";
+import randomAlphaNumeric from "../utils/randomizer";
 
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
@@ -35,6 +37,10 @@ const Dashboard = () => {
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
   });
+
+  const notes = useSelector((state: any) => {
+    return state.notes;
+  })
 
   const dispatch = useDispatch();
 
@@ -49,7 +55,6 @@ const Dashboard = () => {
     } if (value === "progress-chart") {
       setActiveMenu(<ProgressMenu />);
     }
-    // setOpenMenu(event.target.textContent);
   };
 
   const showWidget = (chartType: string) => {
@@ -119,10 +124,30 @@ const Dashboard = () => {
     },
   ];
 
+  let containerRef = useRef<HTMLElement>();
+
+  function addNote() {
+    function newNote() {
+      return <Note
+        s={{ width: 300, height: 300 }} 
+        p={{ x: 10, y: 10 }} 
+        t={""}
+        c={""}
+        id={randomAlphaNumeric()}
+      />;
+    }
+    dispatch({
+      type: "ADD_NOTE",
+      payload: newNote()
+    });
+  };
+
   useEffect(() => {
     dispatch({
       type: "REPOPULATE_DASHBOARD",
     });
+
+    // setNotes(JSON.parse(window.localStorage.getItem("notes")) || [])
   }, []);
 
   return (
@@ -142,6 +167,7 @@ const Dashboard = () => {
             <RangePicker className={styles.dateSelector} />
           </Space>
         </div>
+        <Button onClick={addNote}>Add a note</Button>
         <Dropdown
           overlayStyle={{ width: "300px" }}
           menu={{ items, selectable: true }}
@@ -149,13 +175,17 @@ const Dashboard = () => {
           <Button>Add Widget</Button>
         </Dropdown>
       </div>
+
       <div className={styles.containerDashboard}>
         {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE */}
         {openWidget.chartType === "Line Chart" && (
           <LineChart showWidget={() => setOpenWidget({})} />
         )}
 
-        <section className={styles.widgetContainer}>{widgetSelection}</section>
+        <section className={styles.widgetContainer} ref={containerRef}>
+          { widgetSelection }
+          { notes }
+        </section>
 
         <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
           {activeMenu}

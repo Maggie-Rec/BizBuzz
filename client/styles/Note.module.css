@@ -1,0 +1,29 @@
+.Card {
+  background-color: peachpuff;
+}
+
+.noteTextarea {
+  border: none;
+  resize: none;
+  background-color: peachpuff;
+}
+
+.noteTextarea:focus {
+  border: none;
+  outline: none;
+}
+
+.title {
+  font-weight: bold;
+  font-size: large;
+}
+
+.content {
+  min-height: 200px;
+}
+
+.CloseOutlined {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
