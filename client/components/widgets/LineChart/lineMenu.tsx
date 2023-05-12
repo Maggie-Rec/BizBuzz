@@ -45,6 +45,7 @@ const LineMenu = ({ showWidget }: Props) => {
     )
   })
   useEffect(() => {
+    console.log('Sending payload:', { y: yAxis, x: xAxis });
     dispatch({
       type: "SET_AXES",
       payload: {
@@ -72,7 +73,7 @@ const LineMenu = ({ showWidget }: Props) => {
             type: "SET_AXES",
             payload: {
               x: ["time", "month"],
-              y: ["salesValue", "acrossLocations"]
+              y: ["salesValue", "inSpecificLocations"]
             }
           });
           dispatch({

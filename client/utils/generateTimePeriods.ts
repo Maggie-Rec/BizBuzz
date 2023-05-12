@@ -35,6 +35,7 @@ function monthData(month, year = 1) {
   if (month === 12) return { name: 'December', lastDay: 31 };
 }
 function createLastOfMonth({ month, year }) {
+  // console.log('Error handlling utils/GTP line 38:', month, year);
   const last = new Date(`${monthData(month).lastDay} ${monthData(month).name} ${year} 23:59:59.999`);
   return last;
 }
@@ -52,6 +53,7 @@ function createYears({ start, number }) {
 }
 function createQuarters({ start, number }) {
   let [quarterStarts, quarterEnds] = [[], []];
+  // console.log('Error handlling utils/GTP line 56:', start, number);
   for (let i = 0; i < 3 * number; i += 3) {
     quarterStarts.push(createLastOfMonth({ month: (start.month + i) % 12 - 1, year: Math.floor(start.year + (start.month + i - 1) / 12) }));
     quarterEnds.push(createFirstOfMonth({ month: (start.month + i + 3) % 12, year: Math.floor(start.year + (start.month + i + 3) / 12) }));

@@ -89,7 +89,11 @@ export function generateQuery(filterArr: string[] | object[], dateArr: Date[], k
       // e.g. "location_id:2".split(':') --> ["location_id", "2"]
       // --> property: 'location_id'
       // --> value we want to filter through: 2
-      const [property, value] = typeof el === 'string' ? el.split(':') : el;
+      let property, value;
+      if (typeof el === 'string') [property, value] = el.split(':');
+      if (Array.isArray(el)) [property, value] = el;
+      if (typeof el === 'object' && !Array.isArray(el)) console.log('Problem here, should be an array');
+      // const [property, value] = (typeof el === 'string' ? el.split(':') : el);
       // The above, if uncommented, is new code to cover non-string properties
       // const [property, value] = el.split(':');
       queryObj.query.where.OR.push({ [property]: parseInt(value) }) // parseInt because we need integers in DB

@@ -80,7 +80,19 @@ const LineChart = ({ showWidget }: Props) => {
     }
 
   } else if (queriesInfo.axes.y[1] === 'inSpecificLocations') {
-
+    console.log('inSpecificLocations');
+    if (queriesInfo.axes.y[2]) {
+      for (let location of queriesInfo.axes.y[2]) {
+        for (let i = 0; i < startDates.length; i++) {
+          requests.push({
+            label: 'Total',
+            query: generateQuery(queriesInfo.filters.concat(`location_id:${i}`), [startDates[i], endDates[i], 'aggregate'])
+          });
+        }
+      }
+    } else {
+      console.log("No query, error caught. This shouldn't occur if app is used as I expect.");
+    }
 
   } else if (queriesInfo.axes.y[1] === 'inEachLocation') {
     for (let i = 0; i < startDates.length; i++) {
@@ -89,12 +101,17 @@ const LineChart = ({ showWidget }: Props) => {
         query: generateQuery(queriesInfo.filters, [startDates[i], endDates[i], 'aggregate'])
       });
     }
+    for (let location of [0, 1, 2, 3, 4]) {
+      for (let i = 0; i < startDates.length; i++) {
+        requests.push({
+          label: 'Total',
+          query: generateQuery(queriesInfo.filters.concat({ 'location_id': location }), [startDates[i], endDates[i], 'aggregate'])
+        });
+      }
+    }
   }
-  console.log(requests);
-
-
-
-  // Each locationRequest represents either total sales, or sales in a particular location
+  console.log('Requests', requests);
+  // Each request represents either total sales, or sales in a particular location
   // Aim to convert these, through use of fetch requests, into objects as per below
   // Each fetch request will provide one number for the data
 
