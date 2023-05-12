@@ -31,10 +31,11 @@ import savePositionLocal from "../../../utils/posSaver";
 
 interface Props {
   pieChartSelection: string[],
-  id: number
+  id: number,
+  type: string
 };
 
-const PieChart = ({ pieChartSelection, id }: Props) => {
+const PieChart = ({ pieChartSelection, id, type }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
   const [pieData, setPieData] = useState([] as number[]);
   const [size, setSize] = useState({ width: 300, height: 300 });

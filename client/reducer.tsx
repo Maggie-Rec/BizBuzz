@@ -57,8 +57,7 @@ const barChartReducer = (state = initialStateBar, action) => {
 function stringifyWidgets(newState) {
   return JSON.stringify(
     newState.map((item) => {
-      console.log(item);
-      let widgetType = item.type.name;
+      let widgetType = item.props.type;
       let toSave = {} as { widgetType: string };
       toSave.widgetType = widgetType;
       Object.assign(toSave, item);
@@ -131,11 +130,11 @@ const widgetReducer = (state = [], action) => {
           try {
             if (item.widgetType === "PieChart") {
               return <PieChart {...item.props} key={randomAlphaNumeric()} />
-            } else if (item.type.name === "BarChart") {
+            } else if (item.widgetType === "BarChart") {
               return <BarChart {...item.props} key={randomAlphaNumeric()} />
-            } else if (item.type.name === "LineChart") {
+            } else if (item.widgetType === "LineChart") {
               return <LineChart {...item.props} key={randomAlphaNumeric()} />
-            } else if (item.type.name === "ProgressChart") {
+            } else if (item.widgetType === "ProgressChart") {
               return <ProgressChart {...item.props} key={randomAlphaNumeric()} />
             } else {
               return null;

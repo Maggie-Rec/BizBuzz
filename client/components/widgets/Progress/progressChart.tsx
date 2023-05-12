@@ -5,14 +5,16 @@ import { useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
 import getThisPeriod from "../../../utils/thisTimePeriod";
+import savePositionLocal from "../../../utils/posSaver";
 
 interface Props {
   id: number,
   target: number,
-  period: string
+  period: string,
+  type: string
 }
 
-const ProgressChart = ({ id, target, period }: Props) => {
+const ProgressChart = ({ id, target, period, type }: Props) => {
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
   const [current, setCurrent] = useState(0);
@@ -28,6 +30,7 @@ const ProgressChart = ({ id, target, period }: Props) => {
 
   const onDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });
+    savePositionLocal(id, size, position);
   };
 
   const onResizeStop = (e, direction, ref, delta, position) => {
@@ -36,7 +39,7 @@ const ProgressChart = ({ id, target, period }: Props) => {
       height: parseInt(ref.style.height),
     });
     setPosition(position);
-    console.log(size);
+    savePositionLocal(id, size, position);
   };
 
   async function fetchTotals() {
@@ -73,12 +76,28 @@ const ProgressChart = ({ id, target, period }: Props) => {
     return response;
   };
 
+  function restorePosition() {
+    try {
+      let positions = JSON.parse(window.localStorage.getItem("widgetPositions"));
+      let index = positions.findIndex(element => element.widgetId === id);
+      console.log(index);
+      if (index >= 0) {
+        setPosition(positions[index].position);
+        setSize(positions[index].size);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchTotals()
       .then((data: any) => {
         console.log(data);
         setCurrent(Number(data._sum.total_with_tax) as number);
-      })
+      });
+    
+    restorePosition();
   }, [current]);
 
   return (

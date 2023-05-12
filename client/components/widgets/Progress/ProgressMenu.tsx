@@ -7,8 +7,8 @@ import randomAlphaNumeric from "../../../utils/randomizer";
 
 function Progress() {
   const dispatch = useDispatch();
-  const [target, setTarget] = useState(0);
-  const [period, setPeriod] = useState("");
+  const [target, setTarget] = useState(1000);
+  const [period, setPeriod] = useState("this_month");
 
   function handleChange(event: ChangeEvent<HTMLInputElement>,
     setter: Dispatch<SetStateAction<number | string>>) {
@@ -22,6 +22,7 @@ function Progress() {
         target={target}
         period={period}
         key={randomAlphaNumeric()}
+        type={"ProgressChart"}
       />
     }
     dispatch({
@@ -40,6 +41,7 @@ function Progress() {
             I want to earn
           </span>
           <Input
+            defaultValue={1000}
             style={{ width: 120, marginLeft: 10 }}
             type="number"
             onChange={(event) => handleChange(event, setTarget)}
@@ -50,7 +52,7 @@ function Progress() {
           style={{ width: 120 }}
           onChange={setPeriod}
           className={styles.input}
-          defaultValue={'this month'}
+          defaultValue={'this_month'}
           options={[
             { value: "this_month", label: "this month" },
             { value: "this_quarter", label: "this quarter" },

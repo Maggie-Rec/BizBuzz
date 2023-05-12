@@ -28,9 +28,10 @@ interface Props {
   barChartSelection: string[];
   barChartPeriod: () => void;
   id: number;
+  type: string;
 }
 
-const BarChart = ({ barChartSelection, barChartPeriod, id }: Props) => {
+const BarChart = ({ barChartSelection, barChartPeriod, id, type }: Props) => {
   const dispatch = useDispatch();
 
   const [size, setSize] = useState({ width: 300, height: 300 });

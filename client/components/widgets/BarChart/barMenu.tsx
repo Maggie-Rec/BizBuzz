@@ -21,6 +21,7 @@ const BarMenu = () => {
           barChartPeriod = {monthArray}
           id={Date.now()}
           key={Date.now()}
+          type={"BarChart"}
         />
       );
     }

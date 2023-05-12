@@ -1,25 +1,23 @@
-'use client'
-
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Space, Select, Button } from "antd";
 import styles from "../../../styles/widgets/pieMenu.module.css";
 import { useDispatch } from "react-redux";
 import PieChart from "./pieChart";
 
-const PieMenu = () => {
-  const [period, setPeriod] = useState('');
-  const [dataType, setDataType] = useState('');
+export default function PieMenu({ handleOk }) {
+  const [period, setPeriod] = useState('past_week');
+  const [dataType, setDataType] = useState('["transaction", { "location_id": "value" }]');
 
   const dispatch = useDispatch();
 
-  function handleChange(value: string,
-    setter: (selection: string) => void) {
+  function handleChange(value: string, setter: (selection: string) => void) {
     setter(value);
   }
 
-  const addWidget = () => {
+  function addWidget() {
     function newPieChart() {
       return <PieChart
+        type={"PieChart"}
         pieChartSelection={[period, dataType]}
         id={Date.now()}
         key={Date.now()}
@@ -40,7 +38,7 @@ const PieMenu = () => {
           <Select
             defaultValue="past_week"
             style={{ width: 120 }}
-            onChange={(event) => handleChange(event, setPeriod)}
+            onChange={(value) => handleChange(value, setPeriod)}
             className={styles.input}
             options={[
               { value: "past_week", label: "Past week" },
@@ -53,9 +51,9 @@ const PieMenu = () => {
         <label>Present by
           <br />
           <Select
-            defaultValue="location"
+            defaultValue='["transaction", { "location_id": "value" }]'
             style={{ width: 120 }}
-            onChange={(event) => handleChange(event, setDataType)}
+            onChange={(value) => handleChange(value, setDataType)}
             className={styles.input}
             options={[
               // QUERY STRINGS TO PUT IN 'WHERE' OF THE PRISMA QUERY
@@ -76,9 +74,3 @@ const PieMenu = () => {
     </div>
   );
 };
-
-export default PieMenu;
-function showWidget(): void {
-  throw new Error("Function not implemented.");
-}
-

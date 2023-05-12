@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect, ReactNode } from "react";
 import styles from "../styles/Dashboard.module.css";
 import SMLCalendar from "./SmallCalendar";
@@ -42,13 +40,13 @@ const Dashboard = () => {
 
   const showWindow = (value: string) => {
     console.log(value);
-    if(value === "bar-chart"){
-    setActiveMenu(<BarMenu />);
+    if (value === "bar-chart") {
+      setActiveMenu(<BarMenu />);
     } if (value === "pie-chart") {
       setActiveMenu(<PieMenu />);
-    }if (value === "line-chart") {
+    } if (value === "line-chart") {
       setActiveMenu(<LineMenu showWidget={showWidget} />);
-    }if (value === "progress-chart") {
+    } if (value === "progress-chart") {
       setActiveMenu(<ProgressMenu />);
     }
     // setOpenMenu(event.target.textContent);
@@ -57,7 +55,8 @@ const Dashboard = () => {
   const showWidget = (chartType: string) => {
     setOpenWidget({ chartType });
   };
-  const handleOk = () => {
+
+  function handleOk() {
     setActiveMenu(false);
   };
 
@@ -151,9 +150,7 @@ const Dashboard = () => {
         </Dropdown>
       </div>
       <div className={styles.containerDashboard}>
-        {/* {openWidget.chartType === "Bar Chart" && (
-          <BarChart showWidget={() => setOpenWidget({})} />
-        )} */}
+        {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE */}
         {openWidget.chartType === "Line Chart" && (
           <LineChart showWidget={() => setOpenWidget({})} />
         )}
