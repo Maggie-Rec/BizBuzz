@@ -9,26 +9,20 @@ const { RangePicker } = DatePicker;
 const BarMenu = ({ func }) => {
   const dispatch = useDispatch();
   const [option1, setOption1] = useState("");
-  // const [option2, setOption2] = useState("");
-  // const [option3, setOption3] = useState("");
-  const [monthStart, setMonthStart] = useState("");
-  const [monthEnd, setMonthEnd] = useState("");
+  // // const [option2, setOption2] = useState("");
+  // // const [option3, setOption3] = useState("");
+
   const [period, setPeriod] = useState([] as string[]);
-  const [months, setMonths] = useState([] as string[]);
   const [isShowing, setIsShowing] = useState(true);
 
-  useEffect(() => {
-    monthArray();
-  }, [monthEnd]);
-  const addWidget = () => {
-    handleChange(period);
-    //  console.log("addwidget",monthArray());
 
-    function newBarChart() {
-      return (
+  const addWidget = () => {
+    dispatch({
+      type: "ADD_WIDGET",
+      payload: (
         <BarChart
           barChartSelection={[option1]}
-          barChartPeriod={months}
+          barChartPeriod={monthArray(period)}
           id={Date.now()}
           key={Date.now()}
           selectedData={generateQuery(
@@ -36,57 +30,38 @@ const BarMenu = ({ func }) => {
             [new Date(period[0]), new Date(period[1])]
           )}
         />
-      );
-    }
-
-    dispatch({
-      type: "ADD_WIDGET",
-      payload: newBarChart(),
+      ),
     });
+    handleCancel()
   };
 
-  const allMonths = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  const monthArray = (period) => {
+    const allMonths = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const monthNumber1 = new Date(period[0]).getMonth();
+    const monthNumber2 = new Date(period[1]).getMonth();
 
-  const handleChange = (string: string[]) => {
-    const monthNumber1: Number = new Date(string[0]).getMonth();
-    const monthNumber2: Number = new Date(string[1]).getMonth();
-    console.log(string)
+    
+    let selectedMonths: string[] = [];
 
-    const getMonthName = (monthNumber) => {
-      return allMonths[monthNumber];
-    };
-
-    setMonthStart(getMonthName(monthNumber1));
-    setMonthEnd(getMonthName(monthNumber2));
-  };
-
-  const monthArray = () => {
-    let startIndex = allMonths.indexOf(monthStart);
-    let endIndex = allMonths.indexOf(monthEnd);
-
-    let monthsArray: string[] = [];
-
-    for (let i = startIndex; i <= endIndex; i++) {
-      monthsArray.push(allMonths[i]);
+    for (let i: any = monthNumber1; i <= monthNumber2; i++) {
+      selectedMonths.push(allMonths[i]);
     }
+    
 
-    setMonths(monthsArray);
-    console.log("from months Array", months, period);
-
-    // return monthsArray;
+    return selectedMonths;
   };
 
   useEffect(() => {
@@ -164,7 +139,6 @@ const BarMenu = ({ func }) => {
             />
           </Space>
         </Space>
-        <Button onClick={() => handleChange(period)}>Apply</Button>
       </div>
     </Modal>
   );
