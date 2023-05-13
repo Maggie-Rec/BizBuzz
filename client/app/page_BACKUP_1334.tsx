@@ -11,7 +11,7 @@ import rootReducer from "../reducer";
 
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
-import Dashboard from "../components/dashboard/dashboard";
+import Dashboard from "../components/Dashboard";
 import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
 import LocationsView from "../components/LocationsView";

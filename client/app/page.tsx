@@ -29,9 +29,7 @@ const MainPage = () => {
     setIsOnReports(store.getState().currentTab === "reports")
   );
 
-  store.subscribe(() => 
-    setCurrentTab(store.getState().currentTab)
-  )
+  store.subscribe(() => setCurrentTab(store.getState().currentTab));
 
   return (
     <Provider store={store}>
@@ -40,14 +38,15 @@ const MainPage = () => {
           <NavBar />
           <div className="container">
             <SideBar />
-            {currentTab === 'dashboard'
-            ? <Dashboard />
-            : currentTab === 'reports' 
-            ? <ReportsView />
-            : currentTab === 'locations'
-            ? <LocationsView />
-            : <p>ERROR</p>
-            }
+            {currentTab === "dashboard" ? (
+              <Dashboard />
+            ) : currentTab === "reports" ? (
+              <ReportsView />
+            ) : currentTab === "locations" ? (
+              <LocationsView />
+            ) : (
+              <p>ERROR</p>
+            )}
           </div>
         </div>
       </div>

@@ -26,22 +26,22 @@ const LoginWindow = () => {
   }
   const handleLogin = async () => {
     console.log(email, password);
-    // const creds = {
-    //   username: email,
-    //   password: password,
-    // };
-    // const data = await getLogin(creds);
-    // const token = data.token
+    const creds = {
+      username: email,
+      password: password,
+    };
+    const data = await getLogin(creds);
+    const token = data.token
   };
 
   const handleRegistration = async () => {
     console.log(businessName, email, password);
-    // const user = {
-    //   username: businessName,
-    //   email: email,
-    //   password: password,
-    // };
-    // const data = await registerUser(user);
+    const user = {
+      username: businessName,
+      email: email,
+      password: password,
+    };
+    const data = await registerUser(user);
   };
 
   return (
