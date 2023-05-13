@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { getPathToSchema } from '../helpers/getPathToSchema';
 
-export function createItemSchema(userID: number) {
+export function createItemSchema(userID: string) {
   return `model Item_${userID} {
     SKU                 String          @id
     transactions        Transaction_${userID}[]
@@ -13,6 +13,6 @@ export function createItemSchema(userID: number) {
   `
 };
 
-export function addItemsTable(userID: number) {
+export function addItemsTable(userID: string) {
   fs.appendFileSync(getPathToSchema(), createItemSchema(userID));
 }

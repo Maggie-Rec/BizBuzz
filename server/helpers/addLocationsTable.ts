@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { getPathToSchema } from '../helpers/getPathToSchema';
 
-export function createLocationSchema(userID: number) {
+export function createLocationSchema(userID: string) {
   return `model Location_${userID} {
     id           Int             @id @default(autoincrement())
     name         String
@@ -14,6 +14,6 @@ export function createLocationSchema(userID: number) {
   `
 };
 
-export function addLocationsTable(userID: number) {
+export function addLocationsTable(userID: string) {
   fs.appendFileSync(getPathToSchema(), createLocationSchema(userID));
 }

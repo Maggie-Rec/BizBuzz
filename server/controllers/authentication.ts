@@ -1,21 +1,21 @@
-import { Response, Request, response } from 'express';
+import { Response, Request, response, Application } from 'express';
 import { execaCommand } from 'execa';
 import { addTransactionsTable } from '../helpers/addTransactionsTable';
 import { addItemsTable } from '../helpers/addItemsTable';
 import { addLocationsTable } from '../helpers/addLocationsTable';
 import { addCustomersTable } from '../helpers/addCustomersTable';
+import User from '../types/User';
+import prettify from '../helpers/prettify';
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import fs, { readFileSync } from "node:fs";
 import { secret } from '../config';
 import prisma from '../db';
 
 export async function registerUser(req: Request, res: Response) {
   try {
     const newUser = req.body;
-    console.log(newUser);
-    newUser.id = await bcrypt.genSalt(10);
+    newUser.id = prettify(await bcrypt.genSalt(10));
     const isAlreadyRegistered = await prisma.user.findFirst({
       where: {
         email: newUser.email
@@ -24,50 +24,41 @@ export async function registerUser(req: Request, res: Response) {
     if (!isAlreadyRegistered) {
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(newUser.password, salt);
-      const newUserRecord = newUser;
+      const newUserRecord = {} as User;
+      Object.assign(newUserRecord, newUser);
       newUserRecord.password = passwordHash;
       const save = await prisma.user.create({
         data: newUserRecord
       });
-      res.status(200);
-      res.json({ message: 'Registered a new user' });
+      // DONE: AUTO LOGIN
+      // res.status(200);
+      // res.json({ message: 'Registered a new user' });
+      await createUserTables(newUserRecord.id);
+      await loginUser(req, res, newUser.password);
     } else {
       res.status(400);
-      res.json({ message: 'Invalid credentials'});
+      res.json({ message: 'Registration: invalid credentials'});
     }
-    // TODO: AUTO LOGIN
   } catch (error) {
     console.error(error);
     res.status(500);
     res.json({ message: 'Failed to register a new user' });
   }
-  // let userID = Math.floor(Math.random() * 10000);
-  // // NB The above is a placeholder until we have properly-implemented tracking of users
-
-  // // any kind of verification? Or checking whether this is new business or new user for existing business?
-
-
-  // // add info to database of users
-
-
-  // // create new database tables for user transactions, locations, customers, items
-  // addTransactionsTable(userID);
-  // addItemsTable(userID);
-  // addLocationsTable(userID);
-  // addCustomersTable(userID);
-
-  // // Migrate to database
-  // // await execaCommand(`npx prisma migrate deploy --name added_transaction_${userID}`);
-  // await execaCommand('npx prisma db push');
-
-  // // send required info back to user
-  // res.status(201);
-  // res.send('Success response');
 };
 
-export async function loginUser(req: Request, res: Response) {
+async function createUserTables(userId: string) {
+  addTransactionsTable(userId);
+  addItemsTable(userId);
+  addLocationsTable(userId);
+  addCustomersTable(userId);
+  await execaCommand('npx prisma db push');
+};
+
+export async function loginUser(req: Request, res: Response, newUserPassword: any = "") {
   try {
     const user = req.body;
+    // THIRD ARGUMENT BECOMES A FUNCTION FOR SOME REASON, HENCE ADDITIONAL CHECK
+    if (newUserPassword.length > 0 && typeof newUserPassword !== "function") user.password = newUserPassword;
     const registeredUser = await prisma.user.findFirst({
       where: {
         email: user.email
@@ -84,12 +75,12 @@ export async function loginUser(req: Request, res: Response) {
         return;
       } else {
         res.status(400);
-        res.send({ message: "Invalid credentials" });
+        res.send({ message: "Login: invalid credentials" });
         return;
       };
     } else {
       res.status(400);
-      res.send({ message: "Invalid credentials" });
+      res.send({ message: "Login: invalid credentials" });
       return;
     }
   } catch (error) {

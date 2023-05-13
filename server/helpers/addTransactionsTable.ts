@@ -3,7 +3,7 @@ import { getPathToSchema } from '../helpers/getPathToSchema';
 
 
 
-export function createTransactionSchema(userID: number) {
+export function createTransactionSchema(userID: string) {
   return `model Transaction_${userID} {
     record_id      Int   @id @default(autoincrement())
     transaction_id Int
@@ -23,6 +23,6 @@ export function createTransactionSchema(userID: number) {
   `
 };
 
-export function addTransactionsTable(userID: number) {
+export function addTransactionsTable(userID: string) {
   fs.appendFileSync(getPathToSchema(), createTransactionSchema(userID));
 }
