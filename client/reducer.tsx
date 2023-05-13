@@ -172,7 +172,7 @@ const widgetReducer = (state = [], action) => {
       };
     default: return state;
   }
-}
+};
 
 const currentTabReducer = (state = 'dashboard', action) => {
   switch (action.type) {
@@ -188,7 +188,7 @@ const rootReducer = combineReducers({
   barChart: barChartReducer,
   lineChart: lineChartReducer,
   widgetSelection: widgetReducer,
-  currentTab: currentTabReducer
+  currentTab: currentTabReducer,
 });
 
 export default rootReducer;

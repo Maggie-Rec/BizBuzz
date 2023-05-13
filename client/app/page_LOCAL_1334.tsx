@@ -2,7 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 
-import React, { Suspense, useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { legacy_createStore } from "redux";
 import rootReducer from "../reducer";
@@ -15,12 +15,11 @@ import Dashboard from "../components/dashboard/dashboard";
 import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
 import LocationsView from "../components/LocationsView";
-import Loading from "./loading";
 
 const store = legacy_createStore(rootReducer);
 
 const MainPage = () => {
-  const [currentTab, setCurrentTab] = useState("dashboard");
+  const [isLogged, setIsLogged] = useState(false);
   const [isOnDashboard, setIsOnDashboard] = useState(true);
   const [isOnReports, setIsOnReports] = useState(false);
   const [isOnLocations, setIsOnLocations] = useState(false);
@@ -29,8 +28,8 @@ const MainPage = () => {
     setIsOnReports(store.getState().currentTab === "reports")
   );
 
-  store.subscribe(() => 
-    setCurrentTab(store.getState().currentTab)
+  store.subscribe(() =>
+    setIsOnReports(store.getState().currentTab === 'reports')
   )
 
   return (
@@ -40,14 +39,9 @@ const MainPage = () => {
           <NavBar />
           <div className="container">
             <SideBar />
-            {currentTab === 'dashboard'
-            ? <Dashboard />
-            : currentTab === 'reports' 
-            ? <ReportsView />
-            : currentTab === 'locations'
-            ? <LocationsView />
-            : <p>ERROR</p>
-            }
+            {isOnDashboard ? <Dashboard /> : null}
+            {isOnReports ? <ReportsView /> : null}
+            {isOnLocations ? <LocationsView /> : null}
           </div>
         </div>
       </div>

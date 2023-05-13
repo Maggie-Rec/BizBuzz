@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import { Inter } from "next/font/google";
-import React from 'react';
+import React, { Suspense } from 'react';
+import Loading from './loading';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      
       <body className={inter.className}>{children}</body>
     </html>
   );

@@ -10,22 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Transaction {
-//   record_id      BigInt   @id @default(autoincrement())
-//   transaction_id BigInt
-//   date           DateTime @db.Date
-//   time           DateTime @db.Time(6)
-//   location_id    Int
-//   SKU            String
-//   quantity       Decimal  @db.Decimal
-//   is_member      Boolean
-//   customer_id    BigInt
-//   total_with_tax Decimal  @db.Decimal
-//   tax            Decimal  @db.Decimal
-// }
+model User {
+  id       String @id
+  email    String
+  password  String
+  username String
+}
 
 model Transaction_0 {
-  record_id      Int     @id @default(autoincrement())
+  record_id      Int        @id @default(autoincrement())
   transaction_id Int
   date           DateTime   @db.Date
   time           DateTime   @db.Time(6)
