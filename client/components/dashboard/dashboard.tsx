@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect, ReactNode, useRef } from "react";
 import styles from "../../styles/Dashboard.module.css";
 import SMLCalendar from "../SmallCalendar";
 import LineChart from "../widgets/LineChart/lineChart";
@@ -9,6 +9,8 @@ import ProgressMenu from "../widgets/Progress/ProgressMenu";
 import BarChart from "../widgets/BarChart/barChart";
 import ProgressChart from "../widgets/Progress/progressChart";
 import { useSelector, useDispatch } from "react-redux";
+import Note from "../widgets/Note";
+import randomAlphaNumeric from "../../utils/randomizer";
 
 import type { MenuProps } from "antd";
 import {
@@ -31,6 +33,7 @@ const { RangePicker } = DatePicker;
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState<ReactNode>();
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
+  const [notes, setNotes] = useState([]);
 
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
@@ -122,10 +125,26 @@ const Dashboard = () => {
     },
   ];
 
+  let containerRef = useRef<HTMLElement>();
+
+  function addNote() {
+    setNotes([...notes, {
+      s: { width: 300, height: 300 },
+      p: { x: 10, y: 10 },
+      t: "",
+      c: "",
+      id: randomAlphaNumeric()
+    }])
+  }
+
   useEffect(() => {
     dispatch({
-      type: "REPOPULATE_DASHBOARD",
+      type: "REPOPULATE_DASHBOARD", // WITH WIDGETS
     });
+
+    let localNotes = JSON.parse(window.localStorage.getItem("notes"));
+    localNotes ? setNotes(localNotes) : undefined;
+
   }, []);
 
   return (
@@ -145,6 +164,9 @@ const Dashboard = () => {
             <RangePicker className={styles.dateSelector} />
           </Space>
         </div>
+
+        <Button onClick={addNote}>Add a note</Button>
+        
         <Dropdown
           overlayStyle={{ width: "300px" }}
           menu={{ items, selectable: true }}
