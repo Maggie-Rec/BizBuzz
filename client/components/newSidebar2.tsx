@@ -22,6 +22,7 @@ const NewSideBar2 = () => {
         <div className={styles.userInfoContainer}>
           <div className={styles.iconContainer}
             style={{paddingRight: isCollapsed? '0' : '0.48vw', flexDirection: 'row-reverse'}}
+            onClick={() => dispatch({ type: 'CHANGE_CURRENT_TAB', payload: 'dashboard' })}
           >
             <h1>BizBuzz 🐝</h1>
           </div>
@@ -71,7 +72,7 @@ const NewSideBar2 = () => {
       <div
         className={styles.collapseButton}
         onClick={() => setIsCollapsed(!isCollapsed)}
-        style={{ left: isCollapsed ? '5vw' : '15vw', transition: "all 0.4s" }}
+        style={{ left: isCollapsed ? '5vw' : '15vw', transition: "all 0.4s infinite"}}
       >{isCollapsed
         ? <CaretRightOutlined />
         : <CaretLeftOutlined />}

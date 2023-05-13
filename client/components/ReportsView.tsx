@@ -2,7 +2,7 @@
 
 import styles from '../styles/ReportsView.module.css';
 import React, { ReactNode, use, useEffect, useState } from 'react';
-import { Button, Segmented, DatePicker, TreeSelect, Table, Tooltip, Tree } from 'antd';
+import { Button, Segmented, DatePicker, TreeSelect, Table, Tooltip, Cascader } from 'antd';
 import { todayTimeFilter, lastWeekTF, lastMonthTF, lastQuarterTF, lastYearTF } from '../utils/timeFilters';
 import { PlusOutlined } from '@ant-design/icons';
 import { filters } from '../utils/filters';
@@ -219,7 +219,7 @@ const ReportsView = () => {
     <div className={styles.container}>
       <div className={styles.controls}>
         <div className={styles.filterSelector}>
-          <TreeSelect
+          <Cascader
             showSearch
             style={{
               minWidth: '15vw',
@@ -232,11 +232,13 @@ const ReportsView = () => {
             placeholder="Select filters"
             allowClear
             multiple
-            treeCheckable={true}
+            maxTagCount="responsive"
+            // treeCheckable={true}
             showCheckedStrategy={TreeSelect.SHOW_PARENT}
-            treeLine={true}
-            treeData={filters}
-            onChange={(value) => handleCustomFiltersChange(value)}
+            // treeLine={true}
+            // treeData={filters}
+            options={filters}
+            onChange={(value) => handleCustomFiltersChange(value as unknown as string[])}
           />
           {JSON.stringify(selectedPropertyFilters) !== JSON.stringify(activePropertyFilter) &&
             <Button

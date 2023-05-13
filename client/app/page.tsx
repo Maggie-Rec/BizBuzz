@@ -14,6 +14,7 @@ import SideBar from "../components/SideBar";
 import Dashboard from "../components/Dashboard";
 import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
+import ReportsView2 from "../components/ReportsView2";
 
 const store = legacy_createStore(rootReducer);
 
@@ -37,7 +38,7 @@ const MainPage = () => {
             <div style={{ display: 'flex' }}>
               <NewSideBar2 />
               {isOnReports 
-                ? <ReportsView />
+                ? <ReportsView2 />
                 : <Dashboard />
               }
             </div>
