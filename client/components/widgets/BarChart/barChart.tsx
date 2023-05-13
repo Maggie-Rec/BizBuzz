@@ -22,23 +22,42 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
+=======
+import { useState, useEffect, SetStateAction } from "react";
+>>>>>>> db-connection
 
 interface Props {
   barChartSelection: string[];
-  barChartPeriod: () => void;
+  barChartPeriod: string[];
   id: number;
+<<<<<<< HEAD
   type: string;
 }
 
 const BarChart = ({ barChartSelection, barChartPeriod, id, type }: Props) => {
+=======
+  selectedData: string;
+  period: string[];
+}
+
+const BarChart = ({
+  barChartSelection,
+  barChartPeriod,
+  selectedData,
+  id,
+  period,
+}: Props) => {
+>>>>>>> db-connection
   const dispatch = useDispatch();
+  console.log(selectedData);
+  // console.log(barChartPeriod);
 
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
-
-
+  const [barData, setBarData] = useState([] as string[]);
 
   const handleClose = () => {
     dispatch({
@@ -47,25 +66,58 @@ const BarChart = ({ barChartSelection, barChartPeriod, id, type }: Props) => {
     });
   };
 
+  const getData = async (selectedData: string) => {
+    let response = await fetch(`http://localhost:3020/transactions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: selectedData,
+    });
+    let data = (await response.json()) as unknown as { [key: string]: any }[];
+    console.log(data);
+    return data;
+  };
+
+  useEffect(() => {
+    getData(selectedData).then((data) => {
+     console.log(selectedData)
+      let temp = [] as string[];
+      for (
+        let i = new Date(period[0]).getMonth();
+        i <= new Date(period[1]).getMonth();
+        i++
+      ) {
+        // console.log(i)
+        temp.push(
+          data.filter((el) => new Date(el.date).getMonth() === i).length + ""
+        );
+        // console.log(data.filter(el => (new Date(el.date).getMonth() === i)).length)
+      }
+
+      setBarData(temp);
+    });
+  }, []);
+
   const labels = barChartPeriod;
-  const data: any = {
+  let data: any = {
     labels,
     datasets: [
       {
         label: barChartSelection[0],
-        data: [1, 20, 16],
+        data: [...barData],
         backgroundColor: "#002642",
       },
-      {
-        label: barChartSelection[1],
-        data: [3, 12, 28],
-        backgroundColor: "#840032",
-      },
-      {
-        label: barChartSelection[2],
-        data: [1, 5, 16],
-        backgroundColor: "#FFC65C",
-      },
+      // {
+      //   label: barChartSelection[1],
+      //   data: [12],
+      //   backgroundColor: "#840032",
+      // },
+      // {
+      //   label: barChartSelection[2],
+      //   data: [16],
+      //   backgroundColor: "#FFC65C",
+      // },
     ],
   };
 
@@ -80,12 +132,23 @@ const BarChart = ({ barChartSelection, barChartPeriod, id, type }: Props) => {
       height: parseInt(ref.style.height),
     });
     setPosition(position);
+<<<<<<< HEAD
     savePositionLocal(id, size, position);
   };
 
   useEffect(() => {
     restorePosition(id, setPosition, setSize);
   }, [])
+=======
+  };
+
+  useEffect(() => {
+    data = {
+      ...data,
+      labels: barChartPeriod,
+    };
+  }, [barChartPeriod]);
+>>>>>>> db-connection
 
   return (
     <Rnd
@@ -104,8 +167,9 @@ const BarChart = ({ barChartSelection, barChartPeriod, id, type }: Props) => {
           <DragOutlined />
           <CloseOutlined onClick={handleClose} />
         </div>
-        <Bar data={data} />
+        {barChartPeriod && barChartPeriod.length > 0 && <Bar data={data} />}
       </div>
+      {JSON.stringify(barData)}
     </Rnd>
   );
 };

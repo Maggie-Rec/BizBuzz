@@ -1,6 +1,6 @@
 "use client";
 
-// import { SessionProvider } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
@@ -11,7 +11,7 @@ import rootReducer from "../reducer";
 
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
-import Dashboard from "../components/Dashboard";
+import Dashboard from "../components/dashboard/dashboard";
 import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
 import LocationsView from "../components/LocationsView";
@@ -25,34 +25,25 @@ const MainPage = () => {
   const [isOnLocations, setIsOnLocations] = useState(false);
 
   store.subscribe(() =>
+    setIsOnReports(store.getState().currentTab === "reports")
+  );
+
+  store.subscribe(() =>
     setIsOnReports(store.getState().currentTab === 'reports')
   )
 
-  store.subscribe(() =>
-    setIsOnLocations(store.getState().currentTab === 'locations')
-  )
-
-  store.subscribe(() =>
-    setIsOnDashboard(store.getState().currentTab === 'dashboard')
-  )
-
   return (
-
     <Provider store={store}>
       <div>
-        {isLogged ? (
-          <LoginPage />
-        ) : (
-          <div>
-            <NavBar />
-            <div className="container">
-              <SideBar />
-              {isOnDashboard ? <Dashboard /> : null}
-              {isOnReports ? <ReportsView /> : null}
-              {isOnLocations ? <LocationsView /> : null}
-            </div>
+        <div>
+          <NavBar />
+          <div className="container">
+            <SideBar />
+            {isOnDashboard ? <Dashboard /> : null}
+            {isOnReports ? <ReportsView /> : null}
+            {isOnLocations ? <LocationsView /> : null}
           </div>
-        )}
+        </div>
       </div>
     </Provider>
   );

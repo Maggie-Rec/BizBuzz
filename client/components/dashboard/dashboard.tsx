@@ -1,13 +1,13 @@
 import React, { useState, useEffect, ReactNode } from "react";
-import styles from "../styles/Dashboard.module.css";
-import SMLCalendar from "./SmallCalendar";
-import LineChart from "./widgets/LineChart/lineChart";
-import PieMenu from "./widgets/PieChart/pieMenu";
-import LineMenu from "./widgets/LineChart/lineMenu";
-import BarMenu from "./widgets/BarChart/barMenu";
-import ProgressMenu from "./widgets/Progress/ProgressMenu";
-import BarChart from "./widgets/BarChart/barChart";
-import ProgressChart from "./widgets/Progress/progressChart";
+import styles from "../../styles/Dashboard.module.css";
+import SMLCalendar from "../SmallCalendar";
+import LineChart from "../widgets/LineChart/lineChart";
+import PieMenu from "../widgets/PieChart/pieMenu";
+import LineMenu from "../widgets/LineChart/lineMenu";
+import BarMenu from "../widgets/BarChart/barMenu";
+import ProgressMenu from "../widgets/Progress/ProgressMenu";
+import BarChart from "../widgets/BarChart/barChart";
+import ProgressChart from "../widgets/Progress/progressChart";
 import { useSelector, useDispatch } from "react-redux";
 
 import type { MenuProps } from "antd";
@@ -38,7 +38,12 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
+  function refreshActiveMenu() {
+    setActiveMenu(undefined);
+  }
+
   const showWindow = (value: string) => {
+<<<<<<< HEAD:client/components/Dashboard.tsx
     console.log(value);
     if (value === "bar-chart") {
       setActiveMenu(<BarMenu />);
@@ -48,6 +53,19 @@ const Dashboard = () => {
       setActiveMenu(<LineMenu showWidget={showWidget} />);
     } if (value === "progress-chart") {
       setActiveMenu(<ProgressMenu />);
+=======
+    if (value === "bar-chart") {
+      setActiveMenu(<BarMenu func={refreshActiveMenu} />);
+    }
+    if (value === "pie-chart") {
+      setActiveMenu(<PieMenu func={refreshActiveMenu} />);
+    }
+    if (value === "line-chart") {
+      setActiveMenu(<LineMenu showWidget={showWidget} />);
+    }
+    if (value === "progress-chart") {
+      setActiveMenu(<ProgressMenu showWidget={showWidget} />);
+>>>>>>> db-connection:client/components/dashboard/dashboard.tsx
     }
     // setOpenMenu(event.target.textContent);
   };
@@ -157,9 +175,9 @@ const Dashboard = () => {
 
         <section className={styles.widgetContainer}>{widgetSelection}</section>
 
-        <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
-          {activeMenu}
-        </Modal>
+        {/* <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}> */}
+        {activeMenu}
+        {/* </Modal> */}
       </div>
     </div>
   );
