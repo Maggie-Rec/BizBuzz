@@ -5,7 +5,7 @@ import { getPathToSchema } from '../helpers/getPathToSchema';
 
 export function createTransactionSchema(userID: number) {
   return `model Transaction_${userID} {
-    record_id      BigInt   @id @default(autoincrement())
+    record_id      Int   @id @default(autoincrement())
     transaction_id Int
     date           DateTime @db.Date
     time           DateTime @db.Time(6)

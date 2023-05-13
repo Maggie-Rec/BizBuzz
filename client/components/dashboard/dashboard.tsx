@@ -158,7 +158,22 @@ const Dashboard = () => {
           <LineChart showWidget={() => setOpenWidget({})} />
         )}
 
-        <section className={styles.widgetContainer}>{widgetSelection}</section>
+        <section className={styles.widgetContainer} ref={containerRef}>
+          {widgetSelection}
+          {notes.map((item) => {
+            console.log('re-rendering notes');
+            return <Note
+              s={item.s}
+              p={item.p}
+              t={item.t}
+              c={item.c}
+              id={item.id}
+              key={randomAlphaNumeric()}
+              setter={setNotes}
+              containerRef={containerRef}
+            />
+          })}
+        </section>
 
         <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
           {activeMenu}
