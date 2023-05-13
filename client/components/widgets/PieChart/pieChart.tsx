@@ -125,7 +125,7 @@ const PieChart = ({ pieChartSelection, id }: Props) => {
         }
       }
 
-      // console.log(filter);
+      console.log(filter);
 
       filter.date = { gt: periodStart };
 

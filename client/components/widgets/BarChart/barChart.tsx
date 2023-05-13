@@ -23,7 +23,6 @@ import styles from "../../../styles/widgets/barChart.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
 import { useState, useEffect, SetStateAction } from "react";
-// import { generateQuery } from "../../../utils/queryKing";
 
 interface Props {
   barChartSelection: string[];
@@ -70,8 +69,7 @@ const BarChart = ({
 
   useEffect(() => {
     getData(selectedData).then((data) => {
-      // setBarData([...data.forEach((el, i) => {el.filter(item => new Date(item.date).getMonth() === i)}];
-      // console.log([...data.forEach((el, i) => {el.filter(item => new Date(item.date).getMonth() === i)}] )
+     console.log(selectedData)
       let temp = [] as string[];
       for (
         let i = new Date(period[0]).getMonth();

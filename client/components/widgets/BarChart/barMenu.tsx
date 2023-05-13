@@ -122,9 +122,9 @@ const BarMenu = ({ func }) => {
             onChange={setOption1}
             className={styles.input}
             options={[
-              { value: "transaction", label: "Total items sold" },
+              { value: "item", label: "Total items sold" },
               {
-                value: "customer",
+                value: "location",
                 label: "Total amount of customers",
               },
             ]}
