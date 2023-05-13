@@ -15,6 +15,8 @@ export function makePrismaQuery({ keyword, userID, query, table }: { keyword: st
       return prisma[`${table}${userID.toString()}`].aggregate(query);
     } else if (keyword === 'groupBy') {
       return prisma[`${table}${userID.toString()}`].groupBy(query);
+    } else if (keyword === 'count') {
+      return prisma[`${table}${userID.toString()}`].count(query);
     } else {
       return false;
     }
