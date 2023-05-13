@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Card } from "antd";
 import { Rnd } from "react-rnd";
 import styles from "../../styles/Note.module.css";
-import { CloseOutlined, DragOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined, DragOutlined } from "@ant-design/icons";
 import noteSaver from "../../utils/noteSaver";
 import randomAlphaNumeric from "../../utils/randomizer";
 import { useDispatch } from "react-redux";
@@ -89,12 +89,13 @@ export default function Note({ s, p, t, c, id, setter }) {
 
       <Card ref={cardRef} className={styles.Card}>
         <DragOutlined className={styles.DragOutlined}/>
-        <CloseOutlined className={styles.CloseOutlined} 
+        <DeleteOutlined className={styles.DeleteOutlined} 
         onClick={deleteNote} />
 
         <textarea ref={titleRef} className={`${styles.noteTextarea} ${styles.title}`}
           onChange={(event) => handleChange(event, setTitle)}
           onBlur={saveState}
+          // onKeyDown={(event) => event.keyCode === 13 ? console.log('enter') : contentRef.current.focus()}
           placeholder="Title" defaultValue={t}></textarea>
 
         <textarea ref={contentRef} className={`${styles.noteTextarea} ${styles.content}`}

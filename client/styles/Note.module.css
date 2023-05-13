@@ -1,11 +1,15 @@
-.Card {
+.Card * {
   background-color: peachpuff;
 }
 
+.Card {
+  box-shadow: 0px 40px 85px -20px #cacaca;
+}
+
 .noteTextarea {
+  width: 100%;
   border: none;
   resize: none;
-  background-color: peachpuff;
 }
 
 .noteTextarea:focus {
@@ -15,26 +19,41 @@
 
 .title {
   font-weight: bold;
-  font-size: large;
+  font-size: 1.5em;
 }
 
 .content {
   min-height: 200px;
 }
 
-.CloseOutlined {
+.DeleteOutlined {
+  visibility: hidden;
   position: absolute;
   right: 10px;
-  top: 10px;
+  bottom: 10px;
+}
+
+.Card:hover .DeleteOutlined {
+  visibility: visible;
+}
+
+.Card:hover .DragOutlined {
+  visibility: visible;
 }
 
 .DragOutlined {
+  visibility: hidden;
   position: absolute;
   left: 10px;
-  top: 10px;
+  bottom: 10px;
 }
 
 .DragOutlined svg {
+  height: 30px;
+  width: 30px;
+}
+
+.DeleteOutlined svg {
   height: 30px;
   width: 30px;
 }
