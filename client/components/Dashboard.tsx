@@ -33,14 +33,11 @@ const { RangePicker } = DatePicker;
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState<ReactNode>();
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
+  const [notes, setNotes] = useState([]);
 
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
   });
-
-  const notes = useSelector((state: any) => {
-    return state.notes;
-  })
 
   const dispatch = useDispatch();
 
@@ -127,27 +124,23 @@ const Dashboard = () => {
   let containerRef = useRef<HTMLElement>();
 
   function addNote() {
-    function newNote() {
-      return <Note
-        s={{ width: 300, height: 300 }} 
-        p={{ x: 10, y: 10 }} 
-        t={""}
-        c={""}
-        id={randomAlphaNumeric()}
-      />;
-    }
-    dispatch({
-      type: "ADD_NOTE",
-      payload: newNote()
-    });
-  };
+    setNotes([...notes, {
+      s: { width: 300, height: 300 },
+      p: { x: 10, y: 10 },
+      t: "",
+      c: "",
+      id: randomAlphaNumeric()
+    }])
+  }
 
   useEffect(() => {
     dispatch({
-      type: "REPOPULATE_DASHBOARD",
+      type: "REPOPULATE_DASHBOARD", // WITH WIDGETS
     });
 
-    // setNotes(JSON.parse(window.localStorage.getItem("notes")) || [])
+    let localNotes = JSON.parse(window.localStorage.getItem("notes"));
+    localNotes ? setNotes(localNotes) : undefined;
+
   }, []);
 
   return (
@@ -183,8 +176,19 @@ const Dashboard = () => {
         )}
 
         <section className={styles.widgetContainer} ref={containerRef}>
-          { widgetSelection }
-          { notes }
+          {widgetSelection}
+          {notes.map((item) => {
+            console.log('re-rendering notes');
+            return <Note
+              s={item.s}
+              p={item.p}
+              t={item.t}
+              c={item.c}
+              id={item.id}
+              key={randomAlphaNumeric()}
+              setter={setNotes}
+            />
+          })}
         </section>
 
         <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>

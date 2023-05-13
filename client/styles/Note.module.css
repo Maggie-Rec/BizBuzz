@@ -27,3 +27,18 @@
   right: 10px;
   top: 10px;
 }
+
+.DragOutlined {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.DragOutlined svg {
+  height: 30px;
+  width: 30px;
+}
+
+.DragOutlined svg:hover {
+  cursor: grab;
+}

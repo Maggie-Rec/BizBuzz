@@ -150,20 +150,6 @@ const widgetReducer = (state = [], action) => {
   }
 };
 
-const notesReducer = (state = [], action) => {
-  switch (action.type) {
-    case "ADD_NOTE":
-      console.log(action.payload);
-      const result = state.concat([action.payload]);
-      return result;
-    case "EDIT_NOTE": 
-      let next = state.filter(element => element.props.id === action.payload.id);
-      next.push(action.payload);
-      return next;
-    default: return state;
-  }
-};
-
 const currentTabReducer = (state = 'dashboard', action) => {
   switch (action.type) {
     case 'CHANGE_CURRENT_TAB':
@@ -179,7 +165,6 @@ const rootReducer = combineReducers({
   lineChart: lineChartReducer,
   widgetSelection: widgetReducer,
   currentTab: currentTabReducer,
-  notes: notesReducer
 });
 
 export default rootReducer;
