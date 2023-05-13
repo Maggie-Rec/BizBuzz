@@ -45,7 +45,6 @@ const barChartReducer = (state = initialStateBar, action) => {
     return newState;
   }
   if (action.type === "SET_MONTH") {
-    console.log("payload", action.payload);
     return {
       ...state,
       monthsArray: action.payload,
@@ -72,16 +71,42 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
     case "ADD_FILTER":
       const newState = { ...state };
       const newFilter = [action.payload.filter, action.payload.obj[action.payload.filter]];
+      console.log('Filter to be added, should be array', newFilter);
       const index = newState.filterNames.findIndex((filterName) => filterName === action.payload.filter);
       index === -1 ?
         (newState.filters.push(newFilter),
           newState.filterNames.push(action.payload.filter))
         : newState.filters[index] = newFilter;
-      ;
+      console.log('New set of filters:', newState.filterNames, newState.filters);
       return newState;
     case "SET_AXES":
       const copy = { ...state };
-      copy.axes = action.payload;
+
+      // The code below is very awkward; for reasons unknown, the indication of the y-axis sometimes comes wrapped in an array.
+      // Moreover, if the user requests to recieve the data for only some locations, there will be an array of unknown length somewhere,
+      // but all maximally-nested arrays will be of length 3, so this is my attempt to separate out those cases for processing differently,
+      // and to avoid having unnecessarily-nested values in the y-axis indicator.
+      let convert = false;
+      let current = action.payload.y;
+      let parent = action.payload.y;
+      while (Array.isArray(current)) {
+        if (current.length === 3) {
+          convert = true;
+          break;
+        }
+        parent = current;
+        current = current[0];
+      }
+      if (convert) {
+        const collection = [];
+        parent.forEach((array) => {
+          collection.push(array[2])
+        });
+        copy.axes.y = [action.payload.y[0][0], 'inSpecificLocations', collection];
+      } else {
+        copy.axes.y = parent;
+      }
+      if (action.payload.x) copy.axes.x = action.payload.x;
       return copy;
     case "FETCH_DATA":
       let requests = [];
