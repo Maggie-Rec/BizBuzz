@@ -21,11 +21,7 @@ interface IColumn {
 
 async function getTableData(stringifiedQuery: string) {
   try {
-<<<<<<< HEAD
     const res = await fetch('http://localhost:3456/transactions', {
-=======
-    const res = await fetch('http://localhost:3020/transactions', {
->>>>>>> db-connection
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

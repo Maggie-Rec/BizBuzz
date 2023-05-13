@@ -19,7 +19,7 @@ import LocationsView from "../components/LocationsView";
 const store = legacy_createStore(rootReducer);
 
 const MainPage = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [currentTab, setCurrentTab] = useState("dashboard");
   const [isOnDashboard, setIsOnDashboard] = useState(true);
   const [isOnReports, setIsOnReports] = useState(false);
   const [isOnLocations, setIsOnLocations] = useState(false);
@@ -29,7 +29,11 @@ const MainPage = () => {
   );
 
   store.subscribe(() =>
-    setIsOnReports(store.getState().currentTab === 'reports')
+    setIsOnReports(store.getState().currentTab === "reports")
+  );
+
+  store.subscribe(() => 
+    setCurrentTab(store.getState().currentTab)
   )
 
   return (
@@ -39,9 +43,14 @@ const MainPage = () => {
           <NavBar />
           <div className="container">
             <SideBar />
-            {isOnDashboard ? <Dashboard /> : null}
-            {isOnReports ? <ReportsView /> : null}
-            {isOnLocations ? <LocationsView /> : null}
+            {currentTab === 'dashboard'
+            ? <Dashboard />
+            : currentTab === 'reports' 
+            ? <ReportsView />
+            : currentTab === 'locations'
+            ? <LocationsView />
+            : <p>ERROR</p>
+            }
           </div>
         </div>
       </div>

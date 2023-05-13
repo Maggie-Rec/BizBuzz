@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode } from "react";
-import styles from "../styles/Dashboard.module.css";
+import styles from "../../styles/Dashboard.module.css";
 import SMLCalendar from "../SmallCalendar";
 import LineChart from "../widgets/LineChart/lineChart";
 import PieMenu from "../widgets/PieChart/pieMenu";
