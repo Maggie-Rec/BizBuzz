@@ -13,7 +13,7 @@ router.get('/test', ((req: Request, res: Response) => {
 
 router
   .post('/register', registerUser)
-  .post('/logic', loginUser)
+  .post('/login', loginUser)
 
   .post('/transactions', getAllTransactions)
   .post('/locations', getAllLocations)

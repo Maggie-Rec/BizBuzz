@@ -9,26 +9,37 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import fs, { readFileSync } from "node:fs";
 import { secret } from '../config';
+import prisma from '../db';
 
 export async function registerUser(req: Request, res: Response) {
   try {
     const newUser = req.body;
     console.log(newUser);
-    newUser.id = bcrypt.genSalt(10);
-    // TODO: DUPLICATE CREDENTIALS AND ID CHECK
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(newUser.password, salt);
-    const newUserRecord = newUser;
-    newUserRecord.password = passwordHash;
-    // TODO: SAVE TO THE DATABASE
-    const save = fs.appendFileSync('./userdata.json', JSON.stringify(newUserRecord), "utf-8");
-    res.status(200);
-    response.send({ message: 'Registered a new user' });
+    newUser.id = await bcrypt.genSalt(10);
+    const isAlreadyRegistered = await prisma.user.findFirst({
+      where: {
+        email: newUser.email
+      }
+    });
+    if (!isAlreadyRegistered) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(newUser.password, salt);
+      const newUserRecord = newUser;
+      newUserRecord.password = passwordHash;
+      const save = await prisma.user.create({
+        data: newUserRecord
+      });
+      res.status(200);
+      res.json({ message: 'Registered a new user' });
+    } else {
+      res.status(400);
+      res.json({ message: 'Invalid credentials'});
+    }
     // TODO: AUTO LOGIN
   } catch (error) {
     console.error(error);
     res.status(500);
-    response.send({ message: 'Failed to register a new user' });
+    res.json({ message: 'Failed to register a new user' });
   }
   // let userID = Math.floor(Math.random() * 10000);
   // // NB The above is a placeholder until we have properly-implemented tracking of users
@@ -57,37 +68,34 @@ export async function registerUser(req: Request, res: Response) {
 export async function loginUser(req: Request, res: Response) {
   try {
     const user = req.body;
-    console.log(user);
-    const users = JSON.parse(readFileSync("./userdata.json", "utf8"));
-    const registeredUser = users.find((item) => {
-      if (item.email === user.email) {
-        return item;
+    const registeredUser = await prisma.user.findFirst({
+      where: {
+        email: user.email
       }
     });
     if (registeredUser) {
       const passwordCheck = await bcrypt.compare(user.password, registeredUser.password as string);
       if (passwordCheck) {
-        console.log('Successful login!');
         const token = jwt.sign({ id: registeredUser.id }, `${secret}`);
         const userData = registeredUser;
         userData.password = "";
-        response.status(200);
-        response.json({ token, userData });
+        res.status(200);
+        res.json({ token, userData });
         return;
       } else {
-        response.status(400);
-        response.send({ message: "Invalid credentials" });
+        res.status(400);
+        res.send({ message: "Invalid credentials" });
         return;
       };
     } else {
-      response.status(400);
-      response.send({ message: "Invalid credentials" });
+      res.status(400);
+      res.send({ message: "Invalid credentials" });
       return;
     }
   } catch (error) {
     console.log(error);
-    response.status(500);
-    response.send('Authentication error');
+    res.status(500);
+    res.send('Authentication error');
   }
 };
 
