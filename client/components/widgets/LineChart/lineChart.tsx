@@ -29,9 +29,10 @@ import styles from "../../../styles/widgets/lineChart.module.css";
 import { Rnd } from "react-rnd";
 import { useState } from "react";
 import { generateKey } from "crypto";
-import { generateQuery } from "../../../utils/queryKing";
+import { generateAggSumQuery } from "../../../utils/aggregateSUmQueries";
 import { generateTimePeriods } from '../../../utils/generateTimePeriods';
 import { makeFetchRequest } from '../../../utils/queryRequestMaker';
+import { translateQuantity } from "./translations";
 
 interface Props {
   showWidget: () => void;
@@ -63,7 +64,7 @@ const LineChart = ({ showWidget }: Props) => {
   const queriesInfo = useSelector((state) => { return state.lineChart });
 
 
-  // console.log('Queries info:', queriesInfo);
+  console.log('Queries info:', queriesInfo);
 
   let requests = [];
   // console.log('input to generate time periods', {
@@ -81,7 +82,8 @@ const LineChart = ({ showWidget }: Props) => {
     for (let i = 0; i < startDates.length; i++) {
       requests.push({
         label: 'Total',
-        query: generateQuery(queriesInfo.filters, [startDates[i], endDates[i]], 'aggregate')
+        query: generateAggSumQuery(queriesInfo.filters, [startDates[i], endDates[i]], 'aggregate',
+          translateQuantity(queriesInfo.axes.y[0]))
       });
     }
   } else if (queriesInfo.axes.y[1] === 'inSpecificLocations') {
@@ -91,7 +93,9 @@ const LineChart = ({ showWidget }: Props) => {
         for (let i = 0; i < startDates.length; i++) {
           requests.push({
             label: location,
-            query: generateQuery(queriesInfo.filters.concat(`location_id:${i}`), [startDates[i], endDates[i], 'aggregate'])
+            query: generateAggSumQuery(queriesInfo.filters.concat(`location_id:${i}`), [startDates[i], endDates[i], 'aggregate',
+            translateQuantity(queriesInfo.axes.y[0])
+            ])
           });
         }
       }
@@ -103,14 +107,16 @@ const LineChart = ({ showWidget }: Props) => {
     for (let i = 0; i < startDates.length; i++) {
       requests.push({
         label: 'Total',
-        query: generateQuery(queriesInfo.filters, [startDates[i], endDates[i]], 'aggregate')
+        query: generateAggSumQuery(queriesInfo.filters, [startDates[i], endDates[i]], 'aggregate',
+          translateQuantity(queriesInfo.axes.y[0]))
       });
     }
     for (let location of [0, 1, 2, 3, 4]) {
       for (let i = 0; i < startDates.length; i++) {
         requests.push({
           label: 'Total',
-          query: generateQuery(queriesInfo.filters.concat({ 'location_id': location }), [startDates[i], endDates[i]], 'aggregate')
+          query: generateAggSumQuery(queriesInfo.filters.concat({ 'location_id': location }), [startDates[i], endDates[i]], 'aggregate',
+            translateQuantity(queriesInfo.axes.y[0]))
         });
       }
     }

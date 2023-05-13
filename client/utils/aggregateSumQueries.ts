@@ -47,8 +47,10 @@ function SelectBlock(propertyToSelect: string): [string, {}] {
 // ACTUAL FUNCTION THAT WILL GET CALLED FROM THE FRONTEND
 // filterArr --> ARRAY CONTAINING FILTERS e.g. --> ["location-id:1", "location-id:3", "location-id:4", "SKU", "date"]
 // dateArr --> ARRAY CONTAINING DATE RANGE e.g. --> [startDate, endDate]
-export function generateQuery(filterArr: string[], dateArr: Date[]) {
-
+export function generateAggSumQuery(filterArr: string[] | object[], dateArr: Date[], keyword = 'findAll', operator?: { key: string, val: any }) {
+  // Changed - now accepts string objects in the filter array. See also line 83
+  // Also changed for optional keyword argument
+  console.log('GenerateQuery() called with args', arguments);
   // EMPTY INITIAL QUERY OBJECT
   const queryObj = {
     query: {
@@ -57,10 +59,19 @@ export function generateQuery(filterArr: string[], dateArr: Date[]) {
         OR: []
       },
       select: {}
-    }
+    },
+    keyword: keyword
+  }
+  if (operator) {
+    console.log(operator);
+    queryObj.query[operator.key] = operator.val;
   }
 
+
+
+  console.log(queryObj, 'just generated');
   // CHECK IF THERE'S A CUSTOM DATE RANGE (IF DATES ARE INVALID ==> NO CUSTOM DATE RANGE)
+  // console.log(dateArr);
   if (!isNaN(dateArr[0].getDate()) && !isNaN(dateArr[1].getDate())) {
     // YES --> THEN SET THAT ON THE QUERY OBJECT
     queryObj.query.where.AND = [
@@ -78,14 +89,22 @@ export function generateQuery(filterArr: string[], dateArr: Date[]) {
   }
 
   // CHECK IF WE ARE FILTERING THROUGH SPECIFIC PROPERTIES (--> PUT IT IN where IN QUERY)
-  const propertyFilters = filterArr.filter((el) => el.includes(':'));
+
+  // Lines 84 and 91 changed to not operate in cases where filters were already objects. See also line 51
+  const propertyFilters = typeof filterArr[0] === 'string' ? (filterArr.filter((el) => el.includes(':'))) : filterArr;
   if (propertyFilters.length > 0) {
     // YES --> ADD THEM TO THE QUERY OBJECT
     propertyFilters.forEach((el) => {
       // e.g. "location_id:2".split(':') --> ["location_id", "2"]
       // --> property: 'location_id'
       // --> value we want to filter through: 2
-      const [property, value] = el.split(':');
+      let property, value;
+      if (typeof el === 'string') [property, value] = el.split(':');
+      if (Array.isArray(el)) [property, value] = el;
+      if (typeof el === 'object' && !Array.isArray(el)) console.log('Problem here, should be an array');
+      // const [property, value] = (typeof el === 'string' ? el.split(':') : el);
+      // The above, if uncommented, is new code to cover non-string properties
+      // const [property, value] = el.split(':');
       queryObj.query.where.OR.push({ [property]: parseInt(value) }) // parseInt because we need integers in DB
     })
   }
