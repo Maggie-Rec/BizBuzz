@@ -24,15 +24,11 @@ const BarMenu = ({ func }) => {
           barChartPeriod={monthArray(period)}
           id={Date.now()}
           key={Date.now()}
-<<<<<<< HEAD
-          type={"BarChart"}
-=======
           period={period}
           selectedData={generateQuery(
             [option1, "date"],
             [new Date(period[0]), new Date(new Date(period[1]).setMonth(new Date(period[1]).getMonth() + 1))]
           )}
->>>>>>> db-connection
         />
       ),
     });
