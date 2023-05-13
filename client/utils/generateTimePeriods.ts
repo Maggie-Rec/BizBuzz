@@ -55,7 +55,7 @@ function createQuarters({ start, number }) {
   let [quarterStarts, quarterEnds] = [[], []];
   // console.log('Error handlling utils/GTP line 56:', start, number);
   for (let i = 0; i < 3 * number; i += 3) {
-    quarterStarts.push(createLastOfMonth({ month: (start.month + i) % 12 - 1, year: Math.floor(start.year + (start.month + i - 1) / 12) }));
+    quarterStarts.push(createLastOfMonth({ month: (start.month + i - 1) % 12, year: Math.floor(start.year + (start.month + i - 2) / 12) }));
     quarterEnds.push(createFirstOfMonth({ month: (start.month + i + 3) % 12, year: Math.floor(start.year + (start.month + i + 3) / 12) }));
   }
   return { startDates: quarterStarts, endDates: quarterEnds };
@@ -63,7 +63,7 @@ function createQuarters({ start, number }) {
 function createMonths({ start, number }) {
   let [monthStarts, monthEnds] = [[], []];
   for (let i = 0; i < number; i += 1) {
-    monthStarts.push(createLastOfMonth({ month: (start.month + i - 1) % 12, year: Math.floor(start.year + (start.month + i) / 12) }));
+    monthStarts.push(createLastOfMonth({ month: (start.month + i - 1) % 12, year: Math.floor(start.year + (start.month + i - 2) / 12) }));
     monthEnds.push(createFirstOfMonth({ month: (start.month + i + 1) % 12, year: Math.floor(start.year + (start.month + i + 1) / 12) }));
   }
   return { startDates: monthStarts, endDates: monthEnds };

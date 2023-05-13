@@ -45,7 +45,6 @@ const barChartReducer = (state = initialStateBar, action) => {
     return newState;
   }
   if (action.type === "SET_MONTH") {
-    console.log("payload", action.payload);
     return {
       ...state,
       monthsArray: action.payload,
@@ -82,7 +81,6 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
       return newState;
     case "SET_AXES":
       const copy = { ...state };
-      console.log('Payload:', action.payload);
 
       // The code below is very awkward; for reasons unknown, the indication of the y-axis sometimes comes wrapped in an array.
       // Moreover, if the user requests to recieve the data for only some locations, there will be an array of unknown length somewhere,

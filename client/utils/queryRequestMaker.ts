@@ -10,7 +10,6 @@ import { filterString } from "./stringFilter";
 
 export async function makeFetchRequest({ queryObject, route = 'transactions' }) {
   try {
-    console.log('queryObject:', queryObject);
     let response = await fetch(SERVER_URL + '/' + route, {
       method: "POST",
       headers: {
@@ -18,9 +17,7 @@ export async function makeFetchRequest({ queryObject, route = 'transactions' }) 
       },
       body: queryObject
     });
-    console.log(response.status);
     response = await response.json();
-    console.log('response:', response);
     return response;
   } catch (error) {
     console.log(error);

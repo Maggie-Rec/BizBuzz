@@ -45,7 +45,6 @@ const LineMenu = ({ showWidget }: Props) => {
     )
   })
   useEffect(() => {
-    console.log('Sending payload:', { y: yAxis, x: xAxis });
     dispatch({
       type: "SET_AXES",
       payload: {
@@ -63,36 +62,6 @@ const LineMenu = ({ showWidget }: Props) => {
 
   return (
     <div className={styles.container}>
-      <Button
-        style={{
-          color: 'white',
-          backgroundColor: 'red'
-        }}
-        onClick={() => {
-          dispatch({
-            type: "SET_AXES",
-            payload: {
-              x: ["time", "month"],
-              y: ["salesValue", "inSpecificLocations"]
-            }
-          });
-          dispatch({
-            type: "SET_DATES",
-            payload: {
-              start: { year: 2022, month: 9 },
-              end: { year: 2023, month: 3 }
-            }
-          });
-          dispatch({
-            type: "ADD_FILTER",
-            payload: {
-              obj: { is_member: [true] },
-              filter: 'is_member'
-            }
-          });
-        }}>
-        Shortcut for testing purposes only
-      </Button>
       <h1>Line Graph</h1>
       <Space wrap>
         <p>Y-axis:</p>
