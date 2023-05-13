@@ -50,7 +50,7 @@ function SelectBlock(propertyToSelect: string): [string, {}] {
 export function generateQuery(filterArr: string[] | object[], dateArr: Date[], keyword = 'findAll') {
   // Changed - now accepts string objects in the filter array. See also line 83
   // Also changed for optional keyword argument
-
+  console.log('GenerateQuery() called with args', arguments);
   // EMPTY INITIAL QUERY OBJECT
   const queryObj = {
     query: {
@@ -62,7 +62,9 @@ export function generateQuery(filterArr: string[] | object[], dateArr: Date[], k
     },
     keyword: keyword
   }
+  console.log(queryObj, 'just generated');
   // CHECK IF THERE'S A CUSTOM DATE RANGE (IF DATES ARE INVALID ==> NO CUSTOM DATE RANGE)
+  // console.log(dateArr);
   if (!isNaN(dateArr[0].getDate()) && !isNaN(dateArr[1].getDate())) {
     // YES --> THEN SET THAT ON THE QUERY OBJECT
     queryObj.query.where.AND = [
