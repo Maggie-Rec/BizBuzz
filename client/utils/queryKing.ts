@@ -47,9 +47,7 @@ function SelectBlock(propertyToSelect: string): [string, {}] {
 // ACTUAL FUNCTION THAT WILL GET CALLED FROM THE FRONTEND
 // filterArr --> ARRAY CONTAINING FILTERS e.g. --> ["location-id:1", "location-id:3", "location-id:4", "SKU", "date"]
 // dateArr --> ARRAY CONTAINING DATE RANGE e.g. --> [startDate, endDate]
-export function generateQuery(filterArr: string[] | object[], dateArr: Date[], keyword = 'findAll') {
-  // Changed - now accepts string objects in the filter array. See also line 83
-  // Also changed for optional keyword argument
+export function generateQuery(filterArr: string[], dateArr: Date[]) {
 
   // EMPTY INITIAL QUERY OBJECT
   const queryObj = {
@@ -59,9 +57,9 @@ export function generateQuery(filterArr: string[] | object[], dateArr: Date[], k
         OR: []
       },
       select: {}
-    },
-    keyword: keyword
+    }
   }
+
   // CHECK IF THERE'S A CUSTOM DATE RANGE (IF DATES ARE INVALID ==> NO CUSTOM DATE RANGE)
   if (!isNaN(dateArr[0].getDate()) && !isNaN(dateArr[1].getDate())) {
     // YES --> THEN SET THAT ON THE QUERY OBJECT
@@ -80,18 +78,14 @@ export function generateQuery(filterArr: string[] | object[], dateArr: Date[], k
   }
 
   // CHECK IF WE ARE FILTERING THROUGH SPECIFIC PROPERTIES (--> PUT IT IN where IN QUERY)
-
-  // Lines 84 and 91 changed to not operate in cases where filters were already objects. See also line 51
-  const propertyFilters = typeof filterArr[0] === 'string' ? (filterArr.filter((el) => el.includes(':'))) : filterArr;
+  const propertyFilters = filterArr.filter((el) => el.includes(':'));
   if (propertyFilters.length > 0) {
     // YES --> ADD THEM TO THE QUERY OBJECT
     propertyFilters.forEach((el) => {
       // e.g. "location_id:2".split(':') --> ["location_id", "2"]
       // --> property: 'location_id'
       // --> value we want to filter through: 2
-      const [property, value] = typeof el === 'string' ? el.split(':') : el;
-      // The above, if uncommented, is new code to cover non-string properties
-      // const [property, value] = el.split(':');
+      const [property, value] = el.split(':');
       queryObj.query.where.OR.push({ [property]: parseInt(value) }) // parseInt because we need integers in DB
     })
   }

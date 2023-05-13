@@ -6,17 +6,20 @@
 // I'm not going to mess with imports in the front end if I can avoid it.
 
 const SERVER_URL = 'http://localhost:3005';
+import { filterString } from "./stringFilter";
 
-export async function makeFetchRequest({ queryObject, route = 'transactions', keyword = 'findAll' }) {
-  const body = { ...queryObject };
-  if (!body.keyword) body.keyword = keyword;
-  let response = await fetch(SERVER_URL + '/' + route, {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify(body)
-  });
-  response = await response.json();
-  return response;
+export async function makeFetchRequest({ queryObject, route = 'transactions' }) {
+  try {
+    let response = await fetch(SERVER_URL + '/' + route, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: queryObject
+    });
+    response = await response.json();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 }
