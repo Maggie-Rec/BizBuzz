@@ -22,35 +22,32 @@ import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
-<<<<<<< HEAD
-import { useState, useEffect } from "react";
-import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
-=======
+
 import { useState, useEffect, SetStateAction } from "react";
->>>>>>> db-connection
+import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
+
+
+
 
 interface Props {
   barChartSelection: string[];
   barChartPeriod: string[];
   id: number;
-<<<<<<< HEAD
-  type: string;
-}
 
-const BarChart = ({ barChartSelection, barChartPeriod, id, type }: Props) => {
-=======
+  type: string;
   selectedData: string;
   period: string[];
 }
+
+
 
 const BarChart = ({
   barChartSelection,
   barChartPeriod,
   selectedData,
   id,
-  period,
-}: Props) => {
->>>>>>> db-connection
+  period}: Props) => {
+
   const dispatch = useDispatch();
   console.log(selectedData);
   // console.log(barChartPeriod);
@@ -132,15 +129,13 @@ const BarChart = ({
       height: parseInt(ref.style.height),
     });
     setPosition(position);
-<<<<<<< HEAD
     savePositionLocal(id, size, position);
   };
 
   useEffect(() => {
     restorePosition(id, setPosition, setSize);
   }, [])
-=======
-  };
+  
 
   useEffect(() => {
     data = {
@@ -148,7 +143,6 @@ const BarChart = ({
       labels: barChartPeriod,
     };
   }, [barChartPeriod]);
->>>>>>> db-connection
 
   return (
     <Rnd

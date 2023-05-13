@@ -38,12 +38,15 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
+   function refreshActiveMenu() {
+     setActiveMenu(undefined);
+   }
   const showWindow = (value: string) => {
     console.log(value);
     if (value === "bar-chart") {
-      setActiveMenu(<BarMenu />);
+      setActiveMenu(<BarMenu func={refreshActiveMenu} />);
     } if (value === "pie-chart") {
-      setActiveMenu(<PieMenu />);
+      setActiveMenu(<PieMenu func={refreshActiveMenu} />);
     } if (value === "line-chart") {
       setActiveMenu(<LineMenu showWidget={showWidget} />);
     } if (value === "progress-chart") {
