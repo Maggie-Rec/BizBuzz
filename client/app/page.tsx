@@ -2,7 +2,7 @@
 
 // import { SessionProvider } from "next-auth/react";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useLayoutEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { legacy_createStore } from "redux";
 import rootReducer from "../reducer";
@@ -15,6 +15,7 @@ import Dashboard from "../components/Dashboard";
 import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
 import LocationsView from "../components/LocationsView";
+import Loading from "./loading";
 
 const store = legacy_createStore(rootReducer);
 
@@ -23,6 +24,8 @@ const MainPage = () => {
   const [isOnDashboard, setIsOnDashboard] = useState(true);
   const [isOnReports, setIsOnReports] = useState(false);
   const [isOnLocations, setIsOnLocations] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   store.subscribe(() =>
     setIsOnReports(store.getState().currentTab === 'reports')
@@ -36,25 +39,39 @@ const MainPage = () => {
     setIsOnDashboard(store.getState().currentTab === 'dashboard')
   )
 
-  return (
+  function componentDidMount() {
+    console.log('mounted')
+  }
 
-    <Provider store={store}>
-      <div>
-        {isLogged ? (
-          <LoginPage />
-        ) : (
-          <div>
-            <NavBar />
-            <div className="container">
-              <SideBar />
-              {isOnDashboard ? <Dashboard /> : null}
-              {isOnReports ? <ReportsView /> : null}
-              {isOnLocations ? <LocationsView /> : null}
+  // useEffect(() => {
+  //   console.log('layout')
+  //   setTimeout(() => {
+  //     setIsLoading(false)
+  //   }, 1000);
+  // }, [isLoading])
+
+  return (
+    // <> {isLoading ?
+      // <Loading /> :
+      <Provider store={store}>
+        <div>
+          {isLogged ? (
+            <LoginPage />
+          ) : (
+            <div>
+              <NavBar />
+              <div className="container">
+                <SideBar />
+                {isOnDashboard ? <Dashboard /> : null}
+                {isOnReports ? <ReportsView /> : null}
+                {isOnLocations ? <LocationsView /> : null}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-    </Provider>
+          )}
+        </div>
+      </Provider>
+      // }
+    // </>
   );
 };
 

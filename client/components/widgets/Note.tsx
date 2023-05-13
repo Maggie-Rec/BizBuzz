@@ -2,12 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Card } from "antd";
 import { Rnd } from "react-rnd";
 import styles from "../../styles/Note.module.css";
-import { CloseOutlined, DeleteOutlined, DragOutlined } from "@ant-design/icons";
+import { DeleteOutlined, DragOutlined } from "@ant-design/icons";
 import noteSaver from "../../utils/noteSaver";
-import randomAlphaNumeric from "../../utils/randomizer";
-import { useDispatch } from "react-redux";
 
-export default function Note({ s, p, t, c, id, setter }) {
+export default function Note({ s, p, t, c, id, setter, containerRef }) {
   // const [size, setSize] = useState(s);
   const sizeRef = useRef(s);
   // const [position, setPosition] = useState(p);
@@ -18,8 +16,8 @@ export default function Note({ s, p, t, c, id, setter }) {
   let titleRef = useRef<HTMLTextAreaElement>(null);
   let contentRef = useRef<HTMLTextAreaElement>(null);
 
-  const dispatch = useDispatch();
   const cardRef = useRef();
+  const rndRef = useRef();
 
   function handleChange(event, setter) {
     setter(event.target.value);
@@ -27,24 +25,20 @@ export default function Note({ s, p, t, c, id, setter }) {
 
   function onDragStop(e, d) {
     // setPosition({ x: d.x, y: d.y });
+    // getPositions();
     positionRef.current = { x: d.x, y: d.y };
     saveState();
   };
-  
-  function onResizeStop(e, direction, ref, delta, position) {
-    // setSize({
-    //   width: parseInt(ref.style.width),
-    //   height: parseInt(ref.style.height),
-    // });
-    positionRef.current = {
-      width: parseInt(ref.style.width),
-      height: parseInt(ref.style.height),
-    };
-    // setPosition(position);
-    saveState();
-    // noteSaver(states);
-  };
 
+  // function getPositions() {
+  //   const container = containerRef.current as HTMLElement;
+  //   const siblings = container.children as HTMLCollection;
+  //   console.log(container, siblings);
+  //   for (let i = 0; i < siblings.length; i++) {
+  //     console.log(siblings[i]);
+  //   }
+  // }
+  
   function deleteNote() {
     setter((prev) => {
       let next = prev.filter(element => element.id !== id);
@@ -73,17 +67,14 @@ export default function Note({ s, p, t, c, id, setter }) {
 
   return (
     <Rnd
+      ref={rndRef}
       // size={size}
       size={sizeRef.current}
       // position={position}
       position={positionRef.current}
       onDragStop={onDragStop}
-      onResizeStop={onResizeStop}
       dragGrid={[30, 30]}
-      resizeGrid={[30, 30]}
       bounds="parent"
-      minWidth={300}
-      minHeight={300}
       dragHandleClassName={styles.DragOutlined}
     >
 

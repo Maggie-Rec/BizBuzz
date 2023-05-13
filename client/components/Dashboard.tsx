@@ -187,6 +187,7 @@ const Dashboard = () => {
               id={item.id}
               key={randomAlphaNumeric()}
               setter={setNotes}
+              containerRef={containerRef}
             />
           })}
         </section>
