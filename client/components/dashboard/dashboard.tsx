@@ -155,15 +155,7 @@ const Dashboard = () => {
             <Button className={styles.calendarBtn}>Calendar</Button>
           </Popover>
         </Space>
-        <div>
-          <Segmented
-            options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
-          />
-
-          <Space direction="vertical" size={12}>
-            <RangePicker className={styles.dateSelector} />
-          </Space>
-        </div>
+        
 
         <Button onClick={addNote}>Add a note</Button>
         

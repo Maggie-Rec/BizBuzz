@@ -9,6 +9,7 @@ const { RangePicker } = DatePicker;
 const BarMenu = ({ func }) => {
   const dispatch = useDispatch();
   const [option1, setOption1] = useState("");
+  const [dbDates, setDBDates] = useState([]);
   // // const [option2, setOption2] = useState("");
   // // const [option3, setOption3] = useState("");
 
@@ -25,17 +26,45 @@ const BarMenu = ({ func }) => {
           id={Date.now()}
           key={Date.now()}
           period={period}
-          selectedData={generateQuery(
-            [option1, "date"],
-            [new Date(period[0]), new Date(new Date(period[1]).setMonth(new Date(period[1]).getMonth() + 1))]
-          )}
+          selectedData={generateQuery(dbDates)}
         />
       ),
     });
     handleCancel();
   };
 
-  const monthArray = (period) => {
+  const monthArray = (string) => {
+    const allYear = [
+      "2023-01",
+      "2023-02",
+      "2023-03",
+      "2023-04",
+      "2023-05",
+      "2023-06",
+      "2023-07",
+      "2023-08",
+      "2023-09",
+      "2023-10",
+      "2023-11",
+      "2023-12",
+    ];
+
+    const getDates = (start: string, end: string): string[] => {
+      const startDate = new Date(start).getMonth();
+      const endDate = new Date(end).getMonth();
+      const dates: string[] = [];
+
+      for (let i: any = startDate; i <= endDate; i++) {
+        const date = new Date(`${allYear[i]}-01T00:00:00.000Z`);
+        dates.push(date.toISOString());
+      }
+
+      return dates;
+    };
+
+    setDBDates(getDates(string[0], string[1]));
+    console.log(dbDates);
+
     const allMonths = [
       "January",
       "February",
@@ -52,6 +81,8 @@ const BarMenu = ({ func }) => {
     ];
     const monthNumber1 = new Date(period[0]).getMonth();
     const monthNumber2 = new Date(period[1]).getMonth();
+
+    console.log(monthNumber1);
 
     let selectedMonths: string[] = [];
 
@@ -122,9 +153,17 @@ const BarMenu = ({ func }) => {
             onChange={setOption1}
             className={styles.input}
             options={[
-              { value: "item", label: "Total items sold" },
+              { value: "1", label: "Total items sold" },
               {
-                value: "location",
+                value: "2",
+                label: "Total amount of customers",
+              },
+              {
+                value: "3",
+                label: "Total amount of customers",
+              },
+              {
+                value: "4",
                 label: "Total amount of customers",
               },
             ]}
