@@ -3,7 +3,13 @@ import { Space, Select, Button, DatePicker, Modal } from "antd";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useDispatch } from "react-redux";
 import BarChart from "./barChart";
-import { generateQuery } from "../../../utils/queryKing";
+// import { generateQuery } from "../../../utils/queryKing";
+import {
+  queryTotalItemsByMonth,
+  queryTotalCustomersByMonth,
+  queryTotalAmountByMonth,
+  queryTotalTransactionsByMonth,
+} from "../../../utils/queryKingV2";
 
 const { RangePicker } = DatePicker;
 const BarMenu = ({ func }) => {
@@ -25,13 +31,27 @@ const BarMenu = ({ func }) => {
           barChartPeriod={monthArray(period)}
           id={Date.now()}
           key={Date.now()}
-          period={period}
-          selectedData={generateQuery(dbDates)}
+          selectedData={values(option1)}
+          // period={period}
         />
       ),
     });
     handleCancel();
   };
+
+const values = (item: string) =>{
+    if (item === "total_items") {
+      return queryTotalItemsByMonth(dbDates);
+    } else if (item === "total_customers") {
+      return queryTotalCustomersByMonth(dbDates);
+    } else if (item === "total_with_tax") {
+      return queryTotalAmountByMonth(dbDates);
+    } else if (item === "total_transactions") {
+      return queryTotalTransactionsByMonth(dbDates);
+    }
+}
+ 
+
 
   const monthArray = (string) => {
     const allYear = [
@@ -63,7 +83,7 @@ const BarMenu = ({ func }) => {
     };
 
     setDBDates(getDates(string[0], string[1]));
-    console.log(dbDates);
+    // console.log(dbDates);
 
     const allMonths = [
       "January",
@@ -81,8 +101,6 @@ const BarMenu = ({ func }) => {
     ];
     const monthNumber1 = new Date(period[0]).getMonth();
     const monthNumber2 = new Date(period[1]).getMonth();
-
-    console.log(monthNumber1);
 
     let selectedMonths: string[] = [];
 
@@ -153,18 +171,18 @@ const BarMenu = ({ func }) => {
             onChange={setOption1}
             className={styles.input}
             options={[
-              { value: "1", label: "Total items sold" },
+              { value: "total_items", label: "Total items sold" },
               {
-                value: "2",
+                value: "total_customers",
                 label: "Total amount of customers",
               },
               {
-                value: "3",
-                label: "Total amount of customers",
+                value: "total_with_tax",
+                label: "Total amount",
               },
               {
-                value: "4",
-                label: "Total amount of customers",
+                value: "total_transactions",
+                label: "Total amount of transactions",
               },
             ]}
           />

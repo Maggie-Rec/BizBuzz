@@ -29,8 +29,8 @@ const progressChartReducer = (state = initialStateProgress, action) => {
 
 const initialStateBar = {
   option1: "",
-  option2: "",
-  option3: "",
+  // option2: "",
+  // option3: "",
   monthsArray: [],
 };
 
@@ -39,8 +39,8 @@ const barChartReducer = (state = initialStateBar, action) => {
     const newState = {
       ...state,
       option1: action.payload.option1,
-      option2: action.payload.option2,
-      option3: action.payload.option3,
+      // option2: action.payload.option2,
+      // option3: action.payload.option3,
     };
     return newState;
   }

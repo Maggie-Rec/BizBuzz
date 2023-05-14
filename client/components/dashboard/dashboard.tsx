@@ -18,7 +18,6 @@ import {
   Popover,
   Dropdown,
   Space,
-  Segmented,
   DatePicker,
   Modal,
 } from "antd";
@@ -45,7 +44,6 @@ const Dashboard = () => {
      setActiveMenu(undefined);
    }
   const showWindow = (value: string) => {
-    console.log(value);
     if (value === "bar-chart") {
       setActiveMenu(<BarMenu func={refreshActiveMenu} />);
     } if (value === "pie-chart") {

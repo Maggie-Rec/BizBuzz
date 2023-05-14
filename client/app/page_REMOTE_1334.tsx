@@ -28,19 +28,19 @@ const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   store.subscribe(() =>
-    setIsOnReports(store.getState().currentTab === 'reports')
-  )
+    setIsOnReports(store.getState().currentTab === "reports")
+  );
 
   store.subscribe(() =>
-    setIsOnLocations(store.getState().currentTab === 'locations')
-  )
+    setIsOnLocations(store.getState().currentTab === "locations")
+  );
 
   store.subscribe(() =>
-    setIsOnDashboard(store.getState().currentTab === 'dashboard')
-  )
+    setIsOnDashboard(store.getState().currentTab === "dashboard")
+  );
 
   function componentDidMount() {
-    console.log('mounted')
+    console.log("mounted");
   }
 
   // useEffect(() => {
@@ -52,25 +52,25 @@ const MainPage = () => {
 
   return (
     // <> {isLoading ?
-      // <Loading /> :
-      <Provider store={store}>
-        <div>
-          {isLogged ? (
-            <LoginPage />
-          ) : (
-            <div>
-              <NavBar />
-              <div className="container">
-                <SideBar />
-                {isOnDashboard ? <Dashboard /> : null}
-                {isOnReports ? <ReportsView /> : null}
-                {isOnLocations ? <LocationsView /> : null}
-              </div>
+    // <Loading /> :
+    <Provider store={store}>
+      <div>
+        {isLogged ? (
+          <LoginPage />
+        ) : (
+          <div>
+            <NavBar />
+            <div className="container">
+              <SideBar />
+              {isOnDashboard ? <Dashboard /> : null}
+              {isOnReports ? <ReportsView /> : null}
+              {isOnLocations ? <LocationsView /> : null}
             </div>
-          )}
-        </div>
-      </Provider>
-      // }
+          </div>
+        )}
+      </div>
+    </Provider>
+    // }
     // </>
   );
 };
