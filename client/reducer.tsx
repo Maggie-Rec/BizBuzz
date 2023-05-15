@@ -54,16 +54,20 @@ const barChartReducer = (state = initialStateBar, action) => {
 };
 
 function stringifyWidgets(newState) {
+  console.log(newState)
   return JSON.stringify(
     newState.map((item) => {
-      let widgetType = item.props.type;
-      let toSave = {} as { widgetType: string };
-      toSave.widgetType = widgetType;
-      Object.assign(toSave, item);
-      return toSave;
+      if (item !== null) {
+        const widgetType = item.props.type;
+        const toSave = {} as { widgetType: string };
+        toSave.widgetType = widgetType;
+        Object.assign(toSave, item);
+        return toSave;
+      }
     })
   );
 }
+
 
 const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNames: [] } as { axes: any, filters: object[], period: any, filterNames: string[] }
   , action) => {
