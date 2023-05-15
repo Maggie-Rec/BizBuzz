@@ -28,13 +28,18 @@ import {
   LineChartOutlined,
   DollarOutlined,
 } from "@ant-design/icons";
+import DataUpload from "../DataUpload";
 
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState<ReactNode>();
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
   const [notes, setNotes] = useState([]);
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
+  function handleUploadModal() {
+    setShowUploadModal(!showUploadModal);
+  };
 
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
@@ -163,6 +168,7 @@ const Dashboard = () => {
       <div>
         <div className={styles.toolBar}>
           <Space wrap>
+          <Button onClick={handleUploadModal}>Upload data</Button>
             <Popover content={calendar} trigger="click">
               <Button className={styles.calendarBtn}>Calendar</Button>
             </Popover>
@@ -209,6 +215,16 @@ const Dashboard = () => {
           <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
             {activeMenu}
           </Modal>
+          { 
+        showUploadModal ?
+        <Modal open={showUploadModal} 
+          footer={[
+            <Button key={randomAlphaNumeric()} onClick={handleUploadModal}>Done</Button>
+          ]}>
+          { <DataUpload /> }
+        </Modal> 
+        : undefined  
+      }
         </div>
       </div>
     </ConfigProvider>
