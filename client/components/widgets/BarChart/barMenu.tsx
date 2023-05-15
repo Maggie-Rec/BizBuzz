@@ -21,13 +21,18 @@ const BarMenu = ({ func }) => {
       payload: (
         <BarChart
           barChartSelection={[option1]}
-          barChartPeriod={monthArray(period)}
+          barChartPeriod={monthArray(period)}q
           id={Date.now()}
           key={Date.now()}
           period={period}
           selectedData={generateQuery(
             [option1, "date"],
-            [new Date(period[0]), new Date(new Date(period[1]).setMonth(new Date(period[1]).getMonth() + 1))]
+            [
+              new Date(period[0]),
+              new Date(
+                new Date(period[1]).setMonth(new Date(period[1]).getMonth() + 1)
+              ),
+            ]
           )}
         />
       ),

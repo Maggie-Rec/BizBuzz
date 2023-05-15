@@ -45,6 +45,7 @@ const BarChart = ({
   barChartSelection,
   barChartPeriod,
   selectedData,
+  type,
   id,
   period}: Props) => {
 
