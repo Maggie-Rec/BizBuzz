@@ -27,7 +27,7 @@ const LoginWindow = () => {
   const handleLogin = async () => {
     console.log(email, password);
     const creds = {
-      username: email,
+      email: email,
       password: password,
     };
     const data = await getLogin(creds);

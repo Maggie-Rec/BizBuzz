@@ -5,7 +5,8 @@ export async function getLogin(creds) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(creds)
+            body: JSON.stringify(creds),
+            credentials: "include"
         });
 
     }catch (error) {

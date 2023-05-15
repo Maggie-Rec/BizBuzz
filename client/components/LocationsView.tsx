@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "antd/es/card/Card";
-import { fetchLocations } from "../APIs/database";
+import { fetchLocations } from "./ApiService/database";
 import randomAlphaNumeric from "../utils/randomizer";
 import LocationCard from "./LocationCard";
 import styles from '../styles/LocationsView.module.css';

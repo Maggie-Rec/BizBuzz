@@ -6,7 +6,7 @@ import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
 import getThisPeriod from "../../../utils/thisTimePeriod";
 import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
-import fetchTransactionData from "../../../APIs/database";
+import fetchTransactionData from "../../ApiService/database";
 
 interface Props {
   id: number,
