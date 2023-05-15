@@ -58,6 +58,7 @@ function stringifyWidgets(newState) {
   return JSON.stringify(
     newState.map((item) => {
       if (item !== null) {
+        console.log(item.props);
         const widgetType = item.props.type;
         const toSave = {} as { widgetType: string };
         toSave.widgetType = widgetType;

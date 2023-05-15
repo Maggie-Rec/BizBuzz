@@ -31,7 +31,7 @@ interface Props {
   barChartPeriod: string[];
   id: number;
 
-  // type: string;
+  type: string;
   selectedData: string;
   // period: string[];
 }
@@ -41,9 +41,10 @@ const BarChart = ({
   barChartPeriod,
   selectedData,
   id,
+  type,
 }: Props) => {
   const dispatch = useDispatch();
-  
+
   console.log(selectedData);
 
   const [size, setSize] = useState({ width: 300, height: 300 });

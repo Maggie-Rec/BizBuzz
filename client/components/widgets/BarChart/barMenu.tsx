@@ -32,6 +32,7 @@ const BarMenu = ({ func }) => {
           id={Date.now()}
           key={Date.now()}
           selectedData={values(option1)}
+          type={"BarChart"}
           // period={period}
           />
           ),
@@ -51,8 +52,7 @@ const BarMenu = ({ func }) => {
         }
       }
       
-      console.log(values(option1))
-
+     
 
 const monthArray = (string) => {
   const allYear = [

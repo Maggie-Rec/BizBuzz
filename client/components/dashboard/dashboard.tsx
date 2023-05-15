@@ -35,14 +35,6 @@ const Dashboard = () => {
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
   const [notes, setNotes] = useState([]);
 
-  /* PROPERTY FILTER APPLIED */
-  const [activePropertyFilter, setActivePropertyFilter] = useState(
-    [] as string[]
-  );
-  /* CUSTOM PROPERTY FILTERS SELECTED */
-  const [selectedPropertyFilters, setSelectedPropertyFilters] = useState(
-    [] as string[]
-  );
 
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
@@ -61,17 +53,17 @@ const Dashboard = () => {
       setActiveMenu(<PieMenu func={refreshActiveMenu} />);
     }
     if (value === "line-chart") {
-      setActiveMenu(<LineMenu showWidget={showWidget} />);
+      setActiveMenu(<LineMenu func={refreshActiveMenu} />);
     }
     if (value === "progress-chart") {
-      setActiveMenu(<ProgressMenu />);
+      setActiveMenu(<ProgressMenu func={refreshActiveMenu} />);
     }
     // setOpenMenu(event.target.textContent);
   };
 
-  const showWidget = (chartType: string) => {
-    setOpenWidget({ chartType });
-  };
+  // const showWidget = (chartType: string) => {
+  //   setOpenWidget({ chartType });
+  // };
 
   function handleOk() {
     setActiveMenu(false);
@@ -190,10 +182,10 @@ const Dashboard = () => {
           </Dropdown>
         </div>
         <div className={styles.containerDashboard}>
-          {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE */}
+          {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE
           {openWidget.chartType === "Line Chart" && (
             <LineChart showWidget={() => setOpenWidget({})} />
-          )}
+          )} */}
 
           <section className={styles.widgetContainer} ref={containerRef}>
             {widgetSelection}

@@ -29,26 +29,27 @@ import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
 import { generateKey } from "crypto";
 import { generateAggSumQuery } from "../../../utils/aggregateSumQueries";
-import { generateTimePeriods } from '../../../utils/generateTimePeriods';
-import { makeFetchRequest } from '../../../utils/queryRequestMaker';
+import { generateTimePeriods } from "../../../utils/generateTimePeriods";
+import { makeFetchRequest } from "../../../utils/queryRequestMaker";
 import { translateQuantity } from "./translations";
 
-interface Props {
-  showWidget: () => void;
-}
-const LineChart = ({ showWidget }: Props) => {
+const LineChart = ({id,type}) => {
   const dispatch = useDispatch();
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
 
+
   const handleClose = () => {
-    showWidget();
+    dispatch({
+      type: "REMOVE_WIDGET",
+      payload: id,
+    });
   };
   function returnLabels(number) {
     let result = [];
     let period = queriesInfo.axes.x[1];
     let current = queriesInfo.period.start;
-    if (period === 'month') {
+    if (period === "month") {
       while (result.length < number) {
         result.push(monthLabels[current.month - 1]);
         current.month++;
@@ -58,7 +59,7 @@ const LineChart = ({ showWidget }: Props) => {
         }
       }
     }
-    if (period === 'quarter') {
+    if (period === "quarter") {
       while (result.length < number) {
         result.push(monthLabels[current.month - 1]);
         current.month += 3;
@@ -68,17 +69,17 @@ const LineChart = ({ showWidget }: Props) => {
         }
       }
     }
-    if (period === 'year') {
+    if (period === "year") {
       while (result.length < number) {
         result.push(current.year);
         current.year++;
       }
     }
-    if (period === 'week') {
-      console.log('Need to add abilities to have weeks and days on x-axis')
+    if (period === "week") {
+      console.log("Need to add abilities to have weeks and days on x-axis");
     }
-    if (period === 'day') {
-      console.log('Need to add abilities to have weeks and days on x - axis')
+    if (period === "day") {
+      console.log("Need to add abilities to have weeks and days on x - axis");
     }
 
     return result;
@@ -92,20 +93,22 @@ const LineChart = ({ showWidget }: Props) => {
     "May",
     "June",
     "July",
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
-  const queriesInfo = useSelector((state) => { return state.lineChart });
+  const queriesInfo = useSelector((state) => {
+    return state.lineChart;
+  });
 
   // e.g. queriesInfo: {
   //   axes: {
   //     x: ['time', 'quarter']
   //     y: ['salesQuantity', 'acrossLocations']
-  //   }  
+  //   }
   //   filterNames: [],
   //   filters : [],
   //     period : {
@@ -116,65 +119,70 @@ const LineChart = ({ showWidget }: Props) => {
   let { startDates, endDates } = generateTimePeriods({
     start: queriesInfo.period.start,
     end: queriesInfo.period.end,
-    unit: queriesInfo.axes.x[1]
+    unit: queriesInfo.axes.x[1],
   });
   const [requests, setRequests] = useState([]);
 
   function generateRequests() {
     let newRequests = [];
-    if (queriesInfo.axes.y[1] === 'acrossLocations') {
+    if (queriesInfo.axes.y[1] === "acrossLocations") {
       for (let i = 0; i < startDates.length; i++) {
         newRequests.push({
-          label: 'Total',
+          label: "Total",
           query: generateAggSumQuery({
             filterArr: queriesInfo.filters,
             dateArr: [startDates[i], endDates[i]],
-            keyword: 'aggregate',
-            operator: translateQuantity(queriesInfo.axes.y[0])
-          })
+            keyword: "aggregate",
+            operator: translateQuantity(queriesInfo.axes.y[0]),
+          }),
         });
       }
-    } else if (queriesInfo.axes.y[1] === 'inSpecificLocations') {
+    } else if (queriesInfo.axes.y[1] === "inSpecificLocations") {
       if (queriesInfo.axes.y[2]) {
         for (let location of queriesInfo.axes.y[2]) {
           for (let i = 0; i < startDates.length; i++) {
             newRequests.push({
               label: location,
               query: generateAggSumQuery({
-                filterArr: queriesInfo.filters.concat({ location_id: location }),
+                filterArr: queriesInfo.filters.concat({
+                  location_id: location,
+                }),
                 dateArr: [startDates[i], endDates[i]],
-                keyword: 'aggregate',
-                operator: translateQuantity(queriesInfo.axes.y[0])
-              })
+                keyword: "aggregate",
+                operator: translateQuantity(queriesInfo.axes.y[0]),
+              }),
             });
           }
         }
       } else {
-        console.log("No query, error caught. This shouldn't occur if app is used as I expect.");
+        console.log(
+          "No query, error caught. This shouldn't occur if app is used as I expect."
+        );
       }
-
-    } else if (queriesInfo.axes.y[1] === 'inEachLocation') {
+    } else if (queriesInfo.axes.y[1] === "inEachLocation") {
       for (let i = 0; i < startDates.length; i++) {
         newRequests.push({
-          label: 'Total',
+          label: "Total",
           query: generateAggSumQuery({
             filterArr: queriesInfo.filters,
             dateArr: [startDates[i], endDates[i]],
-            keyword: 'aggregate',
-            operator: translateQuantity(queriesInfo.axes.y[0])
-          })
+            keyword: "aggregate",
+            operator: translateQuantity(queriesInfo.axes.y[0]),
+          }),
         });
         for (let location of [1, 2, 3, 4, 5]) {
           for (let i = 0; i < startDates.length; i++) {
             newRequests.push({
               label: location,
               query: generateAggSumQuery({
-                filterArr: queriesInfo.filters.concat({ location_id: location }),
+                filterArr: queriesInfo.filters.concat({
+                  location_id: location,
+                }),
                 dateArr: [startDates[i], endDates[i]],
-                keyword: 'aggregate',
-                operator: translateQuantity(queriesInfo.axes.y[0])
-              })
-            })
+                keyword: "aggregate",
+                operator: translateQuantity(queriesInfo.axes.y[0]),
+              }),
+            });
           }
         }
       }
@@ -193,7 +201,8 @@ const LineChart = ({ showWidget }: Props) => {
       fill: false,
       borderColor: "#002642",
       backgroundColor: "#002642",
-    }, {
+    },
+    {
       fill: true,
       borderColor: "#840032",
       backgroundColor: "#840032",
@@ -202,15 +211,17 @@ const LineChart = ({ showWidget }: Props) => {
       fill: true,
       borderColor: "#538927",
       backgroundColor: "#538927",
-    }
-  ]
-
+    },
+  ];
 
   async function fetchData() {
     const datasets = [];
     for (let request of requests) {
-      let dataPoint = await makeFetchRequest({ queryObject: request.query, route: 'transactions' });
-      while (dataPoint && typeof dataPoint === 'object') {
+      let dataPoint = await makeFetchRequest({
+        queryObject: request.query,
+        route: "transactions",
+      });
+      while (dataPoint && typeof dataPoint === "object") {
         dataPoint = dataPoint[Object.keys(dataPoint)[0]];
       }
       const index = datasets.findIndex((set) => set.label === request.label);
@@ -219,9 +230,10 @@ const LineChart = ({ showWidget }: Props) => {
         let obj = {
           label: request.label,
           // NB Need to adjust the below to only add the final part of dataPoint
-          data: [dataPoint]
+          data: [dataPoint],
         };
-        [obj.fill, obj.borderColor, obj.backgroundColor] = colorPackages[datasets.length % 3];
+        [obj.fill, obj.borderColor, obj.backgroundColor] =
+          colorPackages[datasets.length % 3];
         datasets.push(obj);
       } else {
         // console.log('Data to be added to existing dataset', dataPoint, request.label);
@@ -234,7 +246,7 @@ const LineChart = ({ showWidget }: Props) => {
     if (datasets[0] && datasets[0].data) {
       setData({
         labels: returnLabels(datasets[0].data.length),
-        datasets
+        datasets,
       });
     }
 
@@ -270,10 +282,10 @@ const LineChart = ({ showWidget }: Props) => {
   const [data, setData] = useState(dummyData);
   useEffect(() => {
     generateRequests();
-  }, [])
+  }, []);
   useEffect(() => {
     fetchData();
-  }, [requests])
+  }, [requests]);
 
   const onDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });

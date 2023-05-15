@@ -11,16 +11,30 @@ import {
   UserOutlined,
   EnvironmentOutlined,
 } from "@ant-design/icons";
+import { Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../assets/logo1.png";
 import logoSml from "../assets/logo-sml.png";
 import Image from "next/image";
+import Profile from "./Profile";
 
 const NewSideBar2 = () => {
   const currTab = useSelector((state: any) => state.currentTab);
   const dispatch = useDispatch();
 
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [activeProfile, setActiveProfile] = useState(false);
+
+  function openProfile() {
+    setActiveProfile(true);
+  }
+  function handleOk() {
+    setActiveProfile(false);
+  }
+
+  function handleCancel() {
+    setActiveProfile(false);
+  }
 
   return (
     <div>
@@ -31,17 +45,17 @@ const NewSideBar2 = () => {
         }}
       >
         <div className={styles.userInfoContainer}>
-        {isCollapsed ? (
-          <Image
-            src={logoSml}
-            height={96}
-            width={96}
-            alt="small logo"
-            className={styles.smlLogo}
-          />
-        ) : (
-          <Image src={logo} height={118} alt="logo" className={styles.logo} />
-        )}
+          {isCollapsed ? (
+            <Image
+              src={logoSml}
+              height={96}
+              width={96}
+              alt="small logo"
+              className={styles.smlLogo}
+            />
+          ) : (
+            <Image src={logo} height={118} alt="logo" className={styles.logo} />
+          )}
           {/* <div
             className={
               isCollapsed ? styles.iconContainerCollapsed : styles.iconContainer
@@ -60,8 +74,25 @@ const NewSideBar2 = () => {
               isCollapsed ? styles.iconContainerCollapsed : styles.iconContainer
             }
           >
-            <UserOutlined className={styles.icon} />
+            <UserOutlined
+              className={styles.icon}
+              onClick={() => {
+                openProfile();
+              }}
+            />
             {!isCollapsed && <h3>Your Name</h3>}
+            <Modal
+              open={!!activeProfile}
+              title="Your Profile"
+              onOk={handleOk}
+              onCancel={handleCancel}
+              style={{
+                top: 20,
+              }}
+              width={1000}
+            >
+              <Profile />
+            </Modal>
           </div>
         </div>
         <div className={styles.moduleListContainer}>
