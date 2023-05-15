@@ -69,6 +69,7 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
   , action) => {
   switch (action.type) {
     case "ADD_FILTER":
+      console.log('here', action.payload);
       const newState = { ...state };
       const newFilter = [action.payload.filter, action.payload.obj[action.payload.filter]];
       console.log('Filter to be added, should be array', newFilter);
