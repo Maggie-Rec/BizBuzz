@@ -1,5 +1,5 @@
 .container {
-  width: 100%;
+  min-width: 85vw;
   height: 100vh;
   box-sizing: border-box;
   padding-top: 1vh;
@@ -21,4 +21,4 @@
   overflow-y: hidden;
   padding: 2vh 3vw;
   box-sizing: border-box;
-}
+  }

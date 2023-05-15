@@ -78,15 +78,24 @@ export function generateQuery (filterArr: string[], dateArr: Date[]) {
   }
 
   // CHECK IF WE ARE FILTERING THROUGH SPECIFIC PROPERTIES (--> PUT IT IN where IN QUERY)
-  const propertyFilters = filterArr.filter((el) => el.includes(':'));
+  const propertyFilters = filterArr.filter((el) => el.includes(':') || el === 'is_member');
   if (propertyFilters.length > 0) {
     // YES --> ADD THEM TO THE QUERY OBJECT
     propertyFilters.forEach((el) => {
       // e.g. "location_id:2".split(':') --> ["location_id", "2"]
       // --> property: 'location_id'
       // --> value we want to filter through: 2
-      const [property, value] = el.split(':');
-      queryObj.query.where.OR.push({ [property]: parseInt(value) }) // parseInt because we need integers in DB
+      const [property, value] = el.split(':')
+      if (property === 'is_member') {
+        queryObj.query.where.AND.push({ 
+          [property]: JSON.parse(value)
+        }) 
+      }
+      else {
+        queryObj.query.where.AND.push({ 
+          [property]: !Number.isNaN(parseInt(value)) && parseInt(value).toString().length === value.length ? parseInt(value) : `${value}` 
+        }) // parseInt because we need integers in DB, otherwise put string as it is
+      }
     })
   }
 
@@ -147,7 +156,7 @@ export function generateQuery (filterArr: string[], dateArr: Date[]) {
 
   // DELETE SELECT IF EMPTY
   // OTHERWISE DB FETCH DOESNT WORK
-  if (Object.keys(queryObj.query.select).length === 0) delete queryObj.query.select;
+  if (Object.keys(queryObj.query.select).length === 0 || filterArr.includes('all_columns')) delete queryObj.query.select;
 
   return JSON.stringify(queryObj);
 }
