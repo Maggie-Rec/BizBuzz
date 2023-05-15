@@ -3,12 +3,19 @@ import { Space, Select, Button, DatePicker, Modal } from "antd";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useDispatch } from "react-redux";
 import BarChart from "./barChart";
-import { generateQuery } from "../../../utils/queryKing";
+// import { generateQuery } from "../../../utils/queryKing";
+import {
+  queryTotalItemsByMonth,
+  queryTotalCustomersByMonth,
+  queryTotalAmountByMonth,
+  queryTotalTransactionsByMonth,
+} from "../../../utils/queryKingV2";
 
 const { RangePicker } = DatePicker;
 const BarMenu = ({ func }) => {
   const dispatch = useDispatch();
   const [option1, setOption1] = useState("");
+  const [dbDates, setDBDates] = useState([]);
   // // const [option2, setOption2] = useState("");
   // // const [option3, setOption3] = useState("");
 
@@ -24,23 +31,66 @@ const BarMenu = ({ func }) => {
           barChartPeriod={monthArray(period)}
           id={Date.now()}
           key={Date.now()}
-          period={period}
-          selectedData={generateQuery(
-            [option1, "date"],
-            [new Date(period[0]), new Date(new Date(period[1]).setMonth(new Date(period[1]).getMonth() + 1))]
-          )}
-        />
-      ),
-    });
-    handleCancel();
-  };
+          selectedData={values(option1)}
+          type={"BarChart"}
+          // period={period}
+          />
+          ),
+        });
+        handleCancel();
+      };
+      
+      const values = (item: string) =>{
+        if (item === "total_items") {
+          return queryTotalItemsByMonth(dbDates);
+        } else if (item === "total_customers") {
+          return queryTotalCustomersByMonth(dbDates);
+        } else if (item === "total_with_tax") {
+          return queryTotalAmountByMonth(dbDates);
+        } else if (item === "total_transactions") {
+          return queryTotalTransactionsByMonth(dbDates);
+        }
+      }
+      
+     
 
-  const monthArray = (period) => {
-    const allMonths = [
-      "January",
-      "February",
-      "March",
-      "April",
+const monthArray = (string) => {
+  const allYear = [
+    "2023-01",
+    "2023-02",
+    "2023-03",
+    "2023-04",
+    "2023-05",
+    "2023-06",
+    "2023-07",
+    "2023-08",
+    "2023-09",
+    "2023-10",
+    "2023-11",
+    "2023-12",
+  ];
+  
+  const getDates = (start: string, end: string): string[] => {
+    const startDate = new Date(start).getMonth();
+    const endDate = new Date(end).getMonth();
+    const dates: string[] = [];
+    
+    for (let i: any = startDate; i <= endDate; i++) {
+      const date = new Date(`${allYear[i]}-01T00:00:00.000Z`);
+      dates.push(date.toISOString());
+    }
+    
+    return dates;
+  };
+  
+  setDBDates(getDates(string[0], string[1]));
+  // console.log(dbDates);
+  
+  const allMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
       "May",
       "June",
       "July",
@@ -115,17 +165,25 @@ const BarMenu = ({ func }) => {
             { value: "region", label: "Location Region" },
           ]}
         /> */}
-
+        {JSON.stringify(dbDates)}
           <Select
             defaultValue="option"
             style={{ width: 120 }}
             onChange={setOption1}
             className={styles.input}
             options={[
-              { value: "item", label: "Total items sold" },
+              { value: "total_items", label: "Total items sold" },
               {
-                value: "location",
+                value: "total_customers",
                 label: "Total amount of customers",
+              },
+              {
+                value: "total_with_tax",
+                label: "Total amount",
+              },
+              {
+                value: "total_transactions",
+                label: "Total amount of transactions",
               },
             ]}
           />

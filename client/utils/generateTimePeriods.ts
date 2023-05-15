@@ -1,34 +1,50 @@
-import { DateTime } from 'luxon';
-import { monthData } from './monthData'
+import { DateTime } from "luxon";
+import { monthData } from "./monthData";
 
 export function generateTimePeriods({ start, end, unit }) {
-  // console.log(arguments);
-  if (unit === 'year') {
+  console.log("called", arguments);
+  if (unit === "year") {
     return createYears({ start: start, number: end.year - start.year + 1 });
-  } else if (unit === 'quarter') {
-    let number = DateTime.fromObject(end).diff(DateTime.fromObject(start), 'months').values.months / 3;
+  } else if (unit === "quarter") {
+    let number =
+      DateTime.fromObject(end).diff(DateTime.fromObject(start), "months").values
+        .months / 3;
     const result = createQuarters({ start, number });
     return result;
-  } else if (unit === 'month') {
-    let number = DateTime.fromObject(end).diff(DateTime.fromObject(start), 'months').values.months;
+  } else if (unit === "month") {
+    let number = DateTime.fromObject(end).diff(
+      DateTime.fromObject(start),
+      "months"
+    ).values.months;
     const result = createMonths({ start, number });
     return result;
-  } else if (unit === 'week') {
+  } else if (unit === "week") {
     // console.log({ start, end });
     // console.log(DateTime.fromObject(start));
     // console.log(DateTime.fromObject(end).diff(DateTime.fromObject(start), 'weeks'));
     // console.log(DateTime.fromObject(end).diff(DateTime.fromObject(start), 'weeks').values.weeks);
-    let number = DateTime.fromObject(end).diff(DateTime.fromObject(start), 'weeks').values.weeks;
+    let number = DateTime.fromObject(end).diff(
+      DateTime.fromObject(start),
+      "weeks"
+    ).values.weeks;
     return createWeeks({ start, number });
-  } else if (unit === 'day') {
-    let number = DateTime.fromObject(end).diff(DateTime.fromObject(start), 'days').values.days;
-    console.log('Number:', number);
+  } else if (unit === "day") {
+    console.log(end);
+    console.log(DateTime.fromObject(end));
+    let number = DateTime.fromObject(end).diff(
+      DateTime.fromObject(start),
+      "days"
+    ).values.days;
+    console.log("Number:", number);
+    console.log(createDays({ start, number }));
     return createDays({ start, number });
   }
 }
 function createLastOfMonth({ month, year }) {
   // console.log('Error handlling utils/GTP line 38:', month, year);
-  const last = new Date(`${monthData(month).lastDay} ${monthData(month).name} ${year} 23:59:59.999`);
+  const last = new Date(
+    `${monthData(month).lastDay} ${monthData(month).name} ${year} 23:59:59.999`
+  );
   return last;
 }
 function createFirstOfMonth({ month, year }) {
@@ -47,16 +63,36 @@ function createQuarters({ start, number }) {
   let [quarterStarts, quarterEnds] = [[], []];
   // console.log('Error handlling utils/GTP line 56:', start, number);
   for (let i = 0; i < 3 * number; i += 3) {
-    quarterStarts.push(createLastOfMonth({ month: (start.month + i - 1) % 12, year: Math.floor(start.year + (start.month + i - 2) / 12) }));
-    quarterEnds.push(createFirstOfMonth({ month: (start.month + i + 3) % 12, year: Math.floor(start.year + (start.month + i + 3) / 12) }));
+    quarterStarts.push(
+      createLastOfMonth({
+        month: (start.month + i - 1) % 12,
+        year: Math.floor(start.year + (start.month + i - 2) / 12),
+      })
+    );
+    quarterEnds.push(
+      createFirstOfMonth({
+        month: (start.month + i + 3) % 12,
+        year: Math.floor(start.year + (start.month + i + 3) / 12),
+      })
+    );
   }
   return { startDates: quarterStarts, endDates: quarterEnds };
 }
 function createMonths({ start, number }) {
   let [monthStarts, monthEnds] = [[], []];
   for (let i = 0; i < number; i += 1) {
-    monthStarts.push(createLastOfMonth({ month: (start.month + i - 1) % 12, year: Math.floor(start.year + (start.month + i - 2) / 12) }));
-    monthEnds.push(createFirstOfMonth({ month: (start.month + i + 1) % 12, year: Math.floor(start.year + (start.month + i + 1) / 12) }));
+    monthStarts.push(
+      createLastOfMonth({
+        month: (start.month + i - 1) % 12,
+        year: Math.floor(start.year + (start.month + i - 2) / 12),
+      })
+    );
+    monthEnds.push(
+      createFirstOfMonth({
+        month: (start.month + i + 1) % 12,
+        year: Math.floor(start.year + (start.month + i + 1) / 12),
+      })
+    );
   }
   return { startDates: monthStarts, endDates: monthEnds };
 }

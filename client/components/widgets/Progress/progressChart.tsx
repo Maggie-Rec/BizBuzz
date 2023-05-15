@@ -92,13 +92,19 @@ return (
   >
     <div className={styles.chart}>
       <div className={styles.icons}>
-        <DragOutlined />
-        <CloseOutlined onClick={handleClose} />
+        <div className={styles.dragIcon}>
+          <DragOutlined />
+        </div>
+        <div className={styles.closeIcon}>
+          <CloseOutlined onClick={handleClose} />
+        </div>
       </div>
       <div className={styles.circle}>
-        <h1 style={{ textAlign: "center" }}>Earned £{Math.floor(current)} of £{target} {period.replace('_', ' ')}</h1>
+        <h1 style={{ textAlign: "center" }}>
+          Earned £{Math.floor(current)} of £{target} {period.replace("_", " ")}
+        </h1>
         <br />
-        <Progress type="circle" percent={Math.ceil(current / target * 100)} />
+        <Progress type="circle" percent={Math.ceil((current / target) * 100)} />
       </div>
     </div>
   </Rnd>

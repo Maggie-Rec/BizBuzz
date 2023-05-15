@@ -10,7 +10,6 @@ import randomAlphaNumeric from "./utils/randomizer";
 import { removePositionLocal } from "./utils/posSaver";
 import { ConsoleSqlOutlined } from "@ant-design/icons";
 
-
 const initialStateProgress = {
   userInput: "",
   percentage: 0,
@@ -30,8 +29,8 @@ const progressChartReducer = (state = initialStateProgress, action) => {
 
 const initialStateBar = {
   option1: "",
-  option2: "",
-  option3: "",
+  // option2: "",
+  // option3: "",
   monthsArray: [],
 };
 
@@ -40,8 +39,8 @@ const barChartReducer = (state = initialStateBar, action) => {
     const newState = {
       ...state,
       option1: action.payload.option1,
-      option2: action.payload.option2,
-      option3: action.payload.option3,
+      // option2: action.payload.option2,
+      // option3: action.payload.option3,
     };
     return newState;
   }
@@ -55,30 +54,46 @@ const barChartReducer = (state = initialStateBar, action) => {
 };
 
 function stringifyWidgets(newState) {
+  console.log(newState)
   return JSON.stringify(
     newState.map((item) => {
-      let widgetType = item.props.type;
-      let toSave = {} as { widgetType: string };
-      toSave.widgetType = widgetType;
-      Object.assign(toSave, item);
-      return toSave;
+      if (item !== null) {
+        console.log(item.props);
+        const widgetType = item.props.type;
+        const toSave = {} as { widgetType: string };
+        toSave.widgetType = widgetType;
+        Object.assign(toSave, item);
+        return toSave;
+      }
     })
   );
 }
 
-const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNames: [] } as { axes: any, filters: object[], period: any, filterNames: string[] }
-  , action) => {
-  if (state.period) console.log('Reducer called', state.period);
+const lineChartReducer = (
+  state = { axes: { x: ['time','year'], y: ['totalSales', 'acrossLocations'] }, period: {start: {year: 2023}, end: {year: 2023}}, filters: [], filterNames: [] } as {
+    axes: any;
+    filters: object[];
+    period: any;
+    filterNames: string[];
+  },
+  action
+) => {
+  if (state.period) console.log("Reducer called", state.period);
   switch (action.type) {
     case "ADD_FILTER":
       const newState = { ...state };
-      const newFilter = [action.payload.filter, action.payload.obj[action.payload.filter]];
+      const newFilter = [
+        action.payload.filter,
+        action.payload.obj[action.payload.filter],
+      ];
       // console.log('Filter to be added, should be array', newFilter);
-      const index = newState.filterNames.findIndex((filterName) => filterName === action.payload.filter);
-      index === -1 ?
-        (newState.filters.push(newFilter),
+      const index = newState.filterNames.findIndex(
+        (filterName) => filterName === action.payload.filter
+      );
+      index === -1
+        ? (newState.filters.push(newFilter),
           newState.filterNames.push(action.payload.filter))
-        : newState.filters[index] = newFilter;
+        : (newState.filters[index] = newFilter);
       // console.log('New set of filters:', newState.filterNames, newState.filters);
       return newState;
     case "SET_AXES":
@@ -102,9 +117,13 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
       if (convert) {
         const collection = [];
         parent.forEach((array) => {
-          collection.push(array[2])
+          collection.push(array[2]);
         });
-        copy.axes.y = [action.payload.y[0][0], 'inSpecificLocations', collection];
+        copy.axes.y = [
+          action.payload.y[0][0],
+          "inSpecificLocations",
+          collection,
+        ];
       } else {
         copy.axes.y = parent;
       }
@@ -119,22 +138,23 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
     case "TEST": {
       return {
         axes: {
-          x: ['time', 'week'],
-          y: ['salesQuantity', 'acrossLocations']
+          x: ["time", "week"],
+          y: ["salesQuantity", "acrossLocations"],
         },
         filterNames: [],
         filters: [],
         period: {
           end: { year: 2023, month: 1, day: 16 },
-          start: { year: 2022, month: 12, day: 19 }
-        }
-      }
+          start: { year: 2022, month: 12, day: 19 },
+        },
+      };
     }
     case "PRINT": {
       console.log(state);
-      return (state);
+      return state;
     }
-    default: return state
+    default:
+      return state;
   }
 };
 
@@ -142,6 +162,9 @@ const widgetReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_WIDGET":
       console.log(action.payload);
+      // window.localStorage.setItem(
+      //   "widgets",
+      // // console.log(action.type, action.payload);
       window.localStorage.setItem("widgets",
         stringifyWidgets(state.concat([action.payload]))
       );
@@ -149,10 +172,10 @@ const widgetReducer = (state = [], action) => {
       console.log(result);
       return result;
     case "REMOVE_WIDGET":
-      let newSelection = state.filter(element => action.payload !== element.props.id);
-      window.localStorage.setItem("widgets",
-        stringifyWidgets(newSelection)
+      let newSelection = state.filter(
+        (element) => action.payload !== element.props.id
       );
+      window.localStorage.setItem("widgets", stringifyWidgets(newSelection));
       removePositionLocal(action.payload);
       return newSelection;
     case "REPOPULATE_DASHBOARD":
@@ -161,33 +184,37 @@ const widgetReducer = (state = [], action) => {
         let restoredWidgets = savedWidgetsData.map((item) => {
           try {
             if (item.widgetType === "PieChart") {
-              return <PieChart {...item.props} key={randomAlphaNumeric()} />
+              return <PieChart {...item.props} key={randomAlphaNumeric()} />;
             } else if (item.widgetType === "BarChart") {
-              return <BarChart {...item.props} key={randomAlphaNumeric()} />
+              return <BarChart {...item.props} key={randomAlphaNumeric()} />;
             } else if (item.widgetType === "LineChart") {
-              return <LineChart {...item.props} key={randomAlphaNumeric()} />
+              return <LineChart {...item.props} key={randomAlphaNumeric()} />;
             } else if (item.widgetType === "ProgressChart") {
-              return <ProgressChart {...item.props} key={randomAlphaNumeric()} />
+              return (
+                <ProgressChart {...item.props} key={randomAlphaNumeric()} />
+              );
             } else {
               return null;
-            };
+            }
           } catch (error) {
             console.error(error);
           }
         });
         console.log(restoredWidgets);
         return restoredWidgets;
-      };
-    default: return state;
+      }
+    default:
+      return state;
   }
 };
 
-const currentTabReducer = (state = 'dashboard', action) => {
+const currentTabReducer = (state = "dashboard", action) => {
   switch (action.type) {
-    case 'CHANGE_CURRENT_TAB':
+    case "CHANGE_CURRENT_TAB":
       state = action.payload;
       return state;
-    default: return state;
+    default:
+      return state;
   }
 };
 

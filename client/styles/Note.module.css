@@ -1,9 +1,16 @@
 .Card * {
-  background-color: peachpuff;
+  background-color:#fbfaf6;
+   border-top-right-radius: 10px !important;
+  border-top-left-radius: 10px !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .Card {
   box-shadow: 0px 40px 85px -20px #cacaca;
+  border-top-right-radius: 10px !important;
+  border-top-left-radius: 10px !important;
+  border: 2px antiquewhite solid;
+ 
 }
 
 .noteTextarea {

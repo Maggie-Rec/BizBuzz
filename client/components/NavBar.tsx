@@ -6,9 +6,9 @@ import { MenuProps, Modal } from "antd";
 import { Button, Dropdown, Space } from "antd";
 import Profile from "./Profile";
 import Image from "next/image";
-import bee from "../assets/bee.jpg";
 import DataUpload from "./DataUpload";
 import randomAlphaNumeric from "../utils/randomizer";
+import logo from "../assets/logo1.png";
 
 const NavBar = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -35,7 +35,7 @@ const NavBar = () => {
   return (
     <div className={styles.container}>
       {/* <div className={styles.logo}>Logo</div> */}
-      <Image src={bee} height={200} alt="bee" />
+      <Image src={logo} height={200} alt="bee" />
       <h1 className={styles.title}>BizBuzz Dashboard</h1>
       <div className={styles.user}>
         <Button onClick={handleUploadModal}>Upload data</Button>
