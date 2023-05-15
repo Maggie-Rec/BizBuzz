@@ -10,6 +10,7 @@ const { SHOW_CHILD, SHOW_PARENT } = Cascader;
 
 import { generateQuery } from '../utils/queryKing';
 import { queryAllLocations, queryAllItems, queryAllCustomers } from '../utils/queryKingV2';
+import { SizeType } from 'antd/es/config-provider/SizeContext';
 
 interface IColumn {
   title: string,
@@ -145,7 +146,7 @@ async function generateTableFilters () {
 }
 
 function generateTableColumns (data: { [key: string]: {} | string }) {
-  console.log(data);
+  // console.log(data);
 
   let propertyArr = Object.getOwnPropertyNames(data);
 
@@ -153,9 +154,20 @@ function generateTableColumns (data: { [key: string]: {} | string }) {
     propertyArr.splice(propertyArr.indexOf('location'), 1)
     propertyArr.push(...Object.getOwnPropertyNames(data.location))
   }
+
   if (propertyArr.includes('SKU')) {
     propertyArr.splice(propertyArr.indexOf('SKU'), 1)
     propertyArr.push(...Object.getOwnPropertyNames(data.SKU))
+  }
+
+  if (propertyArr.includes('item')) {
+    propertyArr.splice(propertyArr.indexOf('item'), 1)
+    propertyArr.push(...Object.getOwnPropertyNames(data.item))
+  }
+
+  if (propertyArr.includes('customer')) {
+    propertyArr.splice(propertyArr.indexOf('customer'), 1)
+    propertyArr.push(...Object.getOwnPropertyNames(data.customer))
   }
 
 
@@ -172,7 +184,7 @@ function generateTableColumns (data: { [key: string]: {} | string }) {
       columns.push({
         title: el.charAt(0).toUpperCase() + el.slice(1),
         dataIndex: el,
-        width: '15%',
+        maxWidth: '10%',
         align: 'center',
       })
     }
@@ -197,6 +209,53 @@ function generateTableColumns (data: { [key: string]: {} | string }) {
   return columns;
 }
 
+function generateTableRows (data: { [key: string]: {} | string }[]) {
+  const resultingRows = [];
+
+  data.forEach((el, i) => {
+    let propertyArr = Object.getOwnPropertyNames(el);
+
+    let newRow = { key: `${i}` } as {[key: string]: any}
+    propertyArr.forEach(prop => {
+      switch(prop) {
+        case 'customer':
+        case 'location':
+        case 'item':
+          let keys = Object.keys(el[prop])
+          keys.forEach(key => {
+            newRow = {
+              ...newRow,
+              [key]: el[prop][key]
+            }
+          })
+          break;
+        case 'date':
+          newRow = {
+            ...newRow,
+            [prop]: (new Date(el[prop].toString())).toLocaleDateString("en-UK")
+          }
+          break;
+          case 'time':
+            newRow = {
+              ...newRow,
+              [prop]: (new Date(el[prop].toString())).toLocaleTimeString("en-UK")
+            }
+            break;
+        default:
+          newRow = {
+            ...newRow,
+            [prop]: el[prop]
+          }
+        break;
+      }
+    })
+
+    resultingRows.push(newRow)
+  })
+  console.log('rows', resultingRows)
+  return resultingRows;
+}
+
 const ReportsView2 = () => {
 
   /* TIME FILTER */
@@ -219,16 +278,15 @@ const ReportsView2 = () => {
   const [isTableLoading, setIsTableLoading] = useState(false);
 
   useEffect(() => {
-    console.log(generateQuery(propertyFilter, timeFilter));
     fecthAPI(generateQuery(propertyFilter, timeFilter), 'transactions')
       .then(res => {
         if (res && res.length > 0) {
           res.map((el, i) => el['key'] = i)
           setTableColumns(generateTableColumns(res[0]));
-          setTableData(res);
-        }
+          // setTableData(res);
+          setTableData(generateTableRows(res))
+        } else {setTableData([]); setTableColumns([])}
       })
-    // console.log(generateQuery(propertyFilter, timeFilter));
   }, [timeFilter, propertyFilter]);
 
   useEffect(() => {
@@ -238,7 +296,11 @@ const ReportsView2 = () => {
 
   /* HANDLE SELECT/REMOVE FROM THE FILTERS */
   function handleNewProperty(propertyArr: string[]) {
-    setPropertyFilter(propertyArr.flat());
+    console.log(propertyArr)
+    let filteredArr = propertyArr.map(el => el.length === 2 ? el[1] : el)
+    if (filteredArr.length > 0) filteredArr.push(filteredArr[0].split(':')[0]);
+    console.log('filtered', filteredArr)
+    setPropertyFilter(filteredArr.flat());
   }
 
   /* HANDLE NEW DATE RANGE FROM RANGE PICKER */
@@ -286,7 +348,7 @@ const ReportsView2 = () => {
           placeholder='Select Filters'
           multiple
           maxTagCount="responsive"
-          showCheckedStrategy={SHOW_PARENT}
+          showCheckedStrategy={SHOW_CHILD}
           options={selectableFilters}
           onChange={(value) => handleNewProperty(value as unknown as string[])}
         />
@@ -306,12 +368,13 @@ const ReportsView2 = () => {
       <div className={styles.tableContainer}>
         <Table
           bordered
+          size='small'
           pagination={{
             position: ['bottomCenter'],
             defaultPageSize: 50
           }}
           scroll={{
-            y: "70vh",
+            y: "75vh",
           }}
           dataSource={tableData}
           columns={tableColumns}
