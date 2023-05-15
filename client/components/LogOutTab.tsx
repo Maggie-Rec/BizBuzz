@@ -7,15 +7,17 @@ const LogOutTab = () => {
   return (
     <div className={styles.container}>
       <Button
-        type='primary'
+        type="primary"
         style={{
-          backgroundColor: "#E59500",
+          backgroundColor: "#f8b825",
           fontWeight: "bold",
         }}
-        size='large'
-      >LOG OUT</Button>
+        size="large"
+      >
+        LOG OUT
+      </Button>
     </div>
-  )
+  );
 }
 
 export default LogOutTab;

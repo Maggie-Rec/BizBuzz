@@ -1,6 +1,7 @@
 .container {
   width: 100%;
   min-height: 100%;
+  background-color: rgb(250, 244, 235);
 }
 
 .controls {
@@ -26,11 +27,8 @@
 
 .tableContainer {
   max-height: 78vh;
-  max-width: 87vw;
+  max-width: 90vw;
   overflow-y: hidden;
   padding: 2vh 3vw;
 }
 
-/* .tableContainer *::-webkit-scrollbar {
-
-} */

@@ -31,7 +31,7 @@ const LoginWindow = () => {
       password: password,
     };
     const data = await getLogin(creds);
-    const token = data.token
+    // const token = data.token
   };
 
   const handleRegistration = async () => {

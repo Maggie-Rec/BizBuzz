@@ -34,18 +34,34 @@ import { makeFetchRequest } from "../../../utils/queryRequestMaker";
 import { translateQuantity } from "./translations";
 import { monthData } from "../../../utils/monthData";
 
-interface Props {
-  showWidget: () => void;
-}
-const LineChart = ({ showWidget }: Props) => {
+const LineChart = ({id,type}) => {
+  const dispatch = useDispatch();
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
   const queriesInfo = useSelector((state) => {
     return state.lineChart;
   });
   console.log(1, { queriesInfo });
+  const monthLabels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   const handleClose = () => {
-    showWidget();
+    dispatch({
+      type: "REMOVE_WIDGET",
+      payload: id,
+    });
   };
   function returnLabels(number) {
     let result = [];
@@ -127,24 +143,8 @@ const LineChart = ({ showWidget }: Props) => {
         }
       }
     }
-
     return result;
   }
-
-  const monthLabels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   // e.g. queriesInfo: {
   //   axes: {
@@ -194,6 +194,9 @@ const LineChart = ({ showWidget }: Props) => {
                   location_id: location,
                 }),
                 filterNames: queriesInfo.filterNames,
+                filterArr: queriesInfo.filters.concat({
+                  location_id: location,
+                }),
                 dateArr: [startDates[i], endDates[i]],
                 keyword: "aggregate",
                 operator: translateQuantity(queriesInfo.axes.y[0]),
@@ -227,6 +230,9 @@ const LineChart = ({ showWidget }: Props) => {
                   location_id: location,
                 }),
                 filterNames: queriesInfo.filterNames,
+                filterArr: queriesInfo.filters.concat({
+                  location_id: location,
+                }),
                 dateArr: [startDates[i], endDates[i]],
                 keyword: "aggregate",
                 operator: translateQuantity(queriesInfo.axes.y[0]),
@@ -243,24 +249,9 @@ const LineChart = ({ showWidget }: Props) => {
   // Aim to convert these, through use of fetch requests, into objects as per below
   // Each fetch request will provide one number for the data
   const colorPackages = [
-    [false, "#002642", "#002642"],
-    [false, "#840032", "#840032"],
-    [true, "#538927", "#538927"],
-    {
-      fill: false,
-      borderColor: "#002642",
-      backgroundColor: "#002642",
-    },
-    {
-      fill: true,
-      borderColor: "#840032",
-      backgroundColor: "#840032",
-    },
-    {
-      fill: true,
-      borderColor: "#538927",
-      backgroundColor: "#538927",
-    },
+    [false, "#f2a202", "#f2a202"],
+    [false, "#f08605", "#f08605"],
+    [true, "#db6443", "#db6443"],
   ];
 
   async function fetchData() {
@@ -279,6 +270,8 @@ const LineChart = ({ showWidget }: Props) => {
         let obj = {
           label: request.label,
           data: [dataPoint ? dataPoint : 0],
+          // NB Need to adjust the below to only add the final part of dataPoint
+          data: [dataPoint],
         };
         [obj.fill, obj.borderColor, obj.backgroundColor] =
           colorPackages[datasets.length % 3];
@@ -328,7 +321,6 @@ const LineChart = ({ showWidget }: Props) => {
   const [data, setData] = useState(dummyData);
   useEffect(() => {
     generateRequests();
-    console.log("Requests, newly generated:", requests);
   }, []);
   useEffect(() => {
     fetchData();
