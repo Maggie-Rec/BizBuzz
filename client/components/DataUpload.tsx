@@ -1,6 +1,8 @@
-import { Button, Select } from "antd";
+import { Button, Select, Upload } from "antd";
 import React, { useRef, useState } from "react";
 import { uploadData } from "./ApiService/database";
+import { UploadOutlined } from "@ant-design/icons";
+import styles from "../styles/DataUpload.module.css";
 
 export default function DataUpload() {
   const [selection, setSelection] = useState("transactions");
@@ -22,8 +24,6 @@ export default function DataUpload() {
     }));
     newUpload.set("file", csv);
     try {
-      // console.log(newUpload.get("file"));
-      // console.log(newUpload.get("data"));
       await uploadData(newUpload);
     } catch (error) {
       console.error(error);
@@ -33,26 +33,30 @@ export default function DataUpload() {
   return (
     <>
       <h1>Data upload</h1>
-      <br />
-      <p>Batch upload your data from .csv files</p>
+      <h3>Batch upload your data from .csv files</h3>
+      <br/>
+      <label htmlFor="typeSelect">I want to upload
       <Select
+        id="typeSelect"
+        className={styles.typeSelect}
         defaultValue="transactions"
         options={[
-          { value: "transaction", label: "Transactions" },
-          { value: "location", label: "Locations" },
-          { value: "item", label: "Items" },
-          { value: "customer", label: "Customers" }
+          { value: "transaction", label: "transactions" },
+          { value: "location", label: "locations" },
+          { value: "item", label: "items" },
+          { value: "customer", label: "customers" }
         ]}
         onChange={(value) => handleSelection(value)}
       >
       </Select>
-      <br/>
-      <label htmlFor="fileUpload">Please provide a .csv file with {selection} data (check out the <a>format reference</a>)
+      data <br/>(check out the <a>format reference</a>)
       </label>
-      <br />
-      <input id="fileUpload" type="file" onChange={handleFile}/>
       <br/>
-      <Button onClick={handleUpload}>Upload</Button>
+      <br/>
+      <input id="fileUpload" type="file" onChange={handleFile} />
+      <br/>
+      <br/>
+      <Button icon={<UploadOutlined />} onClick={handleUpload}>Upload</Button>
     </>
   )
 }
