@@ -1,13 +1,13 @@
 import React, { useState, useEffect, ReactNode } from "react";
-import styles from "../styles/Dashboard.module.css";
-import SMLCalendar from "./SmallCalendar";
-import LineChart from "./widgets/LineChart/lineChart";
-import PieMenu from "./widgets/PieChart/pieMenu";
-import LineMenu from "./widgets/LineChart/lineMenu";
-import BarMenu from "./widgets/BarChart/barMenu";
-import ProgressMenu from "./widgets/Progress/ProgressMenu";
-import BarChart from "./widgets/BarChart/barChart";
-import ProgressChart from "./widgets/Progress/progressChart";
+import styles from "../../styles/Dashboard.module.css";
+import SMLCalendar from "../SmallCalendar";
+import LineChart from "../widgets/LineChart/lineChart";
+import PieMenu from "../widgets/PieChart/pieMenu";
+import LineMenu from "../widgets/LineChart/lineMenu";
+import BarMenu from "../widgets/BarChart/barMenu";
+import ProgressMenu from "../widgets/Progress/ProgressMenu";
+import BarChart from "../widgets/BarChart/barChart";
+import ProgressChart from "../widgets/Progress/progressChart";
 import { useSelector, useDispatch } from "react-redux";
 
 import type { MenuProps } from "antd";
@@ -38,12 +38,15 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
+   function refreshActiveMenu() {
+     setActiveMenu(undefined);
+   }
   const showWindow = (value: string) => {
     console.log(value);
     if (value === "bar-chart") {
-      setActiveMenu(<BarMenu />);
+      setActiveMenu(<BarMenu func={refreshActiveMenu} />);
     } if (value === "pie-chart") {
-      setActiveMenu(<PieMenu />);
+      setActiveMenu(<PieMenu func={refreshActiveMenu} />);
     } if (value === "line-chart") {
       setActiveMenu(<LineMenu showWidget={showWidget} />);
     } if (value === "progress-chart") {
@@ -155,7 +158,22 @@ const Dashboard = () => {
           <LineChart showWidget={() => setOpenWidget({})} />
         )}
 
-        <section className={styles.widgetContainer}>{widgetSelection}</section>
+        <section className={styles.widgetContainer} ref={containerRef}>
+          {widgetSelection}
+          {notes.map((item) => {
+            console.log('re-rendering notes');
+            return <Note
+              s={item.s}
+              p={item.p}
+              t={item.t}
+              c={item.c}
+              id={item.id}
+              key={randomAlphaNumeric()}
+              setter={setNotes}
+              containerRef={containerRef}
+            />
+          })}
+        </section>
 
         <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
           {activeMenu}

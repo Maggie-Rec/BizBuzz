@@ -3,7 +3,7 @@ import { getAllCustomers } from './controllers/customers';
 import { getAllItems } from './controllers/items';
 import { getAllLocations } from './controllers/locations';
 import { getAllTransactions } from './controllers/transactions';
-import { createAccount } from './controllers/createAccount';
+import { loginUser, registerUser } from './controllers/authentication';
 
 export const router = Router();
 
@@ -12,7 +12,8 @@ router.get('/test', ((req: Request, res: Response) => {
 }));
 
 router
-  .post('/register', createAccount)
+  .post('/register', registerUser)
+  .post('/login', loginUser)
 
   .post('/transactions', getAllTransactions)
   .post('/locations', getAllLocations)
