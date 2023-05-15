@@ -30,3 +30,12 @@ export async function fetchLocations(query = {}) {
   response = await response.json();
   return response;
 };
+
+export async function uploadData(formDataObject: FormData) {
+  let response = await fetch(baseUrl + '/upload', {
+    method: "POST",
+    body: formDataObject,
+    credentials: "include"
+  });
+  return response;
+};
