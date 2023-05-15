@@ -111,6 +111,3 @@ const PieMenu = ({ func }) => {
 };
 
 export default PieMenu;
-function showWidget(): void {
-  throw new Error("Function not implemented.");
-}

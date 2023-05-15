@@ -1,14 +1,22 @@
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import styles from '../styles/NavBar.module.css'
-import type { MenuProps } from "antd";
+import { MenuProps, Modal } from "antd";
 import { Button, Dropdown, Space } from "antd";
 import Profile from "./Profile";
 import Image from "next/image";
 import bee from "../assets/bee.jpg";
+import DataUpload from "./DataUpload";
+import randomAlphaNumeric from "../utils/randomizer";
 
 const NavBar = () => {
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
+  function handleUploadModal() {
+    setShowUploadModal(!showUploadModal);
+  };
+
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -30,6 +38,7 @@ const NavBar = () => {
       <Image src={bee} height={200} alt="bee" />
       <h1 className={styles.title}>BizBuzz Dashboard</h1>
       <div className={styles.user}>
+        <Button onClick={handleUploadModal}>Upload data</Button>
         <div className={styles.dropdown}>
           <Space direction="vertical">
             <Space wrap>
@@ -41,6 +50,16 @@ const NavBar = () => {
         </div>
         <Profile />
       </div>
+      { 
+        showUploadModal ?
+        <Modal open={showUploadModal} 
+          footer={[
+            <Button key={randomAlphaNumeric()} onClick={handleUploadModal}>Done</Button>
+          ]}>
+          { <DataUpload /> }
+        </Modal> 
+        : undefined  
+      }
     </div>
   );
 };

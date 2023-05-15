@@ -107,7 +107,7 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
       );
       let selection = relatedCriterion;
 
-      let response = await fetch(`http://localhost:3456/${path}s`, {
+      let response = await fetch(`http://localhost:3020/${path}s`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -152,7 +152,7 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
 
       filter.date = { gt: periodStart };
 
-      let response = await fetch("http://localhost:3456/transactions", {
+      let response = await fetch("http://localhost:3020/transactions", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
