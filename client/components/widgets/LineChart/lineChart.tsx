@@ -128,6 +128,7 @@ const LineChart = ({ showWidget }: Props) => {
           label: 'Total',
           query: generateAggSumQuery({
             filterArr: queriesInfo.filters,
+            filterNames: queriesInfo.filterNames,
             dateArr: [startDates[i], endDates[i]],
             keyword: 'aggregate',
             operator: translateQuantity(queriesInfo.axes.y[0])
@@ -142,6 +143,7 @@ const LineChart = ({ showWidget }: Props) => {
               label: location,
               query: generateAggSumQuery({
                 filterArr: queriesInfo.filters.concat({ location_id: location }),
+                filterNames: queriesInfo.filterNames,
                 dateArr: [startDates[i], endDates[i]],
                 keyword: 'aggregate',
                 operator: translateQuantity(queriesInfo.axes.y[0])
@@ -159,6 +161,7 @@ const LineChart = ({ showWidget }: Props) => {
           label: 'Total',
           query: generateAggSumQuery({
             filterArr: queriesInfo.filters,
+            filterNames: queriesInfo.filterNames,
             dateArr: [startDates[i], endDates[i]],
             keyword: 'aggregate',
             operator: translateQuantity(queriesInfo.axes.y[0])
@@ -170,6 +173,7 @@ const LineChart = ({ showWidget }: Props) => {
               label: location,
               query: generateAggSumQuery({
                 filterArr: queriesInfo.filters.concat({ location_id: location }),
+                filterNames: queriesInfo.filterNames,
                 dateArr: [startDates[i], endDates[i]],
                 keyword: 'aggregate',
                 operator: translateQuantity(queriesInfo.axes.y[0])

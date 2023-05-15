@@ -18,7 +18,7 @@ baseQueryParams.set('customer', ['name', 'age', 'gender']);
 // ACTUAL FUNCTION THAT WILL GET CALLED FROM THE FRONTEND
 // filterArr --> ARRAY CONTAINING FILTERS e.g. --> ["location-id:1", "location-id:3", "location-id:4", "SKU", "date"]
 // dateArr --> ARRAY CONTAINING DATE RANGE e.g. --> [startDate, endDate]
-export function generateAggSumQuery({ filterArr, dateArr, keyword = 'findAll', operator }) {
+export function generateAggSumQuery({ filterArr, filterNames, dateArr, keyword = 'findAll', operator }) {
 
   // EMPTY INITIAL QUERY OBJECT
   const queryObj = {
@@ -49,8 +49,16 @@ export function generateAggSumQuery({ filterArr, dateArr, keyword = 'findAll', o
   }
 
   // CHECK IF WE ARE FILTERING THROUGH SPECIFIC PROPERTIES (--> PUT IT IN where IN QUERY)
-  for (let filter of filterArr) {
-    queryObj.query.where.AND.push(filter);
+  for (let i = 0; i < filterArr.length; i++) {
+    if (filterNames[i] === 'location') {
+      for (let location of filterArr[i][1]) {
+        queryObj.query.where.OR.push({
+          location_id: location
+        });
+      }
+    } else {
+      queryObj.query.where.AND.push(filterArr[i]);
+    }
   }
 
 
