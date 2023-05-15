@@ -5,6 +5,7 @@ const prismaKeysMap = new Map<string, string>();
   prismaKeysMap.set('location_id', 'location');
   prismaKeysMap.set('SKU', 'item');
   prismaKeysMap.set('customer_id', 'customer');
+  prismaKeysMap.set('is_member', 'customer');
 
 // BASE PARAMS WE QUERY IN THE DIFFERENT TABLES
 // location --> region,city & type by default
@@ -111,6 +112,7 @@ export function generateQuery (filterArr: string[], dateArr: Date[]) {
         case 'location_id':
         case 'SKU':
         case 'customer_id':
+        case 'is_member':
           const [newKey, newValue] = SelectBlock(el);
           queryObj.query.select = {
             ...queryObj.query.select,
@@ -129,6 +131,7 @@ export function generateQuery (filterArr: string[], dateArr: Date[]) {
         case 'location_id':
         case 'SKU':
         case 'customer_id':
+        case 'is_member':
           const [newKey, newValue] = SelectBlock(newEl);
           queryObj.query.select = {
             ...queryObj.query.select,

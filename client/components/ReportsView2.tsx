@@ -18,6 +18,7 @@ interface IColumn {
   width?: string,
   maxWidth?: string,
   align?: string,
+  fixed?: string,
   sorter?: (a, b) => number,
   render?: (el) => ReactNode
 }
@@ -135,10 +136,6 @@ async function generateTableFilters () {
     {
       value: 'tax',
       label: 'Display Tax Rate',
-    },
-    {
-      value: 'total_with_tax',
-      label: 'Display Total Amount',
     }
   )
 
@@ -155,10 +152,10 @@ function generateTableColumns (data: { [key: string]: {} | string }) {
     propertyArr.push(...Object.getOwnPropertyNames(data.location))
   }
 
-  if (propertyArr.includes('SKU')) {
-    propertyArr.splice(propertyArr.indexOf('SKU'), 1)
-    propertyArr.push(...Object.getOwnPropertyNames(data.SKU))
-  }
+  // if (propertyArr.includes('SKU')) {
+  //   propertyArr.splice(propertyArr.indexOf('SKU'), 1)
+  //   propertyArr.push(...Object.getOwnPropertyNames(data.SKU))
+  // }
 
   if (propertyArr.includes('item')) {
     propertyArr.splice(propertyArr.indexOf('item'), 1)
@@ -174,18 +171,21 @@ function generateTableColumns (data: { [key: string]: {} | string }) {
   let columns: IColumn[] = [{
     title: 'ID',
     dataIndex: 'record_id',
-    width: '8%',
+    width: '6%',
     align: 'center',
-    sorter: (a, b) => b.record_id - a.record_id
+    fixed: 'left',
+    sorter: (a, b) => b.record_id - a.record_id,
+    render: (el) => <p style={{fontWeight: 'bold'}}>{el}</p>
   }];
 
   propertyArr.forEach((el) => {
-    if (el !== 'record_id' && el !== 'total_with_tax' && el !== 'key') {
+    if (el !== 'record_id' && el !== 'total_with_tax' && el !== 'key' && el !== 'is_member') {
       columns.push({
         title: el.charAt(0).toUpperCase() + el.slice(1),
         dataIndex: el,
-        maxWidth: '10%',
+        width: '10%',
         align: 'center',
+        render: el === 'tax' ? (el) => el + '%' : (el) => el
       })
     }
   })
@@ -193,7 +193,7 @@ function generateTableColumns (data: { [key: string]: {} | string }) {
   columns.push({
     title: '',
     dataIndex: '',
-    maxWidth: '84%'
+    maxWidth: '100%'
   })
 
   columns.push({
@@ -201,8 +201,9 @@ function generateTableColumns (data: { [key: string]: {} | string }) {
     dataIndex: 'total_with_tax',
     width: '8%',
     align: 'center',
+    fixed: 'right',
     sorter: (a, b) => b.total_with_tax - a.total_with_tax,
-    render: (el) => el + '£'
+    render: (el) => <p style={{fontWeight: 'bold'}}>{el}£</p>
   })
 
 
@@ -252,7 +253,6 @@ function generateTableRows (data: { [key: string]: {} | string }[]) {
 
     resultingRows.push(newRow)
   })
-  console.log('rows', resultingRows)
   return resultingRows;
 }
 
@@ -265,7 +265,7 @@ const ReportsView2 = () => {
   /* FLAG TO ENABLE/DISABLE SEGMENTED TIME FILTER */
   const [customDateRange, setCustomDateRange] = useState(false);
   /* PROPERTY FILTER (for table columns) */
-  const [propertyFilter, setPropertyFilter] = useState([] as string[]);
+  const [propertyFilter, setPropertyFilter] = useState(['date', 'time'] as string[]);
 
   /* SELECTABLE FILTERS FROM DROPDOWN */
   const [selectableFilters, setSelectableFilters] = useState([] as IFilter[]);
@@ -278,6 +278,7 @@ const ReportsView2 = () => {
   const [isTableLoading, setIsTableLoading] = useState(false);
 
   useEffect(() => {
+    console.log(generateQuery(propertyFilter, timeFilter));
     fecthAPI(generateQuery(propertyFilter, timeFilter), 'transactions')
       .then(res => {
         if (res && res.length > 0) {
@@ -296,10 +297,8 @@ const ReportsView2 = () => {
 
   /* HANDLE SELECT/REMOVE FROM THE FILTERS */
   function handleNewProperty(propertyArr: string[]) {
-    console.log(propertyArr)
     let filteredArr = propertyArr.map(el => el.length === 2 ? el[1] : el)
     if (filteredArr.length > 0) filteredArr.push(filteredArr[0].split(':')[0]);
-    console.log('filtered', filteredArr)
     setPropertyFilter(filteredArr.flat());
   }
 
@@ -347,7 +346,9 @@ const ReportsView2 = () => {
           style={{ width: '25vw' }}
           placeholder='Select Filters'
           multiple
+          showSearch={true}
           maxTagCount="responsive"
+          defaultValue={[['all_columns', 'date'], ['all_columns', 'time']]}
           showCheckedStrategy={SHOW_CHILD}
           options={selectableFilters}
           onChange={(value) => handleNewProperty(value as unknown as string[])}
@@ -375,6 +376,7 @@ const ReportsView2 = () => {
           }}
           scroll={{
             y: "75vh",
+            x: "1300"
           }}
           dataSource={tableData}
           columns={tableColumns}
