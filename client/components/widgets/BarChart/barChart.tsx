@@ -43,6 +43,7 @@ const BarChart = ({
   id,
 }: Props) => {
   const dispatch = useDispatch();
+  
   console.log(selectedData);
 
   const [size, setSize] = useState({ width: 300, height: 300 });

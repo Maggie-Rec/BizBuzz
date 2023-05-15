@@ -2,17 +2,17 @@
   display: flex;
   flex-direction: column;
   height: 88vh;
-  width: 100vw;
-  background: radial-gradient(circle, #f4f4f4 10%, transparent 11%);
+  width: 94vw;
+  background: radial-gradient(circle, antiquewhite 10%, transparent 11%);
   background-size: 2em 2em;
-  background-color: #ffffff;
+  background-color: rgb(251, 246, 238);
   opacity: 1;
 }
 .toolBar {
   /* border: 1px solid black; */
-  width: 87vw;
+  width: 94vw;
   height: 10vh;
-  background-color: #ffffff;
+  background-color: rgb(248, 238, 225);
   display: flex;
   justify-content: space-evenly;
   align-items: center;

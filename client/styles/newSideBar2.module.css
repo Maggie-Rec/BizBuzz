@@ -1,0 +1,101 @@
+.container {
+  height: 100vh;
+  background-color: white;
+  box-sizing: border-box;
+  padding: 3.5vh 0.7vw 0 0.5vw;
+  display: flex;
+  flex-direction: column;
+  gap: 7vh;
+  transition: ease-in-out 1s;
+}
+
+.userInfoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+
+}
+
+.iconContainer {
+  width: 100%;
+  height: 3vw;
+  margin-bottom: 1vh;
+  background-color:rgb(252, 244, 233);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 6px;
+  gap: 0.7vw;
+  overflow: hidden;
+  padding-left: 0.75vw;
+}
+
+.iconContainerCollapsed {
+  width: 100%;
+  height: 3vw;
+  margin-bottom: 1vh;
+  background-color: rgb(253, 243, 231);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  gap: 0.7vw;
+  overflow: hidden;
+  /* padding-left: 0.75vw; */
+  /* transition: ease-in-out 1s; */
+}
+
+.iconContainer > * {
+  white-space: nowrap;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.iconContainer:hover {
+  cursor: pointer;
+}
+
+.moduleListContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.moduleList {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  margin-bottom: 1vh;
+}
+
+.collapseButton {
+  position: absolute;
+  top: 45vh;
+  left: 5vw;
+  width: 5vw;
+  height: 10vh;
+  clip-path: polygon(26% 26%, 26% 74%, 0 100%, 0 0);
+  background-color: #fcde70;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  transition: ease-in-out 1s;
+}
+
+.collapseButton:hover {
+  cursor: pointer;
+}
+
+.logo {
+  border-radius: 10px;
+margin-top: -22px;
+}
+.smlLogo {
+  border-radius: 10px;
+
+  /* transition: ease-in-out 0.6s;  */
+}

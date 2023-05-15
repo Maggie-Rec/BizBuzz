@@ -133,7 +133,7 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
 const widgetReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_WIDGET":
-      console.log(action.payload);
+      console.log(action.type, action.payload);
       window.localStorage.setItem("widgets",
         stringifyWidgets(state.concat([action.payload]))
       );

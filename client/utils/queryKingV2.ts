@@ -1,6 +1,6 @@
 // FUNCTION THAT RETURNS TOTAL AMOUNT FOR A MONTH
 // DB returns ==> (e.g.) {"_sum":{"total_with_tax":"909.66"}}
-function queryTotalAmountByMonth(dateRange: Date[]) {
+export function queryTotalAmountByMonth(dateRange: Date[]) {
   const queryObj = {
     query: {
       _sum: {
@@ -29,7 +29,7 @@ function queryTotalAmountByMonth(dateRange: Date[]) {
 
 // FUNCTION THAT RETURNS TOTAL AMOUNT OF ITEMS SOLD FOR A MONTH
 // DB returns ==> (e.g.) {"_sum":{"quantity":"3139.36"}}
-function queryTotalItemsByMonth(dateRange: Date[]) {
+export function queryTotalItemsByMonth(dateRange: Date[]) {
   const queryObj = {
     query: {
       _sum: {
@@ -59,7 +59,7 @@ function queryTotalItemsByMonth(dateRange: Date[]) {
 // FUNCTION THAT RETURNS TOTAL AMOUNT OF UNIQUE CUSTOMERS FOR A MONTH
 // DB returns ==> (e.g.) [{"customer_id":0}, ..., {"customer_id":21}]
 // JUST DO .length
-function queryTotalCustomersByMonth(dateRange: Date[]) {
+export function queryTotalCustomersByMonth(dateRange: Date[]) {
   const queryObj = {
     query: {
       where: {
@@ -89,7 +89,7 @@ function queryTotalCustomersByMonth(dateRange: Date[]) {
 // FUNCTION THAT RETURNS TOTAL AMOUNT OF UNIQUE TRANSACTIONS FOR A MONTH
 // DB returns ==> (e.g.) [{"transaction_id":0}, ..., {"transaction_id":21}]
 // JUST DO .length
-function queryTotalTransactionsByMonth(dateRange: Date[]) {
+export function queryTotalTransactionsByMonth(dateRange: Date[]) {
   const queryObj = {
     query: {
       where: {
@@ -189,14 +189,14 @@ function queryAllCustomers() {
   return JSON.stringify(queryObj);
 }
 
-module.exports = {
-  queryAllCustomers,
-  queryAllItems,
-  queryAllLocations,
-  queryTotalAmountByMonth,
-  queryAllTransactions,
-  queryAllPossibleFilters,
-  queryTotalTransactionsByMonth,
-  queryTotalCustomersByMonth,
-  queryTotalItemsByMonth,
-};
+// module.exports = {
+//   queryAllCustomers,
+//   queryAllItems,
+//   queryAllLocations,
+//   queryTotalAmountByMonth,
+//   queryAllTransactions,
+//   queryAllPossibleFilters,
+//   queryTotalTransactionsByMonth,
+//   queryTotalCustomersByMonth,
+//   queryTotalItemsByMonth,
+// };

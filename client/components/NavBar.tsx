@@ -6,7 +6,7 @@ import type { MenuProps } from "antd";
 import { Button, Dropdown, Space } from "antd";
 import Profile from "./Profile";
 import Image from "next/image";
-import bee from "../assets/bee.jpg";
+import logo from "../assets/logo1.png";
 
 const NavBar = () => {
   const items: MenuProps["items"] = [
@@ -27,7 +27,7 @@ const NavBar = () => {
   return (
     <div className={styles.container}>
       {/* <div className={styles.logo}>Logo</div> */}
-      <Image src={bee} height={200} alt="bee" />
+      <Image src={logo} height={200} alt="bee" />
       <h1 className={styles.title}>BizBuzz Dashboard</h1>
       <div className={styles.user}>
         <div className={styles.dropdown}>

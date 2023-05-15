@@ -33,63 +33,64 @@ const BarMenu = ({ func }) => {
           key={Date.now()}
           selectedData={values(option1)}
           // period={period}
-        />
-      ),
-    });
-    handleCancel();
-  };
-
-const values = (item: string) =>{
-    if (item === "total_items") {
-      return queryTotalItemsByMonth(dbDates);
-    } else if (item === "total_customers") {
-      return queryTotalCustomersByMonth(dbDates);
-    } else if (item === "total_with_tax") {
-      return queryTotalAmountByMonth(dbDates);
-    } else if (item === "total_transactions") {
-      return queryTotalTransactionsByMonth(dbDates);
-    }
-}
- 
-
-
-  const monthArray = (string) => {
-    const allYear = [
-      "2023-01",
-      "2023-02",
-      "2023-03",
-      "2023-04",
-      "2023-05",
-      "2023-06",
-      "2023-07",
-      "2023-08",
-      "2023-09",
-      "2023-10",
-      "2023-11",
-      "2023-12",
-    ];
-
-    const getDates = (start: string, end: string): string[] => {
-      const startDate = new Date(start).getMonth();
-      const endDate = new Date(end).getMonth();
-      const dates: string[] = [];
-
-      for (let i: any = startDate; i <= endDate; i++) {
-        const date = new Date(`${allYear[i]}-01T00:00:00.000Z`);
-        dates.push(date.toISOString());
+          />
+          ),
+        });
+        handleCancel();
+      };
+      
+      const values = (item: string) =>{
+        if (item === "total_items") {
+          return queryTotalItemsByMonth(dbDates);
+        } else if (item === "total_customers") {
+          return queryTotalCustomersByMonth(dbDates);
+        } else if (item === "total_with_tax") {
+          return queryTotalAmountByMonth(dbDates);
+        } else if (item === "total_transactions") {
+          return queryTotalTransactionsByMonth(dbDates);
+        }
       }
+      
+      console.log(values(option1))
 
-      return dates;
-    };
 
-    setDBDates(getDates(string[0], string[1]));
-    // console.log(dbDates);
-
-    const allMonths = [
-      "January",
-      "February",
-      "March",
-      "April",
+const monthArray = (string) => {
+  const allYear = [
+    "2023-01",
+    "2023-02",
+    "2023-03",
+    "2023-04",
+    "2023-05",
+    "2023-06",
+    "2023-07",
+    "2023-08",
+    "2023-09",
+    "2023-10",
+    "2023-11",
+    "2023-12",
+  ];
+  
+  const getDates = (start: string, end: string): string[] => {
+    const startDate = new Date(start).getMonth();
+    const endDate = new Date(end).getMonth();
+    const dates: string[] = [];
+    
+    for (let i: any = startDate; i <= endDate; i++) {
+      const date = new Date(`${allYear[i]}-01T00:00:00.000Z`);
+      dates.push(date.toISOString());
+    }
+    
+    return dates;
+  };
+  
+  setDBDates(getDates(string[0], string[1]));
+  // console.log(dbDates);
+  
+  const allMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
       "May",
       "June",
       "July",
@@ -164,7 +165,7 @@ const values = (item: string) =>{
             { value: "region", label: "Location Region" },
           ]}
         /> */}
-
+        {JSON.stringify(dbDates)}
           <Select
             defaultValue="option"
             style={{ width: 120 }}
