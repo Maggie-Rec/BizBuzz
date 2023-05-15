@@ -6,7 +6,7 @@ import { router } from "./router";
 const app = express();
 
 app
-  .use(cors())
+  .use(cors({ origin: true, credentials: true }))
   .use(express.json())
   .use(router)
   .listen(port, () => {

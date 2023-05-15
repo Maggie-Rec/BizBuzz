@@ -57,20 +57,27 @@ async function createUserTables(userId: string) {
 export async function loginUser(req: Request, res: Response, newUserPassword: any = "") {
   try {
     const user = req.body;
+    console.log(user);
     // THIRD ARGUMENT BECOMES A FUNCTION FOR SOME REASON, HENCE ADDITIONAL CHECK
     if (newUserPassword.length > 0 && typeof newUserPassword !== "function") user.password = newUserPassword;
-    const registeredUser = await prisma.user.findFirst({
+    console.log('email:', user.email);
+    const registeredUser = await prisma.user.findUnique({
       where: {
         email: user.email
       }
     });
+    console.log(registeredUser);
+    console.log(user);
     if (registeredUser) {
       const passwordCheck = await bcrypt.compare(user.password, registeredUser.password as string);
+      console.log(passwordCheck);
       if (passwordCheck) {
         const token = jwt.sign({ id: registeredUser.id }, `${secret}`);
         const userData = registeredUser;
+        console.log(token);
         userData.password = "";
         res.status(200);
+        res.cookie("token", token);
         res.json({ token, userData });
         return;
       } else {

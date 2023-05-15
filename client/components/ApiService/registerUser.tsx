@@ -6,6 +6,7 @@ export async function registerUser(user) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
+      credentials: "include"
     })
       .then((res) => res.json())
       .then((data) => data);
