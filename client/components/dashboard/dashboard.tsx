@@ -18,9 +18,9 @@ import {
   Popover,
   Dropdown,
   Space,
-  Segmented,
   DatePicker,
   Modal,
+  ConfigProvider,
 } from "antd";
 import {
   PieChartOutlined,
@@ -35,36 +35,39 @@ const Dashboard = () => {
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
   const [notes, setNotes] = useState([]);
 
+
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
   });
 
   const dispatch = useDispatch();
 
-   function refreshActiveMenu() {
-     setActiveMenu(undefined);
-   }
+  function refreshActiveMenu() {
+    setActiveMenu(undefined);
+  }
   const showWindow = (value: string) => {
-    console.log(value);
     if (value === "bar-chart") {
       setActiveMenu(<BarMenu func={refreshActiveMenu} />);
-    } if (value === "pie-chart") {
+    }
+    if (value === "pie-chart") {
       setActiveMenu(<PieMenu func={refreshActiveMenu} />);
-    } if (value === "line-chart") {
-      setActiveMenu(<LineMenu showWidget={showWidget} />);
-    } if (value === "progress-chart") {
-      setActiveMenu(<ProgressMenu />);
+    }
+    if (value === "line-chart") {
+      setActiveMenu(<LineMenu func={refreshActiveMenu} />);
+    }
+    if (value === "progress-chart") {
+      setActiveMenu(<ProgressMenu func={refreshActiveMenu} />);
     }
     // setOpenMenu(event.target.textContent);
   };
 
-  const showWidget = (chartType: string) => {
-    setOpenWidget({ chartType });
-  };
+  // const showWidget = (chartType: string) => {
+  //   setOpenWidget({ chartType });
+  // };
 
   function handleOk() {
     setActiveMenu(false);
-  };
+  }
 
   const handleCancel = () => {
     setActiveMenu(false);
@@ -80,8 +83,8 @@ const Dashboard = () => {
           style={{ display: "flex" }}
           onClick={() => showWindow("pie-chart")}
         >
-          <PieChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
-          <h2>Pie Chart</h2>
+          <PieChartOutlined style={{ fontSize: "20px", marginRight: "20px" }} />{" "}
+          <h2 className={styles.dropdownText}>Pie Chart</h2>
         </div>
       ),
     },
@@ -92,8 +95,8 @@ const Dashboard = () => {
           style={{ display: "flex" }}
           onClick={() => showWindow("bar-chart")}
         >
-          <BarChartOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
-          <h2>Bar Chart</h2>
+          <BarChartOutlined style={{ fontSize: "20px", marginRight: "20px" }} />{" "}
+          <h2 className={styles.dropdownText}>Bar Chart</h2>
         </div>
       ),
     },
@@ -105,9 +108,9 @@ const Dashboard = () => {
           onClick={() => showWindow("line-chart")}
         >
           <LineChartOutlined
-            style={{ fontSize: "40px", marginRight: "20px" }}
+            style={{ fontSize: "20px", marginRight: "20px" }}
           />
-          <h2>Line Chart</h2>
+          <h2 className={styles.dropdownText}>Line Chart</h2>
         </div>
       ),
     },
@@ -118,8 +121,8 @@ const Dashboard = () => {
           style={{ display: "flex" }}
           onClick={() => showWindow("progress-chart")}
         >
-          <DollarOutlined style={{ fontSize: "40px", marginRight: "20px" }} />{" "}
-          <h2>Progress Chart</h2>
+          <DollarOutlined style={{ fontSize: "20px", marginRight: "20px" }} />{" "}
+          <h2 className={styles.dropdownText}>Progress Chart</h2>
         </div>
       ),
     },
@@ -128,13 +131,16 @@ const Dashboard = () => {
   let containerRef = useRef<HTMLElement>();
 
   function addNote() {
-    setNotes([...notes, {
-      s: { width: 300, height: 300 },
-      p: { x: 10, y: 10 },
-      t: "",
-      c: "",
-      id: randomAlphaNumeric()
-    }])
+    setNotes([
+      ...notes,
+      {
+        s: { width: 300, height: 300 },
+        p: { x: 20, y: 10 },
+        t: "",
+        c: "",
+        id: randomAlphaNumeric(),
+      },
+    ]);
   }
 
   useEffect(() => {
@@ -144,64 +150,68 @@ const Dashboard = () => {
 
     let localNotes = JSON.parse(window.localStorage.getItem("notes"));
     localNotes ? setNotes(localNotes) : undefined;
-
   }, []);
 
   return (
-    <div>
-      <div className={styles.toolBar}>
-        <Space wrap>
-          <Popover content={calendar} trigger="click">
-            <Button className={styles.calendarBtn}>Calendar</Button>
-          </Popover>
-        </Space>
-        <div>
-          <Segmented
-            options={["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]}
-          />
-
-          <Space direction="vertical" size={12}>
-            <RangePicker className={styles.dateSelector} />
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#f8b825",
+        },
+      }}
+    >
+      <div>
+        <div className={styles.toolBar}>
+          <Space wrap>
+            <Popover content={calendar} trigger="click">
+              <Button className={styles.calendarBtn}>Calendar</Button>
+            </Popover>
           </Space>
+
+          <Button type="default" onClick={addNote} className={styles.noteBtn}>
+            Add a note
+          </Button>
+
+          <Dropdown
+            overlayStyle={{ width: "300px" }}
+            menu={{ items, selectable: true }}
+          >
+            <Button type="primary" className={styles.widgetBtn}>
+              Add Widget
+            </Button>
+          </Dropdown>
         </div>
+        <div className={styles.containerDashboard}>
+          {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE
+          {openWidget.chartType === "Line Chart" && (
+            <LineChart showWidget={() => setOpenWidget({})} />
+          )} */}
 
-        <Button onClick={addNote}>Add a note</Button>
-        
-        <Dropdown
-          overlayStyle={{ width: "300px" }}
-          menu={{ items, selectable: true }}
-        >
-          <Button>Add Widget</Button>
-        </Dropdown>
+          <section className={styles.widgetContainer} ref={containerRef}>
+            {widgetSelection}
+            {notes.map((item) => {
+              console.log("re-rendering notes");
+              return (
+                <Note
+                  s={item.s}
+                  p={item.p}
+                  t={item.t}
+                  c={item.c}
+                  id={item.id}
+                  key={randomAlphaNumeric()}
+                  setter={setNotes}
+                  containerRef={containerRef}
+                />
+              );
+            })}
+          </section>
+
+          <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
+            {activeMenu}
+          </Modal>
+        </div>
       </div>
-      <div className={styles.containerDashboard}>
-        {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE */}
-        {openWidget.chartType === "Line Chart" && (
-          <LineChart showWidget={() => setOpenWidget({})} />
-        )}
-
-        <section className={styles.widgetContainer} ref={containerRef}>
-          {widgetSelection}
-          {notes.map((item) => {
-            console.log('re-rendering notes');
-            return <Note
-              s={item.s}
-              p={item.p}
-              t={item.t}
-              c={item.c}
-              id={item.id}
-              key={randomAlphaNumeric()}
-              setter={setNotes}
-              containerRef={containerRef}
-            />
-          })}
-        </section>
-
-        <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
-          {activeMenu}
-        </Modal>
-      </div>
-    </div>
+    </ConfigProvider>
   );
 };
 

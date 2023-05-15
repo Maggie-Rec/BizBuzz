@@ -17,17 +17,19 @@ const ChangePasswordTab = () => {
           <p>Repeat New Password</p>
           <Input.Password></Input.Password>
         </div>
-      <Button
-        type='primary'
-        style={{
-          backgroundColor: "#E59500",
-          fontWeight: "bold"
-        }}
-        size='large'
-      >CHANGE PASSWORD</Button>
+        <Button
+          type="primary"
+          style={{
+            backgroundColor: "#f8b825",
+            fontWeight: "bold",
+          }}
+          size="large"
+        >
+          CHANGE PASSWORD
+        </Button>
       </div>
     </div>
-  )
+  );
 }
 
 export default ChangePasswordTab

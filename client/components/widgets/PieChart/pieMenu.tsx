@@ -42,9 +42,10 @@ const PieMenu = ({ func }) => {
   return (
     <Modal
       open={isShowing}
+      onOk={addWidget}
       onCancel={() => handleCancel()}
       cancelButtonProps={{ style: { display: "none" } }}
-     okButtonProps={{ style: { display: "none" }}}
+    //  okButtonProps={{ style: { display: "none" }}}
     >
       <div className={styles.container}>
         <h1>Sales</h1>
@@ -102,9 +103,7 @@ const PieMenu = ({ func }) => {
         </Space>
         <br />
         <br />
-        {/* TODO: FIX DISPLAY LOGIC - THERE IS NO NEED TO HAVE SO MANY BUTTONS IN THE MODAL */}
-        {/* <Button onClick={openWidget}>Display</Button> */}
-        <Button onClick={addWidget}>Display</Button>
+  
       </div>
     </Modal>
   );

@@ -29,8 +29,8 @@ const progressChartReducer = (state = initialStateProgress, action) => {
 
 const initialStateBar = {
   option1: "",
-  option2: "",
-  option3: "",
+  // option2: "",
+  // option3: "",
   monthsArray: [],
 };
 
@@ -39,8 +39,8 @@ const barChartReducer = (state = initialStateBar, action) => {
     const newState = {
       ...state,
       option1: action.payload.option1,
-      option2: action.payload.option2,
-      option3: action.payload.option3,
+      // option2: action.payload.option2,
+      // option3: action.payload.option3,
     };
     return newState;
   }
@@ -54,13 +54,17 @@ const barChartReducer = (state = initialStateBar, action) => {
 };
 
 function stringifyWidgets(newState) {
+  console.log(newState)
   return JSON.stringify(
     newState.map((item) => {
-      let widgetType = item.props.type;
-      let toSave = {} as { widgetType: string };
-      toSave.widgetType = widgetType;
-      Object.assign(toSave, item);
-      return toSave;
+      if (item !== null) {
+        console.log(item.props);
+        const widgetType = item.props.type;
+        const toSave = {} as { widgetType: string };
+        toSave.widgetType = widgetType;
+        Object.assign(toSave, item);
+        return toSave;
+      }
     })
   );
 }
@@ -158,8 +162,10 @@ const widgetReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_WIDGET":
       console.log(action.payload);
-      window.localStorage.setItem(
-        "widgets",
+      // window.localStorage.setItem(
+      //   "widgets",
+      // // console.log(action.type, action.payload);
+      window.localStorage.setItem("widgets",
         stringifyWidgets(state.concat([action.payload]))
       );
       const result = state.concat([action.payload]);

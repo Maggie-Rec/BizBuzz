@@ -1,10 +1,8 @@
-
 "use client";
 
 import styles from "../styles/Profile.module.css";
 import React, { useState } from "react";
-import { Modal } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { ConfigProvider } from "antd";
 
 /* COMPONENTS */
 import ProfileInfoTab from "./ProfileInfoTab";
@@ -12,7 +10,6 @@ import ChangePasswordTab from "./ChangePasswordTab";
 import LogOutTab from "./LogOutTab";
 
 const Profile = () => {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openTab, setOpenTab] = useState(0);
 
@@ -21,39 +18,33 @@ const Profile = () => {
   }
 
   return (
-    <div className={styles.container} onClick={() => handleOpenProfile()}>
-      <Modal
-        title="Your Profile"
-        open={isModalOpen}
-        footer={null}
-        onCancel={() => setIsModalOpen(!isModalOpen)}
-        style={{
-
-          top: 20,
-
-        }}
-        width={1000}
-      >
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#f8b825",
+        },
+      }}
+    >
+      <div onClick={() => handleOpenProfile()}>
         <div className={styles.modal}>
           <div className={styles.firstRow}>
             <div className={styles.profilePic}></div>
             <h2>Bussiness Name</h2>
             <div className={styles.buttonContainer}>
               <span
-                style={{ backgroundColor: openTab === 0 ? "" : "#E59500" }}
+                style={{ backgroundColor: openTab === 0 ? "" : "#f9cf80" }}
                 onClick={() => setOpenTab(0)}
-
               >
                 User Details
               </span>
               <span
-                style={{ backgroundColor: openTab === 1 ? "" : "#E59500" }}
+                style={{ backgroundColor: openTab === 1 ? "" : "#f9cf80" }}
                 onClick={() => setOpenTab(1)}
               >
                 Change Password
               </span>
               <span
-                style={{ backgroundColor: openTab === 2 ? "" : "#E59500" }}
+                style={{ backgroundColor: openTab === 2 ? "" : "#f9cf80" }}
                 onClick={() => setOpenTab(2)}
               >
                 Log Out
@@ -66,11 +57,9 @@ const Profile = () => {
             {openTab === 2 && <LogOutTab></LogOutTab>}
           </div>
         </div>
-      </Modal>
-      <UserOutlined style={{ fontSize: "70px", color: "#FFF" }} />
-    </div>
+      </div>
+    </ConfigProvider>
   );
 };
-
 
 export default Profile;

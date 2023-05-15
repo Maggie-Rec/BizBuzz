@@ -11,6 +11,7 @@ import rootReducer from "../reducer";
 
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
+import NewSideBar2 from "../components/NewSidebar";
 import Dashboard from "../components/dashboard/dashboard";
 import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
@@ -21,9 +22,9 @@ const store = legacy_createStore(rootReducer);
 
 const MainPage = () => {
   const [currentTab, setCurrentTab] = useState("dashboard");
-  const [isOnDashboard, setIsOnDashboard] = useState(true);
+  // const [isOnDashboard, setIsOnDashboard] = useState(true);
   const [isOnReports, setIsOnReports] = useState(false);
-  const [isOnLocations, setIsOnLocations] = useState(false);
+  // const [isOnLocations, setIsOnLocations] = useState(false);
 
   store.subscribe(() =>
     setIsOnReports(store.getState().currentTab === "reports")
@@ -32,12 +33,14 @@ const MainPage = () => {
   store.subscribe(() => setCurrentTab(store.getState().currentTab));
 
   return (
-    <Provider store={store}>
-      <div>
+    <>
+      <Provider store={store}>
         <div>
+            {/* <Suspense fallback={<p>Loading..</p>}>
           <NavBar />
+            </Suspense> */}
           <div className="container">
-            <SideBar />
+            <NewSideBar2 />
             {currentTab === "dashboard" ? (
               <Dashboard />
             ) : currentTab === "reports" ? (
@@ -49,8 +52,8 @@ const MainPage = () => {
             )}
           </div>
         </div>
-      </div>
-    </Provider>
+      </Provider>
+    </>
   );
 };
 
