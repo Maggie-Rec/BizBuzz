@@ -7,15 +7,15 @@ const prisma = new PrismaClient();
 
 export async function getAllLocations(req: Request, res: Response) {
   try {
-    const { user, query } = req.body;
+    const { userId, query } = req.body;
     const keyword = req.body.keyword ? req.body.keyword : 'findMany';
     console.log('keyword:', keyword);
     console.log('query:', query);
     const locations = await makePrismaQuery({
       keyword,
-      userID: user ? user.id : 0,
+      userID: userId ? userId : 0,
       query,
-      table: 'location_'
+      table: 'location'
     });
     res.status(200);
     res.send(JSON.stringify(locations));

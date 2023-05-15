@@ -63,7 +63,8 @@ const BarChart = ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: queryData,
+      body: selectedData,
+      credentials: "include"
     });
     let data = (await response.json()) as unknown as { [key: string]: any }[];
     console.log(data);

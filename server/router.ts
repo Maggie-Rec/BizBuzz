@@ -19,9 +19,9 @@ router
   .post('/register', registerUser)
   .post('/login', loginUser)
 
-  .post('/upload', uploadData)
+  .post('/upload', verifyToken, uploadData)
 
-  .post('/transactions', /* verifyToken, */ getAllTransactions)
-  .post('/locations', /* verifyToken, */ getAllLocations)
-  .post('/customers', /* verifyToken, */ getAllCustomers)
-  .post('/items', /* verifyToken, */ getAllItems)
+  .post('/transactions', verifyToken, getAllTransactions)
+  .post('/locations', verifyToken, getAllLocations)
+  .post('/customers', verifyToken, getAllCustomers)
+  .post('/items', verifyToken, getAllItems)

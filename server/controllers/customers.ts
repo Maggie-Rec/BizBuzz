@@ -7,14 +7,14 @@ const prisma = new PrismaClient();
 
 export async function getAllCustomers(req: Request, res: Response) {
   try {
-    const { user, query } = req.body;
+    const { userId, query } = req.body;
     const keyword = req.body.keyword ? req.body.keyword : 'findMany';
     console.log('query:', query);
     const customers = await makePrismaQuery({
       keyword,
-      userID: user ? user.id : 0,
+      userID: userId ? userId : 0,
       query,
-      table: 'customer_'
+      table: 'customer'
     });
     res.status(200);
     res.send(JSON.stringify(customers));

@@ -4,4 +4,4 @@ node_modules
 prisma/migrations
 tsconfig.json
 _tsconfig.json
-upload
+uploads

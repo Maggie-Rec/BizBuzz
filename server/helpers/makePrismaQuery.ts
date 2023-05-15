@@ -8,19 +8,20 @@ const prisma = new PrismaClient() as any;
 
 export function makePrismaQuery({ keyword, userID, query, table }: { keyword: string, userID: number | string, query: any, table: string }) {
   console.log('Query in makePrismaQuery:', query);
+  console.log('keyword', keyword, 'userId', userID, 'table', table);
   try {
     if (keyword === 'findMany') {
-      return prisma[`${table}_${userID.toString()}`].findMany(query);
+      return prisma[`${table}_${userID}`].findMany(query);
     } else if (keyword === 'aggregate') {
-      return prisma[`${table}_${userID.toString()}`].aggregate(query);
+      return prisma[`${table}_${userID}`].aggregate(query);
     } else if (keyword === 'groupBy') {
-      return prisma[`${table}_${userID.toString()}`].groupBy(query);
+      return prisma[`${table}_${userID}`].groupBy(query);
     } else if (keyword === 'create') {
-      return prisma[`${table}_${userID.toString()}`].createMany(query);
+      return prisma[`${table}_${userID}`].createMany(query);
     } else if (keyword === 'update') {
-      return prisma[`${table}_${userID.toString()}`].update(query);
+      return prisma[`${table}_${userID}`].update(query);
     } else if (keyword === 'delete') {
-      return prisma[`${table}_${userID.toString()}`].deleteMany(query);
+      return prisma[`${table}_${userID}`].deleteMany(query);
     } else {
       return false;
     }

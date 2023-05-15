@@ -11,7 +11,8 @@ export default async function fetchTransactionData(query, keyword) {
     body: JSON.stringify({
       query: query,
       keyword: keyword
-    })
+    }),
+    credentials: "include"
   });
   response = await response.json();
   return response;
@@ -25,13 +26,15 @@ export async function fetchLocations(query = {}) {
     },
     body: JSON.stringify({
       query: query
-    })
+    }),
+    credentials: "include"
   });
   response = await response.json();
   return response;
 };
 
 export async function uploadData(formDataObject: FormData) {
+  console.log(formDataObject.get("data"), formDataObject.get("file"));
   let response = await fetch(baseUrl + '/upload', {
     method: "POST",
     body: formDataObject,

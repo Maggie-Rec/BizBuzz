@@ -16,7 +16,8 @@ export async function makeFetchRequest({ queryObject, route = 'transactions' }) 
       headers: {
         "Content-type": "application/json",
       },
-      body: queryObject
+      body: queryObject,
+      credentials: "include"
     });
     response = await response.json();
     return response;

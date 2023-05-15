@@ -41,7 +41,8 @@ async function getTableData(stringifiedQuery: string) {
         "Content-Type": "application/json",
       },
       body: stringifiedQuery,
-    });
+      credentials: "include"
+    })
 
     const data = await res.json();
     return data;

@@ -130,6 +130,7 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
             select: selection,
           },
         }),
+        credentials: "include"
       });
 
       response = await response.json();
@@ -178,6 +179,7 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
           },
           keyword: "aggregate",
         }),
+        credentials: "include"
       });
 
       response = await response.json();
