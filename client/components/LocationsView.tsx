@@ -20,14 +20,17 @@ export default function LocationsView() {
 
   return (
     <section className={styles.cardSection}>
-      {locations.map((item) => {
-        return (
-          <LocationCard
-            key={randomAlphaNumeric()} 
-            location={item}
-          />
-        )
-      })}
+      {locations ?
+        locations.map((item) => {
+          return (
+            <LocationCard
+              key={randomAlphaNumeric()}
+              location={item}
+            />
+          )
+        })
+        : undefined
+      }
     </section>
   )
 }
