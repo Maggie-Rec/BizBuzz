@@ -19,7 +19,6 @@ baseQueryParams.set('customer', ['name', 'age', 'gender']);
 // filterArr --> ARRAY CONTAINING FILTERS e.g. --> ["location-id:1", "location-id:3", "location-id:4", "SKU", "date"]
 // dateArr --> ARRAY CONTAINING DATE RANGE e.g. --> [startDate, endDate]
 export function generateAggSumQuery({ filterArr, filterNames, dateArr, keyword = 'findAll', operator }) {
-
   // EMPTY INITIAL QUERY OBJECT
   const queryObj = {
     query: {
@@ -48,20 +47,125 @@ export function generateAggSumQuery({ filterArr, filterNames, dateArr, keyword =
     ]
   }
 
-  // CHECK IF WE ARE FILTERING THROUGH SPECIFIC PROPERTIES (--> PUT IT IN where IN QUERY)
+  // FILTERS
+  let customerFilters = [];
+  let locationFilters = [];
+  let itemFilters = [];
+
+
+  // FILTER FOR PROPERTIES OF TRANSACTION ITSELF (INCLUDING LOCATION)
   for (let i = 0; i < filterArr.length; i++) {
-    if (filterNames[i] === 'location') {
-      for (let location of filterArr[i][1]) {
-        queryObj.query.where.OR.push({
-          location_id: location
-        });
+    // console.log(filterArr[i]);
+    // console.log(filterNames[i]);
+    if (filterArr[i][0]) {
+      console.log('here1');
+      if (filterNames[i] === 'location') {
+        let locationFilters = [];
+        for (let location of filterArr[i][1]) {
+          locationFilters.push({
+            location_id: location
+          });
+        };
+        if (locationFilters.length === 0) {
+        } else if (locationFilters.length === 1) {
+          queryObj.query.where.AND.push(locationFilters[0]);
+        } else {
+          queryObj.query.where.AND.push({
+            OR: locationFilters
+          });
+        }
       }
-    } else {
-      queryObj.query.where.AND.push(filterArr[i]);
+      else if (filterNames[i] === 'is_member') {
+        queryObj.query.where.AND.push({ is_member: filterArr[i][1][0] })
+      }
+      else if (filterNames[i] === 'quantity') {
+        if (!Array.isArray(filterArr[i][1])) {
+          queryObj.query.where.AND.push({ quantity: filterArr[i][1] });
+        } else {
+          queryObj.query.where.AND.push({
+            quantity: { gt: filterArr[i][1][0] }
+          });
+          queryObj.query.where.AND.push({
+            quantity: { lt: filterArr[i][1][1] }
+          });
+        }
+        // FILTER FOR PROPERTIES ONLY ACCESSIBLE THROUGH LOCATION
+      } else if (filterNames[i] === 'region') {
+        if (filterArr[i][1].length === 1) {
+          locationFilters.push({
+            region: filterArr[i][1][0]
+          });
+        } else {
+          let allowableRegions = [];
+          for (let allowableRegion of filterArr[i][1]) {
+            allowableRegions.push({
+              gender: allowableRegion
+            })
+          };
+          locationFilters.push({
+            OR: allowableRegions
+          });
+        }
+        // FILTER FOR PROPERTIES OF CUSTOMER
+      } else if (filterNames[i] === 'gender') {
+        if (filterArr[i][1].length === 1) {
+          customerFilters.push({
+            gender: filterArr[i][1][0]
+          });
+        } else {
+          let allowableGenders = [];
+          for (let allowableGender of filterArr[i][1]) {
+            allowableGenders.push({
+              gender: allowableGender
+            })
+          };
+          customerFilters.push({
+            OR: allowableGenders
+          });
+        }
+      } else if (filterNames[i] === 'age') {
+        if (filterArr[i][1].length === 1) {
+          customerFilters.push({
+            gender: filterArr[i][1][0]
+          });
+        } else {
+          if (!Array.isArray(filterArr[i][1])) {
+            customerFilters.push({ quantity: filterArr[i][1] });
+          } else {
+            customerFilters.push({
+              age: { gt: filterArr[i][1][0] }
+            });
+            customerFilters.push({
+              age: { lt: filterArr[i][1][1] }
+            });
+          }
+        }
+      }
     }
   }
 
 
+  // RE-ADD CUSTOMER, LOCATION, ITEM FILTERS
+  for (let [filters, category] of [
+    [customerFilters, 'customer'],
+    [locationFilters, 'location'],
+    [itemFilters, 'item']
+  ]) {
+    if (filters.length === 0) {
+
+    } else if (filters.length === 1) {
+      queryObj.query.where.AND.push({
+        [category]: filters[0]
+      });
+    } else {
+      queryObj.query.where.AND.push({
+        [category]: {
+          AND: filters
+        }
+      })
+    }
+  }
+  // console.log(queryObj)
   // DELETE AND or OR WHERE FIELDS IF THEY ARE EMPTY
   // OTHERWISE DB FETCH DOESNT WORK
   if (queryObj.query.where.AND.length === 0) delete queryObj.query.where.AND;

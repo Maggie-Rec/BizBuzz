@@ -8,6 +8,7 @@ import LineChart from "./components/widgets/LineChart/lineChart";
 import ProgressChart from "./components/widgets/Progress/progressChart";
 import randomAlphaNumeric from "./utils/randomizer";
 import { removePositionLocal } from "./utils/posSaver";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 
 const initialStateProgress = {
@@ -67,18 +68,18 @@ function stringifyWidgets(newState) {
 
 const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNames: [] } as { axes: any, filters: object[], period: any, filterNames: string[] }
   , action) => {
+  if (state.period) console.log('Reducer called', state.period);
   switch (action.type) {
     case "ADD_FILTER":
-      console.log('here', action.payload);
       const newState = { ...state };
       const newFilter = [action.payload.filter, action.payload.obj[action.payload.filter]];
-      console.log('Filter to be added, should be array', newFilter);
+      // console.log('Filter to be added, should be array', newFilter);
       const index = newState.filterNames.findIndex((filterName) => filterName === action.payload.filter);
       index === -1 ?
         (newState.filters.push(newFilter),
           newState.filterNames.push(action.payload.filter))
         : newState.filters[index] = newFilter;
-      console.log('New set of filters:', newState.filterNames, newState.filters);
+      // console.log('New set of filters:', newState.filterNames, newState.filters);
       return newState;
     case "SET_AXES":
       const copy = { ...state };
@@ -109,23 +110,29 @@ const lineChartReducer = (state = { axes: {}, period: {}, filters: [], filterNam
       }
       if (action.payload.x) copy.axes.x = action.payload.x;
       return copy;
-    case "FETCH_DATA":
-      let requests = [];
-      if (state.axes.x && state.axes.x[1]) {
-        const { startDates, endDates } = generateTimePeriods({
-          start: state.period.start,
-          end: state.period.end,
-          unit: state.axes.x[1]
-        });
-        for (let i = 0; i < startDates.length; i++) {
-          requests.push([[startDates[i], endDates[i]], state.filters])
-        }
-      }
-      return state;
     case "SET_DATES": {
       const adjust = { ...state };
       adjust.period = action.payload;
+      console.log(action.payload);
       return adjust;
+    }
+    case "TEST": {
+      return {
+        axes: {
+          x: ['time', 'week'],
+          y: ['salesQuantity', 'acrossLocations']
+        },
+        filterNames: [],
+        filters: [],
+        period: {
+          end: { year: 2023, month: 1, day: 16 },
+          start: { year: 2022, month: 12, day: 19 }
+        }
+      }
+    }
+    case "PRINT": {
+      console.log(state);
+      return (state);
     }
     default: return state
   }

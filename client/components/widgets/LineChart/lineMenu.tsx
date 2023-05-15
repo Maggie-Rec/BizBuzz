@@ -23,7 +23,6 @@ const LineMenu = ({ showWidget }: Props) => {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    dispatch({ type: "FETCH_DATA" });
     showWidget("Line Chart");
   };
   const filterOptions = [
@@ -78,6 +77,7 @@ const LineMenu = ({ showWidget }: Props) => {
     });
   }, [yAxis, xAxis]);
   useEffect(() => {
+    console.log(xStartEnd);
     dispatch({
       type: "SET_DATES",
       payload: xStartEnd,
@@ -86,6 +86,13 @@ const LineMenu = ({ showWidget }: Props) => {
 
   return (
     <div className={styles.container}>
+      <Button
+        onClick={() => dispatch({ type: "TEST" })}
+      >Shortcut
+      </Button>
+      <Button
+        onClick={() => dispatch({ type: "PRINT" })}
+      >Print query</Button>
       <h1>Line Graph</h1>
       <Space wrap>
         <p>Y-axis:</p>
@@ -211,11 +218,11 @@ const LineMenu = ({ showWidget }: Props) => {
                 },
               ],
             },
-            {
-              value: "customerAge",
-              label: "Registered Customer Age",
-              children: [],
-            },
+            // {
+            //   value: "customerAge",
+            //   label: "Registered Customer Age",
+            //   children: [],
+            // },
           ]}
         />
         {xAxis && xAxis[0] === "time" ? (
@@ -231,13 +238,16 @@ const LineMenu = ({ showWidget }: Props) => {
                 ] as [any, any];
                 if (xAxis[1] === "year") {
                   setXStartEnd({ start, end });
-                  return;
                 }
-                start.month = value[0].month() + 1;
-                end.month = value[1].month() + 1;
+                if (xAxis[1] === "month") {
+                  start.month = value[0].month() + 1;
+                  end.month = value[1].month() + 1;
+                }
                 if (xAxis[1] === "day" || xAxis[1] === "week") {
-                  start.day = value[0].day();
-                  end.day = value[1].day();
+                  start.month = value[0].$M + 1;
+                  end.month = value[1].$M + 1;
+                  start.day = value[0].$D;
+                  end.day = value[1].$D;
                 }
                 setXStartEnd({ start, end });
               }}

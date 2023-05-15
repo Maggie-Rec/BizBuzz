@@ -32,21 +32,23 @@ import { generateAggSumQuery } from "../../../utils/aggregateSumQueries";
 import { generateTimePeriods } from '../../../utils/generateTimePeriods';
 import { makeFetchRequest } from '../../../utils/queryRequestMaker';
 import { translateQuantity } from "./translations";
+import { monthData } from '../../../utils/monthData';
 
 interface Props {
   showWidget: () => void;
 }
 const LineChart = ({ showWidget }: Props) => {
-  const dispatch = useDispatch();
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
-
+  const queriesInfo = useSelector((state) => { return state.lineChart });
+  console.log(1, { queriesInfo })
   const handleClose = () => {
     showWidget();
   };
   function returnLabels(number) {
     let result = [];
     let period = queriesInfo.axes.x[1];
+    console.log('2', { queriesInfo });
     let current = queriesInfo.period.start;
     if (period === 'month') {
       while (result.length < number) {
@@ -75,10 +77,45 @@ const LineChart = ({ showWidget }: Props) => {
       }
     }
     if (period === 'week') {
-      console.log('Need to add abilities to have weeks and days on x-axis')
+      console.log({ current });
+      let [firstOfYear, firstOfMonth] = [true, true];
+      while (result.length < number) {
+        result.push(`${firstOfYear ? current.year + ' ' : ''}${firstOfMonth ? monthLabels[current.month - 1] + ' ' : ''}${current.day}`);
+        [firstOfYear, firstOfMonth] = [false, false];
+        current.day += 7;
+        if (current.day > monthData(current.month).lastDay) {
+          if (current.month === 12) {
+            current.year++;
+            current.month = 1;
+            current.day -= (current.month).lastDay;
+            [firstOfYear, firstOfMonth] = [true, true];
+          } else {
+            current.month++;
+            current.day -= (current.month).lastDay;
+            firstOfMonth = true;
+          }
+        }
+      }
     }
     if (period === 'day') {
-      console.log('Need to add abilities to have weeks and days on x - axis')
+      let [firstOfYear, firstOfMonth] = [true, true];
+      while (result.length < number) {
+        result.push(`${firstOfYear ? current.year + ' ' : ''}${firstOfMonth ? monthLabels[current.month - 1] + ' ' : ''}${current.day}`);
+        [firstOfYear, firstOfMonth] = [false, false];
+        current.day++;
+        if (current.day > monthData(current.month).lastDay) {
+          if (current.month === 12) {
+            current.year++;
+            current.month = 1;
+            current.day = 1;
+            [firstOfYear, firstOfMonth] = [true, true];
+          } else {
+            current.month++;
+            current.day = 1;
+            firstOfMonth = true;
+          }
+        }
+      }
     }
 
     return result;
@@ -99,7 +136,6 @@ const LineChart = ({ showWidget }: Props) => {
     'December'
   ];
 
-  const queriesInfo = useSelector((state) => { return state.lineChart });
 
   // e.g. queriesInfo: {
   //   axes: {
@@ -121,6 +157,8 @@ const LineChart = ({ showWidget }: Props) => {
   const [requests, setRequests] = useState([]);
 
   function generateRequests() {
+    console.log("Dates:", startDates, endDates);
+    console.log(queriesInfo);
     let newRequests = [];
     if (queriesInfo.axes.y[1] === 'acrossLocations') {
       for (let i = 0; i < startDates.length; i++) {
@@ -222,17 +260,15 @@ const LineChart = ({ showWidget }: Props) => {
       if (index === -1) {
         let obj = {
           label: request.label,
-          // NB Need to adjust the below to only add the final part of dataPoint
-          data: [dataPoint]
+          data: [dataPoint ? dataPoint : 0]
         };
         [obj.fill, obj.borderColor, obj.backgroundColor] = colorPackages[datasets.length % 3];
         datasets.push(obj);
       } else {
         // console.log('Data to be added to existing dataset', dataPoint, request.label);
 
-        // NB Need to adjust the below to only push the final part of dataPoint
 
-        datasets[index].data.push(dataPoint);
+        datasets[index].data.push(dataPoint ? dataPoint : 0);
       }
     }
     if (datasets[0] && datasets[0].data) {
@@ -242,7 +278,7 @@ const LineChart = ({ showWidget }: Props) => {
       });
     }
 
-    // console.log('data changed to', data.labels);
+    // console.log('data changed to', data);
   }
 
   const dummyData = {
@@ -274,6 +310,7 @@ const LineChart = ({ showWidget }: Props) => {
   const [data, setData] = useState(dummyData);
   useEffect(() => {
     generateRequests();
+    console.log('Requests, newly generated:', requests);
   }, [])
   useEffect(() => {
     fetchData();

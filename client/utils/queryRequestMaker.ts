@@ -9,6 +9,7 @@ const SERVER_URL = 'http://localhost:3005';
 import { filterString } from "./stringFilter";
 
 export async function makeFetchRequest({ queryObject, route = 'transactions' }) {
+  // console.log('query', queryObject);
   try {
     let response = await fetch(SERVER_URL + '/' + route, {
       method: "POST",

@@ -16,7 +16,19 @@ export const DataFilter = ({ filter }) => {
       ]
     },
     quantity: { value: "quantity", label: "Item Quantity", baseFilterObject: { quantity: { gt: 0, lt: 100 } } },
-    gender: { value: "gender", label: "Gender", baseFilterObject: { gender: [] } },
+    gender: {
+      value: "gender", label: "Gender", baseFilterObject: { gender: [] },
+      options: [
+        { value: 'Agender', label: 'Agender' },
+        { value: 'Bigender', label: 'Bigender' },
+        { value: 'Female', label: 'Female' },
+        { value: 'Genderfluid', label: 'Genderfluid' },
+        { value: 'Genderqueer', label: 'Genderqueer' },
+        { value: 'Male', label: 'Male' },
+        { value: 'Non-binary', label: 'Non-binary' },
+        { value: 'Polygender', label: 'Polygender' }
+      ]
+    },
     region: {
       value: "region", label: "Location Region", baseFilterObject: { region: [] },
       options: [
@@ -45,7 +57,7 @@ export const DataFilter = ({ filter }) => {
   return (
     <>
       <p>Filtering for {filter}</p>
-      {filter === 'location' || filter === 'region' || filter === 'is_member' ?
+      {filter === 'location' || filter === 'region' || filter === 'is_member' || filter === 'gender' ?
         <Select
           mode="multiple"
           options={filterOptions[filter].options}
@@ -69,18 +81,6 @@ export const DataFilter = ({ filter }) => {
               setFilterQueryObject(copyFilterObject);
             }}
 
-          />
-          : <></>
-      }
-      {
-        filter === 'gender' || filter === 'category' ?
-          <Input
-            style={{ width: 200 }}
-            onChange={(value) => {
-              const copyFilterObject = { ...filterQueryObject };
-              copyFilterObject[filter] = value;
-              setFilterQueryObject(copyFilterObject);
-            }}
           />
           : <></>
       }

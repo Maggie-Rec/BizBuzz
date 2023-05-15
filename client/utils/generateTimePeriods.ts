@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon';
+import { monthData } from './monthData'
 
 export function generateTimePeriods({ start, end, unit }) {
+  // console.log(arguments);
   if (unit === 'year') {
     return createYears({ start: start, number: end.year - start.year + 1 });
   } else if (unit === 'quarter') {
@@ -12,27 +14,17 @@ export function generateTimePeriods({ start, end, unit }) {
     const result = createMonths({ start, number });
     return result;
   } else if (unit === 'week') {
+    // console.log({ start, end });
+    // console.log(DateTime.fromObject(start));
+    // console.log(DateTime.fromObject(end).diff(DateTime.fromObject(start), 'weeks'));
+    // console.log(DateTime.fromObject(end).diff(DateTime.fromObject(start), 'weeks').values.weeks);
     let number = DateTime.fromObject(end).diff(DateTime.fromObject(start), 'weeks').values.weeks;
     return createWeeks({ start, number });
   } else if (unit === 'day') {
     let number = DateTime.fromObject(end).diff(DateTime.fromObject(start), 'days').values.days;
+    console.log('Number:', number);
     return createDays({ start, number });
   }
-}
-function monthData(month, year = 1) {
-  if (month === 0) return { name: 'December', lastDay: 31 };
-  if (month === 1) return { name: 'January', lastDay: 31 };
-  if (month === 2) return { name: 'February', lastDay: year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0) ? 29 : 28 };
-  if (month === 3) return { name: 'March', lastDay: 31 };
-  if (month === 4) return { name: 'April', lastDay: 30 };
-  if (month === 5) return { name: 'May', lastDay: 31 };
-  if (month === 6) return { name: 'June', lastDay: 30 };
-  if (month === 7) return { name: 'July', lastDay: 31 };
-  if (month === 8) return { name: 'August', lastDay: 31 };
-  if (month === 9) return { name: 'September', lastDay: 30 };
-  if (month === 10) return { name: 'October', lastDay: 31 };
-  if (month === 11) return { name: 'November', lastDay: 30 };
-  if (month === 12) return { name: 'December', lastDay: 31 };
 }
 function createLastOfMonth({ month, year }) {
   // console.log('Error handlling utils/GTP line 38:', month, year);
@@ -74,8 +66,8 @@ function createWeeks({ start, number }) {
   obj.hour = obj.minute = 0;
   let currentDay = DateTime.fromObject(obj);
   for (let i = 0; i < number; i += 1) {
-    weekStarts.push(currentDay.minus({ milliseconds: 1 }));
-    weekEnds.push(currentDay.plus({ days: 7 }));
+    weekStarts.push(currentDay.minus({ milliseconds: 1 }).toJSDate());
+    weekEnds.push(currentDay.plus({ days: 7 }).toJSDate());
     currentDay = currentDay.plus({ days: 7 });
   }
   return { startDates: weekStarts, endDates: weekEnds };
@@ -86,8 +78,8 @@ function createDays({ start, number }) {
   obj.hour = obj.minute = 0;
   let currentDay = DateTime.fromObject(obj);
   for (let i = 0; i < number; i++) {
-    dayStarts.push(currentDay.minus({ milliseconds: 1 }));
-    dayEnds.push(currentDay.plus({ days: 1 }));
+    dayStarts.push(currentDay.minus({ milliseconds: 1 }).toJSDate());
+    dayEnds.push(currentDay.plus({ days: 1 }).toJSDate());
     currentDay = currentDay.plus({ days: 1 });
   }
   return { startDates: dayStarts, endDates: dayEnds };
