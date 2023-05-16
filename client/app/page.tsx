@@ -17,6 +17,7 @@ import LoginPage from "./login/page";
 import ReportsView from "../components/ReportsView";
 import LocationsView from "../components/LocationsView";
 import Loading from "./loading";
+import EmailMaker from "../components/email";
 
 const store = legacy_createStore(rootReducer);
 
@@ -43,6 +44,7 @@ const MainPage = () => {
             <NewSideBar2 />
             {currentTab === "dashboard" ? (
               <Dashboard />
+              // <EmailMaker />
             ) : currentTab === "reports" ? (
               <ReportsView />
             ) : currentTab === "locations" ? (
