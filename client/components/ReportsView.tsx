@@ -348,7 +348,6 @@ const ReportsView = () => {
   return (
     <div className={styles.container}>
       <div className={styles.controls}>
-<<<<<<< HEAD
         <Cascader
           style={{ width: '25vw' }}
           placeholder='Select Filters'
@@ -372,89 +371,6 @@ const ReportsView = () => {
         <Tooltip title='Upload Data' placement='bottomLeft'>
           <Button type='primary'><PlusOutlined /></Button>
         </Tooltip>
-=======
-        <div className={styles.filterSelector}>
-          <TreeSelect
-            showSearch
-            style={{
-              minWidth: "15vw",
-              maxWidth: "25vw",
-            }}
-            dropdownStyle={{
-              maxHeight: 400,
-              overflow: "auto",
-            }}
-            placeholder="Select filters"
-            allowClear
-            multiple
-            treeCheckable={true}
-            showCheckedStrategy={TreeSelect.SHOW_PARENT}
-            treeLine={true}
-            treeData={filters}
-            onChange={(value) => handleCustomFiltersChange(value)}
-          />
-          <Button
-            type="primary"
-            style={{
-              minWidth: "5vw",
-              backgroundColor:
-                JSON.stringify(selectedPropertyFilters) ===
-                JSON.stringify(activePropertyFilter)
-                  ? "transparent"
-                  : "#f8b825",
-              border:
-                JSON.stringify(selectedPropertyFilters) ===
-                JSON.stringify(activePropertyFilter)
-                  ? "1px solid #f8b825"
-                  : "none",
-              color:
-                JSON.stringify(selectedPropertyFilters) ===
-                JSON.stringify(activePropertyFilter)
-                  ? "#f8b825"
-                  : "white",
-            }}
-            onClick={() => applyNewCustomFilters()}
-          >
-            Apply
-          </Button>
-        </div>
-        <div className={styles.dateSelector}>
-          <Segmented
-            options={[
-              "Today",
-              "Last Week",
-              "Last Month",
-              "Last Quarter",
-              "Last Year",
-              "All Time",
-            ]}
-            onChange={(value) => handleSegmentedChange(value as string)}
-            disabled={previousTimeFilter[0] !== null}
-            style={{ backgroundColor: "#ffee98" }}
-          ></Segmented>
-          <RangePicker
-            style={{ width: "15vw" }}
-            onChange={(value, stringArr) => handleCustomRangeChange(stringArr)}
-          ></RangePicker>
-          {customTimeFilter[0] !== null && (
-            <Button
-              type="primary"
-              style={{ minWidth: "5vw" }}
-              onClick={() => applyNewCustomTF()}
-            >
-              Apply
-            </Button>
-          )}
-        </div>
-        {/* <Tooltip title="Upload Data" placement="bottomLeft">
-          <Button
-            type="primary"
-            style={{ backgroundColor: "#f8b825", marginRight: "3vw", width: "4vw" }}
-          >
-            <PlusOutlined />
-          </Button>
-        </Tooltip> */}
->>>>>>> refactor-new
       </div>
       <div className={styles.tableContainer}>
         <Table
