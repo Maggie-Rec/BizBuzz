@@ -14,9 +14,9 @@ import SideBar from "../components/SideBar";
 import NewSideBar2 from "../components/NewSidebar";
 import Dashboard from "../components/dashboard/dashboard";
 import LoginPage from "./login/page";
-import ReportsView from "../components/ReportsView";
 import LocationsView from "../components/LocationsView";
 import Loading from "./loading";
+import ReportsView from "../components/ReportsView";
 
 const store = legacy_createStore(rootReducer);
 
