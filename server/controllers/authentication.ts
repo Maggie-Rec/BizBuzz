@@ -52,6 +52,7 @@ async function createUserTables(userId: string) {
   addLocationsTable(userId);
   addCustomersTable(userId);
   await execaCommand('npx prisma db push');
+  // await execaCommand(`npx prisma migrate dev -- --name ${userId}`);
 };
 
 export async function loginUser(req: Request, res: Response, newUserPassword: any = "") {
