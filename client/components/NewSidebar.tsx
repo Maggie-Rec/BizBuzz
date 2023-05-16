@@ -64,56 +64,87 @@ const NewSideBar2 = () => {
             },
           }}
         >
-          <div
-            className={styles.container}
-            style={{
-              width: isCollapsed ? "6.6vw" : "15.3vw",
-            }}
-          >
-            <div className={styles.userInfoContainer}>
-              {isCollapsed ? (
-                <Image
-                  src={logoSml}
-                  height={96}
-                  width={96}
-                  alt="small logo"
-                  className={styles.smlLogo}
-                />
-              ) : (
-                <Image
-                  src={logo}
-                  height={118}
-                  alt="logo"
-                  className={styles.logo}
-                />
-              )}
-      
-              <Modal
-                open={!!activeProfile}
-                title="Your Profile"
-                onOk={handleOk}
-                onCancel={handleCancel}
-                style={{
-                  top: 20,
-                }}
-                width={1000}
-              >
-                <Profile />
-              </Modal>
+          <div className={styles.userInfoContainer}>
+            {isCollapsed ? (
+              <Image
+                src={logoSml}
+                height={96}
+                width={96}
+                alt="small logo"
+                className={styles.smlLogo}
+              />
+            ) : (
+              <Image
+                src={logo}
+                height={118}
+                alt="logo"
+                className={styles.logo}
+              />
+            )}
 
-              <div onClick={() => {
+            <div
+              className={
+                isCollapsed
+                  ? styles.iconContainerCollapsed
+                  : styles.iconContainer
+              }
+              onClick={() => {
                 openProfile();
-                dispatch({
-                  type: "CHANGE_CURRENT_TAB",
-                  payload: "locations",
-                });
               }}
+            >
+              <UserOutlined className={styles.icon} />
+              {!isCollapsed && <h3>Your Name</h3>}
+            </div>
+            <Modal
+              open={activeProfile}
+              title="Your Profile"
+              onOk={handleOk}
+              onCancel={handleCancel}
+              style={{
+                top: 20,
+              }}
+              width={1000}
+            >
+              <Profile />
+            </Modal>
+          </div>
+          <div className={styles.moduleListContainer}>
+            <div className={styles.moduleList}>
+              <div
                 className={
                   isCollapsed
                     ? styles.iconContainerCollapsed
                     : styles.iconContainer
                 }
-
+                onClick={() =>
+                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "dashboard" })
+                }
+              >
+                <DashboardOutlined className={styles.icon} />
+                {!isCollapsed && <p>Dashboard</p>}
+              </div>
+              <div
+                className={
+                  isCollapsed
+                    ? styles.iconContainerCollapsed
+                    : styles.iconContainer
+                }
+                onClick={() =>
+                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "reports" })
+                }
+              >
+                <BarChartOutlined className={styles.icon} />
+                {!isCollapsed && <p>Sales Reports</p>}
+              </div>
+              <div
+                className={
+                  isCollapsed
+                    ? styles.iconContainerCollapsed
+                    : styles.iconContainer
+                }
+                onClick={() =>
+                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "locations" })
+                }
               >
                 <UserOutlined
                   className={styles.icon}
