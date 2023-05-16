@@ -1,9 +1,20 @@
 .card {
-  background-color: peachpuff;
+  background-color: lightgoldenrodyellow;
+  width: 300px;
+  font-size: 1.1em;
+  word-wrap: break-word;
+}
+
+.ant-card-meta-title {
+  white-space: nowrap;
 }
 
 .cardSection {
+  margin-top: 120px;
+  padding: 10px;
+  padding-left: 30px;
   display: flex;
   flex-flow: row wrap;
   align-content: flex-start;
+  gap: 20px;
 }
