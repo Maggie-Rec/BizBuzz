@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/newSideBar2.module.css";
 import {
   CaretLeftOutlined,
@@ -24,6 +24,7 @@ const NewSideBar2 = () => {
 
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [activeProfile, setActiveProfile] = useState(false);
+  const [username, setUsername] = useState("Your business");
 
   function openProfile() {
     setActiveProfile(true);
@@ -35,6 +36,14 @@ const NewSideBar2 = () => {
   function handleCancel() {
     setActiveProfile(false);
   }
+
+  useEffect(() => {
+    const username = cookieStore.get("username")
+      .then(data => {
+        console.log(data);
+        setUsername(data.value)}
+        );
+  }, []);
 
   return (
     <div>
@@ -94,7 +103,7 @@ const NewSideBar2 = () => {
                   openProfile();
                 }}
               />
-              {!isCollapsed && <h3>Your Name</h3>}
+              {!isCollapsed && <h3>{username}</h3>}
               <Modal
                 open={!!activeProfile}
                 title="Your Profile"
@@ -144,7 +153,7 @@ const NewSideBar2 = () => {
                     : styles.iconContainer
                 }
                 onClick={() =>
-                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "reports" })
+                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "locations" })
                 }
               >
                 <EnvironmentOutlined className={styles.icon} />

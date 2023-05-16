@@ -6,6 +6,7 @@ import { Query } from '../types/Query';
 
 // ISSUE: CREATING A NEW PRISMA CLIENT STALLS THE DB ON MAKING REQUESTS TO IT
 // A NEW CLIENT DOES NOT SEE THE OTHER CLIENTS' TABLES
+// POSSIBLE REASON: DB PUSH DOES NOT REGENERATE THE CLIENT
 const prisma = new PrismaClient() as any;
 
 export default prisma;
