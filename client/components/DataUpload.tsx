@@ -28,10 +28,12 @@ export default function DataUpload() {
     newUpload.set("file", csv);
     try {
       const response = await uploadData(newUpload);
-      // response.status === 201 ? window.alert(`Data on ${selection} uploaded`) : window.alert(`Failed to upload ${selection} data`);
-      response.status === 201 ? 
-      message.success(`Data on ${selection}s uploaded`) 
-      : message.error(`Failed to upload ${selection} data`);
+      if (response.status === 201) {
+        message.success(`Data on ${selection}s uploaded`);
+        setCsv(null);
+      } else {
+        message.error(`Failed to upload ${selection} data`);
+      };
     } catch (error) {
       message.error("Hey");
       console.error(error);
@@ -74,7 +76,7 @@ export default function DataUpload() {
       <input id="fileUpload" type="file" onChange={handleFile} />
       <br />
       <br />
-      <Button icon={<UploadOutlined />} onClick={handleUpload}>Upload</Button>
+      <Button icon={<UploadOutlined />} onClick={handleUpload} type="primary">Upload</Button>
     </>
   )
 }

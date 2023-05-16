@@ -208,7 +208,7 @@ const NewSideBar2 = () => {
           showUploadModal ?
             <Modal open={showUploadModal} onCancel={handleCancel}
               footer={[
-                <Button key={randomAlphaNumeric()} onClick={handleUploadModal}>Done</Button>
+                <Button key={randomAlphaNumeric()} onClick={handleUploadModal} type="primary">Done</Button>
               ]}>
               {<DataUpload />}
             </Modal>
