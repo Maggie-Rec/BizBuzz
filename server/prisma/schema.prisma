@@ -61,247 +61,247 @@ model Customer_0 {
   email        String
   gender       String
 }
-model Transaction_2b10fLXzaQVaha9iI0m2uUtE {
+  model Transaction_2b10G2O8FWHW2BdEUY0nh1K7O {
     record_id      Int   @id @default(autoincrement())
     transaction_id Int
     date           DateTime @db.Date
     time           DateTime @db.Time(6)
-    location       Location_2b10fLXzaQVaha9iI0m2uUtE @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    location       Location_2b10G2O8FWHW2BdEUY0nh1K7O @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     location_id    Int
-    item           Item_2b10fLXzaQVaha9iI0m2uUtE @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
+    item           Item_2b10G2O8FWHW2BdEUY0nh1K7O @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
     SKU            String
     quantity       Decimal  @db.Decimal
     is_member      Boolean
-    customer       Customer_2b10fLXzaQVaha9iI0m2uUtE @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    customer       Customer_2b10G2O8FWHW2BdEUY0nh1K7O @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     customer_id    Int
     total_with_tax Decimal  @db.Decimal
     tax            Decimal  @db.Decimal
   }
-  model Item_2b10fLXzaQVaha9iI0m2uUtE {
+  model Item_2b10G2O8FWHW2BdEUY0nh1K7O {
     SKU                 String          @id
-    transactions        Transaction_2b10fLXzaQVaha9iI0m2uUtE[]
+    transactions        Transaction_2b10G2O8FWHW2BdEUY0nh1K7O[]
     unit_of_measurement String
     description         String
     category            String
     price_no_tax        Decimal
   }
-  model Location_2b10fLXzaQVaha9iI0m2uUtE {
+  model Location_2b10G2O8FWHW2BdEUY0nh1K7O {
     id           Int             @id @default(autoincrement())
     name         String
     full_address String
     region       String
     city         String
     type         String
-    transactions Transaction_2b10fLXzaQVaha9iI0m2uUtE[]
+    transactions Transaction_2b10G2O8FWHW2BdEUY0nh1K7O[]
   }
-  model Customer_2b10fLXzaQVaha9iI0m2uUtE {
+  model Customer_2b10G2O8FWHW2BdEUY0nh1K7O {
     id           Int             @id
-    transactions Transaction_2b10fLXzaQVaha9iI0m2uUtE[]
+    transactions Transaction_2b10G2O8FWHW2BdEUY0nh1K7O[]
     name         String
     age          Int
     email        String
     gender       String
   }
-  model Transaction_2b10zIAFeUgErgnf130i6NdBie {
+  model Transaction_2b10ntJKyL5FLHBUPKwMRVaYu {
     record_id      Int   @id @default(autoincrement())
     transaction_id Int
     date           DateTime @db.Date
     time           DateTime @db.Time(6)
-    location       Location_2b10zIAFeUgErgnf130i6NdBie @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    location       Location_2b10ntJKyL5FLHBUPKwMRVaYu @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     location_id    Int
-    item           Item_2b10zIAFeUgErgnf130i6NdBie @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
+    item           Item_2b10ntJKyL5FLHBUPKwMRVaYu @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
     SKU            String
     quantity       Decimal  @db.Decimal
     is_member      Boolean
-    customer       Customer_2b10zIAFeUgErgnf130i6NdBie @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    customer       Customer_2b10ntJKyL5FLHBUPKwMRVaYu @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     customer_id    Int
     total_with_tax Decimal  @db.Decimal
     tax            Decimal  @db.Decimal
   }
-  model Item_2b10zIAFeUgErgnf130i6NdBie {
+  model Item_2b10ntJKyL5FLHBUPKwMRVaYu {
     SKU                 String          @id
-    transactions        Transaction_2b10zIAFeUgErgnf130i6NdBie[]
+    transactions        Transaction_2b10ntJKyL5FLHBUPKwMRVaYu[]
     unit_of_measurement String
     description         String
     category            String
     price_no_tax        Decimal
   }
-  model Location_2b10zIAFeUgErgnf130i6NdBie {
+  model Location_2b10ntJKyL5FLHBUPKwMRVaYu {
     id           Int             @id @default(autoincrement())
     name         String
     full_address String
     region       String
     city         String
     type         String
-    transactions Transaction_2b10zIAFeUgErgnf130i6NdBie[]
+    transactions Transaction_2b10ntJKyL5FLHBUPKwMRVaYu[]
   }
-  model Customer_2b10zIAFeUgErgnf130i6NdBie {
+  model Customer_2b10ntJKyL5FLHBUPKwMRVaYu {
     id           Int             @id
-    transactions Transaction_2b10zIAFeUgErgnf130i6NdBie[]
+    transactions Transaction_2b10ntJKyL5FLHBUPKwMRVaYu[]
     name         String
     age          Int
     email        String
     gender       String
   }
-  model Transaction_2b10RKZCIyVJrxNjW7qS6HI7yO {
+  model Transaction_2b10Q0uZcZC86Ta0Pu07m1Jme {
     record_id      Int   @id @default(autoincrement())
     transaction_id Int
     date           DateTime @db.Date
     time           DateTime @db.Time(6)
-    location       Location_2b10RKZCIyVJrxNjW7qS6HI7yO @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    location       Location_2b10Q0uZcZC86Ta0Pu07m1Jme @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     location_id    Int
-    item           Item_2b10RKZCIyVJrxNjW7qS6HI7yO @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
+    item           Item_2b10Q0uZcZC86Ta0Pu07m1Jme @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
     SKU            String
     quantity       Decimal  @db.Decimal
     is_member      Boolean
-    customer       Customer_2b10RKZCIyVJrxNjW7qS6HI7yO @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    customer       Customer_2b10Q0uZcZC86Ta0Pu07m1Jme @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     customer_id    Int
     total_with_tax Decimal  @db.Decimal
     tax            Decimal  @db.Decimal
   }
-  model Item_2b10RKZCIyVJrxNjW7qS6HI7yO {
+  model Item_2b10Q0uZcZC86Ta0Pu07m1Jme {
     SKU                 String          @id
-    transactions        Transaction_2b10RKZCIyVJrxNjW7qS6HI7yO[]
+    transactions        Transaction_2b10Q0uZcZC86Ta0Pu07m1Jme[]
     unit_of_measurement String
     description         String
     category            String
     price_no_tax        Decimal
   }
-  model Location_2b10RKZCIyVJrxNjW7qS6HI7yO {
+  model Location_2b10Q0uZcZC86Ta0Pu07m1Jme {
     id           Int             @id @default(autoincrement())
     name         String
     full_address String
     region       String
     city         String
     type         String
-    transactions Transaction_2b10RKZCIyVJrxNjW7qS6HI7yO[]
+    transactions Transaction_2b10Q0uZcZC86Ta0Pu07m1Jme[]
   }
-  model Customer_2b10RKZCIyVJrxNjW7qS6HI7yO {
+  model Customer_2b10Q0uZcZC86Ta0Pu07m1Jme {
     id           Int             @id
-    transactions Transaction_2b10RKZCIyVJrxNjW7qS6HI7yO[]
+    transactions Transaction_2b10Q0uZcZC86Ta0Pu07m1Jme[]
     name         String
     age          Int
     email        String
     gender       String
   }
-  model Transaction_2b102JZ1qyIDZZB2HhMSWVeNu {
+  model Transaction_2b10y2fJz02hwpWxH3M4hCbSj {
     record_id      Int   @id @default(autoincrement())
     transaction_id Int
     date           DateTime @db.Date
     time           DateTime @db.Time(6)
-    location       Location_2b102JZ1qyIDZZB2HhMSWVeNu @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    location       Location_2b10y2fJz02hwpWxH3M4hCbSj @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     location_id    Int
-    item           Item_2b102JZ1qyIDZZB2HhMSWVeNu @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
+    item           Item_2b10y2fJz02hwpWxH3M4hCbSj @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
     SKU            String
     quantity       Decimal  @db.Decimal
     is_member      Boolean
-    customer       Customer_2b102JZ1qyIDZZB2HhMSWVeNu @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    customer       Customer_2b10y2fJz02hwpWxH3M4hCbSj @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     customer_id    Int
     total_with_tax Decimal  @db.Decimal
     tax            Decimal  @db.Decimal
   }
-  model Item_2b102JZ1qyIDZZB2HhMSWVeNu {
+  model Item_2b10y2fJz02hwpWxH3M4hCbSj {
     SKU                 String          @id
-    transactions        Transaction_2b102JZ1qyIDZZB2HhMSWVeNu[]
+    transactions        Transaction_2b10y2fJz02hwpWxH3M4hCbSj[]
     unit_of_measurement String
     description         String
     category            String
     price_no_tax        Decimal
   }
-  model Location_2b102JZ1qyIDZZB2HhMSWVeNu {
+  model Location_2b10y2fJz02hwpWxH3M4hCbSj {
     id           Int             @id @default(autoincrement())
     name         String
     full_address String
     region       String
     city         String
     type         String
-    transactions Transaction_2b102JZ1qyIDZZB2HhMSWVeNu[]
+    transactions Transaction_2b10y2fJz02hwpWxH3M4hCbSj[]
   }
-  model Customer_2b102JZ1qyIDZZB2HhMSWVeNu {
+  model Customer_2b10y2fJz02hwpWxH3M4hCbSj {
     id           Int             @id
-    transactions Transaction_2b102JZ1qyIDZZB2HhMSWVeNu[]
+    transactions Transaction_2b10y2fJz02hwpWxH3M4hCbSj[]
     name         String
     age          Int
     email        String
     gender       String
   }
-  model Transaction_2b10JuvEKxvcJyv7Lj7gMivFku {
+  model Transaction_2b10Cq1rY6BBajgCqe3Y76yioe {
     record_id      Int   @id @default(autoincrement())
     transaction_id Int
     date           DateTime @db.Date
     time           DateTime @db.Time(6)
-    location       Location_2b10JuvEKxvcJyv7Lj7gMivFku @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    location       Location_2b10Cq1rY6BBajgCqe3Y76yioe @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     location_id    Int
-    item           Item_2b10JuvEKxvcJyv7Lj7gMivFku @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
+    item           Item_2b10Cq1rY6BBajgCqe3Y76yioe @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
     SKU            String
     quantity       Decimal  @db.Decimal
     is_member      Boolean
-    customer       Customer_2b10JuvEKxvcJyv7Lj7gMivFku @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    customer       Customer_2b10Cq1rY6BBajgCqe3Y76yioe @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     customer_id    Int
     total_with_tax Decimal  @db.Decimal
     tax            Decimal  @db.Decimal
   }
-  model Item_2b10JuvEKxvcJyv7Lj7gMivFku {
+  model Item_2b10Cq1rY6BBajgCqe3Y76yioe {
     SKU                 String          @id
-    transactions        Transaction_2b10JuvEKxvcJyv7Lj7gMivFku[]
+    transactions        Transaction_2b10Cq1rY6BBajgCqe3Y76yioe[]
     unit_of_measurement String
     description         String
     category            String
     price_no_tax        Decimal
   }
-  model Location_2b10JuvEKxvcJyv7Lj7gMivFku {
+  model Location_2b10Cq1rY6BBajgCqe3Y76yioe {
     id           Int             @id @default(autoincrement())
     name         String
     full_address String
     region       String
     city         String
     type         String
-    transactions Transaction_2b10JuvEKxvcJyv7Lj7gMivFku[]
+    transactions Transaction_2b10Cq1rY6BBajgCqe3Y76yioe[]
   }
-  model Customer_2b10JuvEKxvcJyv7Lj7gMivFku {
+  model Customer_2b10Cq1rY6BBajgCqe3Y76yioe {
     id           Int             @id
-    transactions Transaction_2b10JuvEKxvcJyv7Lj7gMivFku[]
+    transactions Transaction_2b10Cq1rY6BBajgCqe3Y76yioe[]
     name         String
     age          Int
     email        String
     gender       String
   }
-  model Transaction_2b10u4bus1YbRXIaS7zbZicQie {
+  model Transaction_2b10KEad3pJdTGlRaWmqAGp9P {
     record_id      Int   @id @default(autoincrement())
     transaction_id Int
     date           DateTime @db.Date
     time           DateTime @db.Time(6)
-    location       Location_2b10u4bus1YbRXIaS7zbZicQie @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    location       Location_2b10KEad3pJdTGlRaWmqAGp9P @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     location_id    Int
-    item           Item_2b10u4bus1YbRXIaS7zbZicQie @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
+    item           Item_2b10KEad3pJdTGlRaWmqAGp9P @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
     SKU            String
     quantity       Decimal  @db.Decimal
     is_member      Boolean
-    customer       Customer_2b10u4bus1YbRXIaS7zbZicQie @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    customer       Customer_2b10KEad3pJdTGlRaWmqAGp9P @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
     customer_id    Int
     total_with_tax Decimal  @db.Decimal
     tax            Decimal  @db.Decimal
   }
-  model Item_2b10u4bus1YbRXIaS7zbZicQie {
+  model Item_2b10KEad3pJdTGlRaWmqAGp9P {
     SKU                 String          @id
-    transactions        Transaction_2b10u4bus1YbRXIaS7zbZicQie[]
+    transactions        Transaction_2b10KEad3pJdTGlRaWmqAGp9P[]
     unit_of_measurement String
     description         String
     category            String
     price_no_tax        Decimal
   }
-  model Location_2b10u4bus1YbRXIaS7zbZicQie {
+  model Location_2b10KEad3pJdTGlRaWmqAGp9P {
     id           Int             @id @default(autoincrement())
     name         String
     full_address String
     region       String
     city         String
     type         String
-    transactions Transaction_2b10u4bus1YbRXIaS7zbZicQie[]
+    transactions Transaction_2b10KEad3pJdTGlRaWmqAGp9P[]
   }
-  model Customer_2b10u4bus1YbRXIaS7zbZicQie {
+  model Customer_2b10KEad3pJdTGlRaWmqAGp9P {
     id           Int             @id
-    transactions Transaction_2b10u4bus1YbRXIaS7zbZicQie[]
+    transactions Transaction_2b10KEad3pJdTGlRaWmqAGp9P[]
     name         String
     age          Int
     email        String

@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import { Item } from '../types/Item';
-const prisma = new PrismaClient();
 import { makePrismaQuery } from '../helpers/makePrismaQuery';
+import prisma from '../helpers/makePrismaQuery';
 
 export async function getAllItems(req: Request, res: Response) {
   try {

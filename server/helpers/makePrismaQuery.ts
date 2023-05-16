@@ -2,9 +2,13 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { Type } from 'typescript';
 import { PrismaFindMany } from '../types/PrismaQueryReturns';
 import { Query } from '../types/Query';
+// import prisma from '../db';
 
-
+// ISSUE: CREATING A NEW PRISMA CLIENT STALLS THE DB ON MAKING REQUESTS TO IT
+// A NEW CLIENT DOES NOT SEE THE OTHER CLIENTS' TABLES
 const prisma = new PrismaClient() as any;
+
+export default prisma;
 
 export function makePrismaQuery({ keyword, userID, query, table }: { keyword: string, userID: number | string, query: any, table: string }) {
   console.log('Query in makePrismaQuery:', query);

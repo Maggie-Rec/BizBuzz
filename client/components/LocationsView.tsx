@@ -20,7 +20,7 @@ export default function LocationsView() {
 
   return (
     <section className={styles.cardSection}>
-      {locations ?
+      {locations.length > 0 ?
         locations.map((item) => {
           return (
             <LocationCard

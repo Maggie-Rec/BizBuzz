@@ -10,7 +10,6 @@ const { SHOW_CHILD, SHOW_PARENT } = Cascader;
 
 import { generateQuery } from '../utils/queryKing';
 import { queryAllLocations, queryAllItems, queryAllCustomers } from '../utils/queryKingV2';
-import { SizeType } from 'antd/es/config-provider/SizeContext';
 
 interface IColumn {
   title: string,
