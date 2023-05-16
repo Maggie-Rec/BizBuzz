@@ -11,6 +11,7 @@ import {
 } from "../../../utils/queryKingV2";
 const { RangePicker } = DatePicker;
 
+
 const MONTHS = [
   "January",
   "February",
@@ -135,7 +136,6 @@ const BarMenu2 = ({ func }) => {
 
     // FETCH DATA FROM DB USING dateTupleArray
     const chartData = await generateDataArrayFromDB(dateTupleArray, option1);
-
 
     dispatch({
       type: 'ADD_WIDGET',

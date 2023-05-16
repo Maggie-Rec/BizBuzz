@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
 import { useState, useEffect, SetStateAction } from "react";
 import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
+import { Modal } from "antd";
 
 
 interface IBarChartProps {
@@ -68,9 +69,9 @@ const BarChart2 = ({id, labels, datasetLabels, datasetData} : IBarChartProps) =>
   }, []);
 
   return (
-    <>
+    <Modal open={true}>
       <Bar data={barData}></Bar>
-    </>
+    </Modal>
   )
 }
 

@@ -54,15 +54,16 @@ const barChartReducer = (state = initialStateBar, action) => {
 };
 
 function stringifyWidgets(newState) {
-  console.log(newState)
+  console.log('newState', newState)
   return JSON.stringify(
-    newState.map((item) => {
-      if (item !== null) {
+    newState?.map((item) => {
+      if (item !== null && item !== undefined) {
         console.log(item.props);
-        const widgetType = item.props.type;
+        const widgetType = item.props.type.name;
         const toSave = {} as { widgetType: string };
         toSave.widgetType = widgetType;
         Object.assign(toSave, item);
+        console.log('toSave', toSave)
         return toSave;
       }
     })
@@ -168,8 +169,11 @@ const widgetReducer = (state = [], action) => {
       window.localStorage.setItem("widgets",
         stringifyWidgets(state.concat([action.payload]))
       );
-      const result = state.concat([action.payload]);
-      console.log(result);
+
+      console.log('after', stringifyWidgets(state.concat([action.payload])))
+      // const result = state.concat([action.payload]);
+      // console.log(result);
+      return;
       return result;
     case "REMOVE_WIDGET":
       let newSelection = state.filter(

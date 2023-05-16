@@ -187,7 +187,7 @@ const Dashboard = () => {
             </Button>
           </Dropdown>
         </div>
-        <div className={styles.containerDashboard}>
+        <div className={styles.containerDashboard} id="test"> 
           {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE
           {openWidget.chartType === "Line Chart" && (
             <LineChart showWidget={() => setOpenWidget({})} />
