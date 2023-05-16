@@ -40,7 +40,7 @@ const LoginWindow = () => {
       alert("Wrong Login Details. Try again.");
     }
 
-// dispatch({type: "LOGIN", payload: token })
+// dispatch({type: "LOGIN", payload:  })
 
   };
 
@@ -53,6 +53,7 @@ const LoginWindow = () => {
     };
     const data = await registerUser(user);
     window.location.replace("http://localhost:3000/");
+    // dispatch({type: "REGISTER", payload: businessName})
   };
 
   return (

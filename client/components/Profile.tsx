@@ -3,6 +3,7 @@
 import styles from "../styles/Profile.module.css";
 import React, { useState } from "react";
 import { ConfigProvider } from "antd";
+import { useSelector } from "react-redux";
 
 /* COMPONENTS */
 import ProfileInfoTab from "./ProfileInfoTab";
@@ -12,6 +13,8 @@ import LogOutTab from "./LogOutTab";
 const Profile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openTab, setOpenTab] = useState(0);
+
+ 
 
   function handleOpenProfile() {
     if (!isModalOpen) setIsModalOpen(true);
@@ -28,8 +31,16 @@ const Profile = () => {
       <div onClick={() => handleOpenProfile()}>
         <div className={styles.modal}>
           <div className={styles.firstRow}>
-            <div className={styles.profilePic}></div>
-            <h2>Bussiness Name</h2>
+            <div className={styles.profilePic}>
+              {/* <form
+                action="/profile"
+                method="post"
+                encType="multipart/form-data"
+              >
+                <input type="file" name="avatar" />
+              </form> */}
+            </div>
+            <h2>businessName</h2>
             <div className={styles.buttonContainer}>
               <span
                 style={{ backgroundColor: openTab === 0 ? "" : "#f9cf80" }}

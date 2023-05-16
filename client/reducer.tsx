@@ -242,6 +242,13 @@ const currentTabReducer = (state = "dashboard", action) => {
 //   }
 // };
 
+const registerReducer= (state = {businessName: ''}, action) => {
+  if(action.type === "REGISTER"){
+    return {...state, businessName: action.payload}
+  }
+  return state
+}
+
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
   barChart: barChartReducer,
@@ -249,6 +256,7 @@ const rootReducer = combineReducers({
   widgetSelection: widgetReducer,
   currentTab: currentTabReducer,
   // login: loginReducer,
+  register: registerReducer
 });
 
 export default rootReducer;

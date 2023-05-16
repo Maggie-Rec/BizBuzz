@@ -206,9 +206,9 @@ const Dashboard = () => {
             })}
           </section>
 
-          <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
+     
             {activeMenu}
-          </Modal>
+      
         </div>
       </div>
     </ConfigProvider>
