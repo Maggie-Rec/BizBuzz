@@ -2,7 +2,6 @@ import { DateTime } from "luxon";
 import { monthData } from "./monthData";
 
 export function generateTimePeriods({ start, end, unit }) {
-  console.log("called", arguments);
   if (unit === "year") {
     return createYears({ start: start, number: end.year - start.year + 1 });
   } else if (unit === "quarter") {
@@ -29,14 +28,10 @@ export function generateTimePeriods({ start, end, unit }) {
     ).values.weeks;
     return createWeeks({ start, number });
   } else if (unit === "day") {
-    console.log(end);
-    console.log(DateTime.fromObject(end));
     let number = DateTime.fromObject(end).diff(
       DateTime.fromObject(start),
       "days"
     ).values.days;
-    console.log("Number:", number);
-    console.log(createDays({ start, number }));
     return createDays({ start, number });
   }
 }

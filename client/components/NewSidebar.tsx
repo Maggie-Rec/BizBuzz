@@ -10,6 +10,7 @@ import {
   ControlOutlined,
   UserOutlined,
   EnvironmentOutlined,
+  ShopOutlined
 } from "@ant-design/icons";
 import { Modal, ConfigProvider } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -144,11 +145,24 @@ const NewSideBar2 = () => {
                     : styles.iconContainer
                 }
                 onClick={() =>
-                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "reports" })
+                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "locations" })
                 }
               >
                 <EnvironmentOutlined className={styles.icon} />
                 {!isCollapsed && <p>Locations</p>}
+              </div>
+              <div
+                className={
+                  isCollapsed
+                    ? styles.iconContainerCollapsed
+                    : styles.iconContainer
+                }
+                onClick={() =>
+                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "inventory" })
+                }
+              >
+                <ShopOutlined className={styles.icon} />
+                {!isCollapsed && <p>Inventory</p>}
               </div>
             </div>
             <div>

@@ -58,7 +58,6 @@ export function generateAggSumQuery({ filterArr, filterNames, dateArr, keyword =
     // console.log(filterArr[i]);
     // console.log(filterNames[i]);
     if (filterArr[i][0]) {
-      console.log('here1');
       if (filterNames[i] === 'location') {
         let locationFilters = [];
         for (let location of filterArr[i][1]) {

@@ -70,7 +70,7 @@ function stringifyWidgets(newState) {
 }
 
 const lineChartReducer = (
-  state = { axes: { x: ['time','year'], y: ['totalSales', 'acrossLocations'] }, period: {start: {year: 2023}, end: {year: 2023}}, filters: [], filterNames: [] } as {
+  state = { axes: { x: ['time', 'year'], y: ['totalSales', 'acrossLocations'] }, period: { start: { year: 2023 }, end: { year: 2023 } }, filters: [], filterNames: [] } as {
     axes: any;
     filters: object[];
     period: any;
@@ -78,7 +78,6 @@ const lineChartReducer = (
   },
   action
 ) => {
-  if (state.period) console.log("Reducer called", state.period);
   switch (action.type) {
     case "ADD_FILTER":
       const newState = { ...state };
@@ -132,7 +131,6 @@ const lineChartReducer = (
     case "SET_DATES": {
       const adjust = { ...state };
       adjust.period = action.payload;
-      console.log(action.payload);
       return adjust;
     }
     case "TEST": {
