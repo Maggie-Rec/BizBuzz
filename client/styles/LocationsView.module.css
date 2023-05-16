@@ -1,14 +1,3 @@
-.card {
-  background-color: lightgoldenrodyellow;
-  width: 300px;
-  font-size: 1.1em;
-  word-wrap: break-word;
-}
-
-.ant-card-meta-title {
-  white-space: pre-wrap;
-}
-
 .ant-float-btn {
   width: 60px;
   height: 60px;
