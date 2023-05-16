@@ -6,7 +6,12 @@
 }
 
 .ant-card-meta-title {
-  white-space: nowrap;
+  white-space: pre-wrap;
+}
+
+.ant-float-btn {
+  width: 60px;
+  height: 60px;
 }
 
 .cardSection {

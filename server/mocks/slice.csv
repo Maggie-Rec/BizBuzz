@@ -1,2 +1,0 @@
-record_id,transaction_id,date,time,location_id,SKU,quantity,is_member,customer_id,total_with_tax,tax
-21,1333,2022-12-21,09:07:04,5,fjl3q,2.00,true,96,0.40,0.07

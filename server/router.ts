@@ -1,7 +1,7 @@
 import { Response, Request, Router } from 'express';
 import { getAllCustomers } from './controllers/customers';
 import { getAllItems } from './controllers/items';
-import { getAllLocations } from './controllers/locations';
+import { addNewLocation, getAllLocations } from './controllers/locations';
 import { getAllTransactions } from './controllers/transactions';
 import { loginUser, registerUser } from './controllers/authentication';
 import { verifyToken } from './middleware/verify';
@@ -28,3 +28,5 @@ router
   .post('/items', verifyToken, getAllItems)
   .post('/inventory', getInventory)
   // .post('/inventory', verifyToken, getInventory)
+
+  .put('/locations', verifyToken, addNewLocation)
