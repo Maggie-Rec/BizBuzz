@@ -6,6 +6,7 @@ import { getAllTransactions } from './controllers/transactions';
 import { loginUser, registerUser } from './controllers/authentication';
 import { verifyToken } from './middleware/verify';
 import uploadData from './controllers/upload';
+import { getInventory } from './controllers/inventory';
 
 export const router = Router();
 
@@ -25,3 +26,5 @@ router
   .post('/locations', verifyToken, getAllLocations)
   .post('/customers', verifyToken, getAllCustomers)
   .post('/items', verifyToken, getAllItems)
+  .post('/inventory', getInventory)
+  // .post('/inventory', verifyToken, getInventory)
