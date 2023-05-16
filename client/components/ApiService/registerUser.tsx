@@ -1,6 +1,6 @@
 export async function registerUser(user) {
   try {
-    const resp = fetch("http://localhost:3020/register", {
+    const resp = fetch("http://localhost:3001/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

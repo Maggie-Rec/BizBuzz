@@ -6,7 +6,7 @@ import PieChart from "./pieChart";
 
 
 const PieMenu = ({ func }) => {
-  const [period, setPeriod] = useState("");
+  const [period, setPeriod] = useState("past_week");
   const [dataType, setDataType] = useState('["transaction", { "location_id": "value" }]');
   const [isShowing, setIsShowing] = useState(true);
 

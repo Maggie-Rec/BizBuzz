@@ -5,7 +5,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import styles from "../styles/DataUpload.module.css";
 
 export default function DataUpload() {
-  const [selection, setSelection] = useState("transaction");
+  const [selection, setSelection] = useState("location");
   const [csv, setCsv] = useState<File | null>(null);
 
   function handleSelection(value) {
@@ -24,8 +24,8 @@ export default function DataUpload() {
     }));
     newUpload.set("file", csv);
     try {
-      await uploadData(newUpload);
-      window.alert(`Data on ${selection} uploaded`);
+      const response = await uploadData(newUpload);
+      response.status === 201 ? window.alert(`Data on ${selection} uploaded`) : window.alert(`Failed to upload ${selection} data`);
     } catch (error) {
       console.error(error);
     }
@@ -40,12 +40,12 @@ export default function DataUpload() {
       <Select
         id="typeSelect"
         className={styles.typeSelect}
-        defaultValue="transaction"
+        defaultValue="location"
         options={[
-          { value: "transaction", label: "transactions" },
           { value: "location", label: "locations" },
           { value: "item", label: "items" },
-          { value: "customer", label: "customers" }
+          { value: "customer", label: "customers" },
+          { value: "transaction", label: "transactions" }
         ]}
         onChange={(value) => handleSelection(value)}
       >
