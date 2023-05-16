@@ -65,12 +65,13 @@ model Customer_0 {
 }
 
 model Inventory_0 {
-  SKU         String     @id
+  id          Int        @id @default(autoincrement())
+  SKU         String
   item        Item_0     @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
   location    Location_0 @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   location_id Int
   stock       Decimal
-  Capacity    Int
+  capacity    Int
 }
 
 model Transaction_2b10fLXzaQVaha9iI0m2uUtE {
@@ -341,4 +342,61 @@ model Customer_2b10u4bus1YbRXIaS7zbZicQie {
   age          Int
   email        String
   gender       String
+}
+
+model Transaction_2b10cCJnIm8XWOF9EYuRlivc {
+  record_id      Int                               @id @default(autoincrement())
+  transaction_id Int
+  date           DateTime                          @db.Date
+  time           DateTime                          @db.Time(6)
+  location       Location_2b10cCJnIm8XWOF9EYuRlivc @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  location_id    Int
+  item           Item_2b10cCJnIm8XWOF9EYuRlivc     @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
+  SKU            String
+  quantity       Decimal                           @db.Decimal
+  is_member      Boolean
+  customer       Customer_2b10cCJnIm8XWOF9EYuRlivc @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  customer_id    Int
+  total_with_tax Decimal                           @db.Decimal
+  tax            Decimal                           @db.Decimal
+}
+
+model Item_2b10cCJnIm8XWOF9EYuRlivc {
+  SKU                 String                                 @id
+  transactions        Transaction_2b10cCJnIm8XWOF9EYuRlivc[]
+  inventory           Inventory_2b10cCJnIm8XWOF9EYuRlivc[]
+  unit_of_measurement String
+  description         String
+  category            String
+  price_no_tax        Decimal
+}
+
+model Location_2b10cCJnIm8XWOF9EYuRlivc {
+  id           Int                                    @id @default(autoincrement())
+  name         String
+  full_address String
+  region       String
+  city         String
+  type         String
+  transactions Transaction_2b10cCJnIm8XWOF9EYuRlivc[]
+  inventory    Inventory_2b10cCJnIm8XWOF9EYuRlivc[]
+}
+
+model Customer_2b10cCJnIm8XWOF9EYuRlivc {
+  id           Int                                    @id
+  transactions Transaction_2b10cCJnIm8XWOF9EYuRlivc[]
+  name         String
+  age          Int
+  email        String
+  gender       String
+}
+
+model Inventory_2b10cCJnIm8XWOF9EYuRlivc {
+  id          Int                               @id @default(autoincrement())
+  SKU         String
+  item        Item_2b10cCJnIm8XWOF9EYuRlivc     @relation(fields: [SKU], references: [SKU], onDelete: Cascade, onUpdate: Cascade)
+  location    Location_2b10cCJnIm8XWOF9EYuRlivc @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  location_id Int
+  stock       Decimal
+  capacity    Int
 }
