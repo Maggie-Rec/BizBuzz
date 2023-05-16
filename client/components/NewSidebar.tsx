@@ -26,7 +26,6 @@ const NewSideBar2 = () => {
   const [activeProfile, setActiveProfile] = useState(false);
 
   function openProfile() {
-    console.log("open profile");
     setActiveProfile(true);
   }
   function handleOk() {
@@ -34,7 +33,6 @@ const NewSideBar2 = () => {
   }
 
   function handleCancel() {
-    console.log("close")
     setActiveProfile(false);
   }
 
@@ -83,19 +81,19 @@ const NewSideBar2 = () => {
             >
               <UserOutlined className={styles.icon} />
               {!isCollapsed && <h3>Your Name</h3>}
-              <Modal
-                open={!activeProfile}
-                title="Your Profile"
-                onOk={handleOk}
-                onCancel={handleCancel}
-                style={{
-                  top: 20,
-                }}
-                width={1000}
-              >
-                <Profile />
-              </Modal>
             </div>
+            <Modal
+              open={activeProfile}
+              title="Your Profile"
+              onOk={handleOk}
+              onCancel={handleCancel}
+              style={{
+                top: 20,
+              }}
+              width={1000}
+            >
+              <Profile />
+            </Modal>
           </div>
           <div className={styles.moduleListContainer}>
             <div className={styles.moduleList}>

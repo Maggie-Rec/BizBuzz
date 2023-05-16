@@ -319,14 +319,14 @@ const ReportsView = () => {
             </Button>
           )}
         </div>
-        <Tooltip title="Upload Data" placement="bottomLeft">
+        {/* <Tooltip title="Upload Data" placement="bottomLeft">
           <Button
             type="primary"
             style={{ backgroundColor: "#f8b825", marginRight: "3vw", width: "4vw" }}
           >
             <PlusOutlined />
           </Button>
-        </Tooltip>
+        </Tooltip> */}
       </div>
       <div className={styles.tableContainer}>
         <Table
