@@ -26,7 +26,7 @@ export default async function uploadData(request: Request, response: Response) {
     console.log('target', target, 'path', upload);
     const csvParseResults = [] as Transaction[] | Item[] | Location[] | Customer[];
     const fullPath = path.join(__dirname, `..\\${upload}`);
-    
+
     // TODO: REMOVE AND EDIT AFTER GLOBAL MIDDLEWARE INSERTION
     // const token = request.cookies.token;
     // const decrypt = jwt.verify(token, `${secret}`) as { id: string };
@@ -45,6 +45,13 @@ export default async function uploadData(request: Request, response: Response) {
       })
       .on("end", async () => {
         console.log(csvParseResults[0]);
+        let keys = Object.keys(csvParseResults[0]);
+        let values = Object.values(csvParseResults[0]);
+        // console.log(values);
+        for (let i = 0; i < keys.length; i++) {
+          console.log(keys[i], values[i], typeof values[i])
+        }
+
         const createMany = await makePrismaQuery({
           keyword: "create",
           userID: `${userId}`,
