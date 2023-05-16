@@ -143,9 +143,12 @@ const NewSideBar2 = () => {
                     ? styles.iconContainerCollapsed
                     : styles.iconContainer
                 }
-                onClick={() =>
-                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "reports" })
-                }
+                onClick={() => {
+                  dispatch({
+                    type: "CHANGE_CURRENT_TAB",
+                    payload: "locations",
+                  });
+                }}
               >
                 <EnvironmentOutlined className={styles.icon} />
                 {!isCollapsed && <p>Locations</p>}
