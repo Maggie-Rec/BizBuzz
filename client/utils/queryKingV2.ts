@@ -152,7 +152,7 @@ function queryAllTransactions(dateRange: Date[]) {
 // DB returns ==> [{"id":1,"full_address":"Dean Bradley House, 52 Horseferry Rd","region":"Greater
 // London","city":"London","type":"outlet"},{"id":2,"full_address":"105 Upper St, London N1 1QN","region":"Greater
 // London","city":"London","type":"outlet"}]
-function queryAllLocations() {
+export function queryAllLocations() {
   const queryObj = {
     query: {
       distinct: ["full_address"],
@@ -166,7 +166,7 @@ function queryAllLocations() {
 // DB returns ==> [{"SKU":"sm0ik","unit_of_measurement":"item","description":"nuggets 3
 // pcs","category":"starters","price_no_tax":"1.2"},{"SKU":"osv5f","unit_of_measurement":"item","description":"nuggets 6
 // pcs","category":"starters","price_no_tax":"2"}
-function queryAllItems() {
+export function queryAllItems() {
   const queryObj = {
     query: {
       distinct: ["SKU"],
@@ -179,7 +179,7 @@ function queryAllItems() {
 // FUNCTION TO RETURN ALL POSSIBLE CUSTOMERS
 // DB returns ==> [{"id":0,"name":"Anonymous","age":0,"email":"anonymouse","gender":"anonymous"},{"id":1,"name":"Say
 // Follos","age":87,"email":"sfollos0@cafepress.com","gender":"Male"}]
-function queryAllCustomers() {
+export function queryAllCustomers() {
   const queryObj = {
     query: {
       distinct: ["id"],

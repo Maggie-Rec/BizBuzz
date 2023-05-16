@@ -1,7 +1,8 @@
 .container {
-  width: 100%;
-  min-height: 100%;
-  background-color: rgb(250, 244, 235);
+  min-width: 84.7vw;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-top: 1vh;
 }
 
 .controls {
@@ -11,24 +12,13 @@
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 0 1vw;
-}
-
-.filterSelector {
-  display: flex;
-  align-items: center;
-  gap: 0.5vw;
-}
-
-.dateSelector {
-  display: flex;
-  gap: 1vw;
+  padding: 0 3vw;
 }
 
 .tableContainer {
-  max-height: 78vh;
-  max-width: 90vw;
+  max-height: 88vh;
+  max-width: 100%;
   overflow-y: hidden;
   padding: 2vh 3vw;
-}
-
+  box-sizing: border-box;
+  }
