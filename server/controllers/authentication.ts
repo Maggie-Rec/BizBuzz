@@ -10,13 +10,13 @@ import prettify from '../helpers/prettify';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { secret } from '../config';
-import prisma from '../db';
+import prisma from '../helpers/makePrismaQuery';
 
 export async function registerUser(req: Request, res: Response) {
   try {
     const newUser = req.body;
     newUser.id = prettify(await bcrypt.genSalt(10));
-    const isAlreadyRegistered = await prisma.user.findFirst({
+    const isAlreadyRegistered = await prisma.user.findUnique({
       where: {
         email: newUser.email
       }

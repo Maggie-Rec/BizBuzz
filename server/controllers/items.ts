@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Item } from '../types/Item';
 import { makePrismaQuery } from '../helpers/makePrismaQuery';
-import prisma from '../db';
+import prisma from '../helpers/makePrismaQuery';
 
 export async function getAllItems(req: Request, res: Response) {
   try {

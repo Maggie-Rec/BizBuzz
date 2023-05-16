@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Customer } from '../types/Customer';
 import { makePrismaQuery } from '../helpers/makePrismaQuery';
-import prisma from '../db';
+import prisma from '../helpers/makePrismaQuery';
 
 export async function getAllCustomers(req: Request, res: Response) {
   try {

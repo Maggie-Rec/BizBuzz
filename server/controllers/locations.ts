@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Location } from '../types/Location';
 import { makePrismaQuery } from '../helpers/makePrismaQuery';
-import prisma from '../db';
+import prisma from '../helpers/makePrismaQuery';
 
 export async function getAllLocations(req: Request, res: Response) {
   try {

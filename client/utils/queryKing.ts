@@ -151,28 +151,3 @@ export function generateQuery(filterArr: string[], dateArr: Date[]) {
 
   return JSON.stringify(queryObj);
 }
-
-// async function getLabelsPossibleValues() {
-//   let filter = getFilterObject(pieChartSelection[1], 'value');
-//   let path = Object.keys(filter)[0];
-//   let relatedCriterion = filter[path];
-//   Object.keys(relatedCriterion).forEach(key => relatedCriterion[key] = true);
-//   let selection = relatedCriterion;
-
-//   let response = await fetch(`http://localhost:3456/${path}s`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       query: {
-//         distinct: [`${Object.keys(relatedCriterion)[0]}`],
-//         select: selection
-//       }
-//     })
-//   });
-
-//   response = await response.json();
-//   console.log('Possible values', response);
-//   return response;
-// }

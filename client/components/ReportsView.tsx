@@ -1,5 +1,6 @@
 "use client";
 
+// import 
 import styles from "../styles/ReportsView.module.css";
 import React, { ReactNode, use, useEffect, useState } from "react";
 import {
@@ -35,7 +36,7 @@ interface IColumn {
 
 async function getTableData(stringifiedQuery: string) {
   try {
-    const res = await fetch("http://localhost:3456/transactions", {
+    const res = await fetch("http://localhost:3020/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
