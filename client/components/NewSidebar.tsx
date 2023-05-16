@@ -26,6 +26,7 @@ const NewSideBar2 = () => {
   const [activeProfile, setActiveProfile] = useState(false);
 
   function openProfile() {
+    console.log("open profile");
     setActiveProfile(true);
   }
   function handleOk() {
@@ -33,6 +34,7 @@ const NewSideBar2 = () => {
   }
 
   function handleCancel() {
+    console.log("close")
     setActiveProfile(false);
   }
 
@@ -68,35 +70,21 @@ const NewSideBar2 = () => {
                 className={styles.logo}
               />
             )}
-            {/* <div
-            className={
-              isCollapsed ? styles.iconContainerCollapsed : styles.iconContainer
-            }
-            style={{
-              paddingRight: isCollapsed ? "0" : "0.48vw",
-              flexDirection: "row-reverse",
-              
-            }}
-            onClick={() =>
-              dispatch({ type: "CHANGE_CURRENT_TAB", payload: "dashboard" })
-            }
-          ></div> */}
+
             <div
               className={
                 isCollapsed
                   ? styles.iconContainerCollapsed
                   : styles.iconContainer
               }
+              onClick={() => {
+                openProfile();
+              }}
             >
-              <UserOutlined
-                className={styles.icon}
-                onClick={() => {
-                  openProfile();
-                }}
-              />
+              <UserOutlined className={styles.icon} />
               {!isCollapsed && <h3>Your Name</h3>}
               <Modal
-                open={!!activeProfile}
+                open={!activeProfile}
                 title="Your Profile"
                 onOk={handleOk}
                 onCancel={handleCancel}

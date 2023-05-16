@@ -33,7 +33,7 @@ const LoginWindow = () => {
     };
 
     const data = await getLogin(creds);
-   const token = data.token
+  //  const token = data.token
     if (data.ok) {
       window.location.replace("http://localhost:3000/");
     } else {
