@@ -144,7 +144,7 @@ const NewSideBar2 = () => {
                     : styles.iconContainer
                 }
                 onClick={() =>
-                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "reports" })
+                  dispatch({ type: "CHANGE_CURRENT_TAB", payload: "locations" })
                 }
               >
                 <EnvironmentOutlined className={styles.icon} />

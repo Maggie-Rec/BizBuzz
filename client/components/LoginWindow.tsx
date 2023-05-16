@@ -6,17 +6,18 @@ import { Input, Space, Divider, Button } from "antd";
 import Image from "next/image";
 import Login from "../public/login.svg";
 import Registration from "../public/registrate.svg";
-import Link from "next/link";
 import { getLogin } from "./ApiService/getLogin";
 import { registerUser } from "./ApiService/registerUser";
+import { useDispatch } from "react-redux";
 
 const LoginWindow = () => {
   const [isRegistered, setIsRegistered] = useState(false);
-  const [showLogo, setShowLogo] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [businessName, setBusinessName] = useState("");
 
+  // const dispatch = useDispatch()
   function toggleRegister() {
     setIsRegistered(!isRegistered);
   }
@@ -25,13 +26,22 @@ const LoginWindow = () => {
     setter(value);
   }
   const handleLogin = async () => {
-    console.log(email, password);
+    console.log(document.cookie);
     const creds = {
       email: email,
       password: password,
     };
+
     const data = await getLogin(creds);
-    // const token = data.token
+   const token = data.token
+    if (data.ok) {
+      window.location.replace("http://localhost:3000/");
+    } else {
+      alert("Wrong Login Details. Try again.");
+    }
+
+// dispatch({type: "LOGIN", payload: token })
+
   };
 
   const handleRegistration = async () => {
@@ -42,16 +52,11 @@ const LoginWindow = () => {
       password: password,
     };
     const data = await registerUser(user);
+    window.location.replace("http://localhost:3000/");
   };
 
   return (
     <div className={styles.container}>
-      {/* {showLogo && (
-        <div className="logo">
-        <h1>LOGO</h1>
-        </div>
-      )} */}
-
       <>
         {!isRegistered ? (
           <div className={styles.login}>
@@ -80,14 +85,10 @@ const LoginWindow = () => {
                     }
                   />
                 </div>
-                <Link href="/">
-                  <Button
-                    className={styles.button}
-                    onClick={() => handleLogin()}
-                  >
-                    Log in
-                  </Button>
-                </Link>
+
+                <Button className={styles.button} onClick={() => handleLogin()}>
+                  Log in
+                </Button>
               </form>
               <Divider plain className={styles.divider}>
                 OR
