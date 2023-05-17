@@ -42,7 +42,7 @@ export default function InventoryView() {
     query: {},
     userId: '2b10cCJnIm8XWOF9EYuRlivc'
   }
-  const colors = ['#F2A202', '#F08605', '#DB6443'];
+  const colors = ["#F2A202", "#F08605", "#DB6443", "#ad4544", "#7e2644"];
   // const colors = ['yellow', '#F2A202', '#F08605', '#DB6443', 'crimson'];
 
   useEffect(() => {
@@ -218,27 +218,31 @@ export default function InventoryView() {
 
 
   return (
-    <Space id="container">
-      <Space id="header-bar">
-        <Space id="data-display-type">
-          {/* <Switch
+    <div className={styles.container}>
+      <Space id="container" className={styles.container}>
+        <Space id="header-bar" className={styles.headerBar}>
+          <Space id="data-display-type">
+            {/* <Switch
             checkedChildren='Display as radar chart'
             unCheckedChildren='Display as table'
             onChange={() => setDisplayAsRadarChart(!displayAsRadarChart)}
           /> */}
-          <Radio.Group onChange={handleChangeFocus} value={focus}>
-            <Radio value="locations">By location</Radio>
-            <Radio value="items">By item</Radio>
-            <Radio value="categories">By category of goods</Radio>
-            <Radio value="all">Display all information</Radio>
-          </Radio.Group>
+            <Radio.Group onChange={handleChangeFocus} value={focus}>
+              <Radio value="locations">By location</Radio>
+              <Radio value="items">By item</Radio>
+              <Radio value="categories">By category of goods</Radio>
+              <Radio value="all">Display all information</Radio>
+            </Radio.Group>
+          </Space>
+        </Space>
+        <Space id="data-display" className={styles.dataDisplay}>
+          {displayAsRadarChart === true ? (
+            <RadarChart data={data} />
+          ) : (
+            <InventoryTable data={data} />
+          )}
         </Space>
       </Space>
-      <Space id="data-display">
-        {displayAsRadarChart === true ?
-          <RadarChart data={data} /> :
-          <InventoryTable data={data} />}
-      </Space>
-    </Space>
-  )
+    </div>
+  );
 }
