@@ -26,6 +26,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
 import { useDispatch } from "react-redux";
 import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
+import { PORT } from "../../ApiService/variables";
 
 interface Props {
   pieChartSelection: string[],
@@ -126,7 +127,7 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
       );
       let selection = relatedCriterion;
 
-      let response = await fetch(`http://localhost:3001/${path}s`, {
+      let response = await fetch(`http://localhost:${PORT}/${path}s`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -172,7 +173,7 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
 
       filter.date = { gt: periodStart };
 
-      let response = await fetch("http://localhost:3001/transactions", {
+      let response = await fetch(`http://localhost:${PORT}/transactions`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",

@@ -19,6 +19,7 @@
   justify-content: flex-end;
   align-items: center;
   box-shadow: 0px 40px 85px -20px #cacaca;
+  gap: 3vw;
 }
 
 .dateSelector {
@@ -26,20 +27,22 @@
 }
 
 .calendarBtn {
-  margin: 40px 0 0 0;
+  margin: 0;
 }
 .noteBtn {
-  margin: 40px 30px 0 0;
+  margin: 0;
 }
 
 .widgetBtn {
-  margin: 40px 30px 0 10px;
+  margin-left: 2vw;
 }
 
 .title {
-  margin-left: 20vw;
-  margin-top: 3vh;
+  margin-left: 0;
+  margin-top: 0;
   font-size: 40px;
+  width: 100%;
+  text-align: center;
 }
 
 .dropdownText {

@@ -23,6 +23,7 @@ import {
   queryTotalTransactionsByMonth,
 } from "../../../utils/queryKingV2";
 
+import { PORT } from "../../ApiService/variables";
 
 interface IBarChartProps {
   id: number,
@@ -70,7 +71,7 @@ const COLORS = [
 
 async function fecthAPI(stringifiedQuery: string) {
   try {
-    const res = await fetch('http://localhost:3001/transactions', {
+    const res = await fetch(`http://localhost:${PORT}/transactions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

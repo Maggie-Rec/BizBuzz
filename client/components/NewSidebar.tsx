@@ -122,6 +122,7 @@ const NewSideBar2 = () => {
             </div>
 
             <div className={styles.moduleListContainer}>
+
               <div className={styles.moduleList}>
                 <div
                   className={
@@ -139,19 +140,7 @@ const NewSideBar2 = () => {
                   <DashboardOutlined className={styles.icon} />
                   {!isCollapsed && <p>Dashboard</p>}
                 </div>
-                <div
-                  className={
-                    isCollapsed
-                      ? styles.iconContainerCollapsed
-                      : styles.iconContainer
-                  }
-                  onClick={() =>
-                    dispatch({ type: "CHANGE_CURRENT_TAB", payload: "reports" })
-                  }
-                >
-                  <BarChartOutlined className={styles.icon} />
-                  {!isCollapsed && <p>Sales Reports</p>}
-                </div>
+                
                 <div
                   className={
                     isCollapsed
@@ -168,6 +157,22 @@ const NewSideBar2 = () => {
                   <EnvironmentOutlined className={styles.icon} />
                   {!isCollapsed && <p>Locations</p>}
                 </div>
+
+                <div
+                  className={
+                    isCollapsed
+                      ? styles.iconContainerCollapsed
+                      : styles.iconContainer
+                  }
+                  onClick={() =>
+                    dispatch({ type: "CHANGE_CURRENT_TAB", payload: "reports" })
+                  }
+                >
+                  <BarChartOutlined className={styles.icon} />
+                  {!isCollapsed && <p>Sales Reports</p>}
+                </div>
+
+
                 <div
                   className={
                     isCollapsed
@@ -181,6 +186,7 @@ const NewSideBar2 = () => {
                     })
                   }
                 >
+
                   <ShopOutlined className={styles.icon} />
                   {!isCollapsed && <p>Inventory</p>}
                 </div>

@@ -7,6 +7,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { todayTimeFilter, lastWeekTF, lastMonthTF, lastQuarterTF, lastYearTF } from '../utils/timeFilters';
 const { RangePicker } = DatePicker;
 const { SHOW_CHILD, SHOW_PARENT } = Cascader;
+import { PORT } from './ApiService/variables';
 
 import { generateQuery } from '../utils/queryKing';
 import { queryAllLocations, queryAllItems, queryAllCustomers } from '../utils/queryKingV2';
@@ -66,7 +67,7 @@ interface ICustomer {
 
 async function fecthAPI(stringifiedQuery: string, where: string) {
   try {
-    const res = await fetch(`http://localhost:3001/${where}`, {
+    const res = await fetch(`http://localhost:${PORT}/${where}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
