@@ -50,6 +50,7 @@ const NewSideBar2 = () => {
     get: (arg: string) => void;
   }
   useEffect(() => {
+    /* @ts-ignore */
     // const cookies = cookieStore as cookieStore;
     const username = cookieStore.get("username").then((data) => {
       console.log(data);
