@@ -109,7 +109,7 @@ async function generateDataArrayFromDB (dateTupleArray: Array<Date[]>, dataToFet
       })
       break;
   }
-  console.log(dataToFetch ,dataArray);
+  // console.log(dataToFetch ,dataArray);
   return dataArray;
 }
 
@@ -143,9 +143,11 @@ const BarMenu2 = ({ func }) => {
         <BarChart
           key={Date.now()}
           id={Date.now()}
-          labels={labels}
-          datasetLabels={[option1]}
-          datasetData={[chartData]}
+          period={period}
+          option={option1}
+          // labels={labels}
+          // datasetLabels={[option1]}
+          // datasetData={[chartData]}
         />
         )
     })

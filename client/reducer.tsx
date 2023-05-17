@@ -4,6 +4,7 @@ import { ReactComponentElement } from "react";
 import { combineReducers } from "redux";
 import PieChart from "./components/widgets/PieChart/pieChart";
 import BarChart from "./components/widgets/BarChart/barChart";
+import BarChart2 from "./components/widgets/BarChart2/barChart2";
 import LineChart from "./components/widgets/LineChart/lineChart";
 import ProgressChart from "./components/widgets/Progress/progressChart";
 import randomAlphaNumeric from "./utils/randomizer";
@@ -59,7 +60,7 @@ function stringifyWidgets(newState) {
     newState?.map((item) => {
       if (item !== null && item !== undefined) {
         console.log(item.props);
-        const widgetType = item.props.type.name;
+        const widgetType = item.type.name;
         const toSave = {} as { widgetType: string };
         toSave.widgetType = widgetType;
         Object.assign(toSave, item);
@@ -162,7 +163,7 @@ const lineChartReducer = (
 const widgetReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_WIDGET":
-      console.log(action.payload);
+      console.log('payload', action.payload);
       // window.localStorage.setItem(
       //   "widgets",
       // // console.log(action.type, action.payload);
@@ -171,9 +172,9 @@ const widgetReducer = (state = [], action) => {
       );
 
       console.log('after', stringifyWidgets(state.concat([action.payload])))
-      // const result = state.concat([action.payload]);
+      const result = state.concat([action.payload]);
       // console.log(result);
-      return;
+      // return;
       return result;
     case "REMOVE_WIDGET":
       let newSelection = state.filter(
@@ -184,13 +185,15 @@ const widgetReducer = (state = [], action) => {
       return newSelection;
     case "REPOPULATE_DASHBOARD":
       let savedWidgetsData = JSON.parse(window.localStorage.getItem("widgets"));
+      console.log('savedWidgets', savedWidgetsData)
       if (savedWidgetsData) {
-        let restoredWidgets = savedWidgetsData.map((item) => {
+        let restoredWidgets = savedWidgetsData?.map((item) => {
           try {
             if (item.widgetType === "PieChart") {
               return <PieChart {...item.props} key={randomAlphaNumeric()} />;
-            } else if (item.widgetType === "BarChart") {
-              return <BarChart {...item.props} key={randomAlphaNumeric()} />;
+            } else if (item.widgetType === "BarChart" || item.widgetType === "BarChart2") {
+              console.log('BarChart2 Props ', item.props);
+              return <BarChart2 {...item.props} key={randomAlphaNumeric()} />;
             } else if (item.widgetType === "LineChart") {
               return <LineChart {...item.props} key={randomAlphaNumeric()} />;
             } else if (item.widgetType === "ProgressChart") {

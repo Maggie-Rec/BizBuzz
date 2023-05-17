@@ -212,8 +212,8 @@ const Dashboard = () => {
             })}
           </section>
 
-          <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
-          </Modal>
+          {/* <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
+          </Modal> */}
             {!!activeMenu && activeMenu}
           { 
         showUploadModal ?
