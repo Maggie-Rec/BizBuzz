@@ -245,7 +245,7 @@ const LineChart = ({ id, type }) => {
   const colorPackages = [
     [false, "#f2a202", "#f2a202"],
     [false, "#f08605", "#f08605"],
-    [true, "#db6443", "#db6443"],
+    [false, "#db6443", "#db6443"],
   ];
 
   async function fetchData() {
