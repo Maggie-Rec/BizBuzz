@@ -48,7 +48,6 @@ export default function InventoryView() {
   useEffect(() => {
     function generateRequests() {
       async function getItemNames() {
-        console.log('getting item names');
         const queryObject = structuredClone(baseQuery);
         queryObject.query = { select: { description: true } };
         const items = await makeFetchRequest({ queryObject: JSON.stringify(queryObject), route: 'items' });
@@ -114,6 +113,7 @@ export default function InventoryView() {
             }
           }
         }
+        newRequests.push(newQuery);
       }
       setRequests(newRequests);
     }
@@ -133,12 +133,14 @@ export default function InventoryView() {
       if (focus === 'all') {
         for (let i = 0; i < locations.length; i++) {
           newData.datasets.push({
+            location: `${locations[i]}`,
             label: `Location ${locations[i]}`,
             backgroundColor: `${colors[i]}`,
             borderColor: `${colors[i]}`,
             fill: false,
             data: []
-          })
+          });
+          while (newData.datasets[i].data > allItems.length) newData.datasets[i].data.push(null);
         }
       } else {
         newData.datasets.push({
@@ -192,7 +194,26 @@ export default function InventoryView() {
           })
         })
       } else if (focus === 'all') {
-
+        const allData = await makeFetchRequest({ queryObject: JSON.stringify(requests[0]), route: 'inventory' });
+        const today = new Date();
+        for (let i = 0; i < allData.length; i++) {
+          if (today.getMonth() === 3 && today.getDate() === 1) {
+            if (i % 3 === 0) {
+              console.log('Biz');
+            }
+            if (i % 4 === 0) {
+              console.log('Buzz');
+            }
+            if (i % 12 !== 0) {
+              console.log(i);
+            }
+          }
+          let dataset = newData.datasets.find((set) => {
+            return set.location === allData[i].location_id.toString();
+          });
+          let itemIndex = allItems.findIndex((item) => item === allData[i].item.description);
+          dataset.data[itemIndex] = 100 * allData[i].stock / allData[i].capacity;
+        }
       }
       setData(newData);
     }
@@ -218,7 +239,7 @@ export default function InventoryView() {
 
 
   return (
-    <div className={styles.container}>
+    <Space className={styles.container}>
       <Space id="container" className={styles.container}>
         <Space id="header-bar" className={styles.headerBar}>
           <Space id="data-display-type">
@@ -239,10 +260,15 @@ export default function InventoryView() {
           {displayAsRadarChart === true ? (
             <RadarChart data={data} />
           ) : (
-            <InventoryTable data={data} />
+            <InventoryTable data={data} focus={focus} />
           )}
         </Space>
       </Space>
-    </div>
-  );
+      <Space id="data-display">
+        {displayAsRadarChart === true ?
+          <RadarChart data={data} /> :
+          <InventoryTable data={data} focus={focus} />}
+      </Space>
+    </Space>
+  )
 }
