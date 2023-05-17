@@ -50,6 +50,7 @@ const NewSideBar2 = () => {
     get: (arg: string) => void;
   }
   useEffect(() => {
+    /* @ts-ignore */
     // const cookies = cookieStore as cookieStore;
     const username = cookieStore.get("username").then((data) => {
       console.log(data);
@@ -223,24 +224,24 @@ const NewSideBar2 = () => {
           >
             {isCollapsed ? <CaretRightOutlined /> : <CaretLeftOutlined />}
           </div>
-        </ConfigProvider>
         {showUploadModal ? (
           <Modal
-            open={showUploadModal}
-            onCancel={handleCancel}
-            footer={[
-              <Button
-                key={randomAlphaNumeric()}
-                onClick={handleUploadModal}
-                type="primary"
-              >
+          open={showUploadModal}
+          onCancel={handleCancel}
+          footer={[
+            <Button
+            key={randomAlphaNumeric()}
+            onClick={handleUploadModal}
+            type="primary"
+            >
                 Done
               </Button>,
             ]}
-          >
+            >
             {<DataUpload />}
           </Modal>
         ) : undefined}
+        </ConfigProvider>
       </div>
     </>
   );

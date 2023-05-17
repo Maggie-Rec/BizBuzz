@@ -34,6 +34,16 @@ const MainPage = () => {
 
   store.subscribe(() => setCurrentTab(store.getState().currentTab));
 
+  useEffect(() => {
+    /* @ts-ignore */
+    cookieStore.get("token").then((data) => {
+      if (!data || data.value.length === 0) {
+        window.location.replace("http://localhost:3000/login");
+      }
+    });
+  }, []);
+  
+
   return (
     <>
       <Provider store={store}>
@@ -45,7 +55,6 @@ const MainPage = () => {
             <NewSideBar2 />
             {currentTab === "dashboard" ? (
               <Dashboard />
-              // <EmailMaker />
             ) : currentTab === "reports" ? (
               <ReportsView />
             ) : currentTab === "locations" ? (

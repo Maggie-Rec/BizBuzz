@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import styles from "../styles/LoginWindow.module.css";
-import { Input, Space, Divider, Button } from "antd";
+import { Input, Space, Divider, Button, ConfigProvider, Alert } from "antd";
 import Image from "next/image";
 import Login from "../public/login.svg";
 import Registration from "../public/registrate.svg";
@@ -40,8 +40,6 @@ const LoginWindow = () => {
     } else {
       alert("Wrong Login Details. Try again.");
     }
-
-    // dispatch({type: "LOGIN", payload:  })
   };
 
   const handleRegistration = async () => {
@@ -51,124 +49,144 @@ const LoginWindow = () => {
       email: email,
       password: password,
     };
-    setIsLoading(true);
-    const data = await registerUser(user);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 7000);
-    window.location.replace("http://localhost:3000/");
+    try {
+      setIsLoading(true);
+      const data = await registerUser(user);
+      if (data.message === "Registration: invalid credentials") {
+        // alert("user already exist");
+        <Alert message="Success Text" type="success" />;
+        // <Alert message="User already exist!" type="error" />;
+
+        window.location.replace("http://localhost:3000/login");
+      } else {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 7000);
+
+        <Alert message="New user created." type="success" />;
+
+        window.location.replace("http://localhost:3000/");
+      }
+    } catch (error) {
+      console.log(error);
+      // window.location.replace("http://localhost:3000/login");
+    }
   };
 
   return (
-    <div className={styles.container}>
-      <>
-        {!isRegistered ? (
-          <div className={styles.login}>
-            <div className={styles.leftBoxImg}>
-              <Image src={Login} alt="login image" width={400} height={300} />
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#f8b825",
+        },
+      }}
+    >
+      <div className={styles.container}>
+        <>
+          {!isRegistered ? (
+            <div className={styles.login}>
+              <div className={styles.leftBoxImg}>
+                <Image src={Login} alt="login image" width={400} height={300} />
+              </div>
+              <div className={styles.rightBoxForm}>
+                <form className={styles.formLogin}>
+                  <div>
+                    <Input
+                      type="text"
+                      placeholder="EMAIL"
+                      className={styles.input}
+                      onChange={(event: any) =>
+                        handleChange(event.target.value, setEmail)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      type="password"
+                      placeholder="PASSWORD"
+                      className={styles.input}
+                      onChange={(event: any) =>
+                        handleChange(event.target.value, setPassword)
+                      }
+                    />
+                  </div>
+
+                  <Button
+                    className={styles.button}
+                    onClick={() => handleLogin()}
+                  >
+                    Log in
+                  </Button>
+                </form>
+
+                <a className={styles.smallText} onClick={toggleRegister}>
+                  Dont have an account? Register Here!
+                </a>
+              </div>
             </div>
-            <div className={styles.rightBoxForm}>
-              <form className={styles.formLogin}>
+          ) : (
+            <div className={styles.registration}>
+              <div className={styles.rightBoxImg}>
+                <div></div>
                 <div>
-                  <Input
-                    type="text"
-                    placeholder="EMAIL"
-                    className={styles.input}
-                    onChange={(event: any) =>
-                      handleChange(event.target.value, setEmail)
-                    }
+                  <Image
+                    src={Registration}
+                    alt="login image"
+                    width={400}
+                    height={300}
+                    className={styles.regImg}
                   />
                 </div>
-                <div>
-                  <Input
-                    type="password"
-                    placeholder="PASSWORD"
-                    className={styles.input}
-                    onChange={(event: any) =>
-                      handleChange(event.target.value, setPassword)
-                    }
-                  />
-                </div>
-
-                <Button className={styles.button} onClick={() => handleLogin()}>
-                  Log in
-                </Button>
-              </form>
-              <Divider plain className={styles.divider}>
-                OR
-              </Divider>
-
-              <a className={styles.smallText} onClick={toggleRegister}>
-                Dont have an account? Register Here!
-              </a>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.registration}>
-            <div className={styles.rightBoxImg}>
-              <div>
+              </div>
+              <div className={styles.leftBoxForm}>
+                <form className={styles.formReg}>
+                  <div>
+                    <Input
+                      type="text"
+                      placeholder="Business name"
+                      className={styles.input}
+                      onChange={(event: any) =>
+                        handleChange(event.target.value, setBusinessName)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      type="text"
+                      placeholder="Email"
+                      className={styles.input}
+                      onChange={(event: any) =>
+                        handleChange(event.target.value, setEmail)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      type="password"
+                      placeholder="Password"
+                      className={styles.input}
+                      onChange={(event: any) =>
+                        handleChange(event.target.value, setPassword)
+                      }
+                    />
+                  </div>
+                  <Button
+                    loading={isLoading}
+                    className={styles.button}
+                    onClick={handleRegistration}
+                  >
+                    Register
+                  </Button>
+                </form>
                 <Button className={styles.goBackBtn} onClick={toggleRegister}>
                   Go back to Login
                 </Button>
               </div>
-              <div>
-                <Image
-                  src={Registration}
-                  alt="login image"
-                  width={400}
-                  height={300}
-                  className={styles.regImg}
-                />
-              </div>
             </div>
-            <div className={styles.leftBoxForm}>
-              <form className={styles.formReg}>
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Business name"
-                    className={styles.input}
-                    onChange={(event: any) =>
-                      handleChange(event.target.value, setBusinessName)
-                    }
-                  />
-                </div>
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Email"
-                    className={styles.input}
-                    onChange={(event: any) =>
-                      handleChange(event.target.value, setEmail)
-                    }
-                  />
-                </div>
-                <div>
-                  <Input
-                    type="password"
-                    placeholder="Password"
-                    className={styles.input}
-                    onChange={(event: any) =>
-                      handleChange(event.target.value, setPassword)
-                    }
-                  />
-                </div>
-                <Button
-                  loading={isLoading}
-                  className={styles.button}
-                  onClick={handleRegistration}
-                >
-                  Register
-                </Button>
-              </form>
-              <Divider plain className={styles.divider}>
-                OR
-              </Divider>
-            </div>
-          </div>
-        )}
-      </>
-    </div>
+          )}
+        </>
+      </div>
+    </ConfigProvider>
   );
 };
 
