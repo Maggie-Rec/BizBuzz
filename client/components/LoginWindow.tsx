@@ -55,7 +55,7 @@ const LoginWindow = () => {
       if (data.message === "Registration: invalid credentials") {
         alert("user already exist");
 
-        window.location.replace("http://localhost:3000/login");
+        // window.location.replace("http://localhost:3000/login");
       } else {
         setTimeout(() => {
           setIsLoading(false);
