@@ -30,7 +30,6 @@ export default function InventoryView() {
     query: {},
     userId: '2b10cCJnIm8XWOF9EYuRlivc'
   }
-  console.log('in inventory view');
 
   useEffect(() => {
     function generateRequests() {
@@ -65,8 +64,9 @@ export default function InventoryView() {
 
   useEffect(() => {
     async function sendRequests() {
+      let labels = (focusOnLocations ? locations : itemCategories);
       const newData = {
-        // labels: (focusOnLocations ? locations : itemCategories),
+        labels: labels,
         datasets: [{
           label: 'Average stock',
           backgroundColor: '#F2A202',
@@ -77,11 +77,11 @@ export default function InventoryView() {
           //   data: []
         }]
       } as any;
-      if (focusOnLocations) {
-        newData.labels = locations;
-      } else {
-        newData.labels = itemCategories;
-      }
+      // if (focusOnLocations) {
+      //   newData.labels = locations;
+      // } else {
+      //   newData.labels = itemCategories;
+      // }
       let processingArray = [];
       if (focusOnLocations) {
         await Promise.all(
@@ -92,10 +92,10 @@ export default function InventoryView() {
         ).then(() => {
           const arr = [];
           for (let i = 0; i < processingArray[0].length; i++) {
-            if (processingArray[0]._sum.capacity) {
-              arr.push(100 * processingArray[1]._sum.stock / processingArray[0]._sum.capacity)
+            if (processingArray[0][i]._sum.capacity) {
+              arr.push(100 * processingArray[1][i]._sum.stock / processingArray[0][i]._sum.capacity)
             } else {
-              arr.push(100 * processingArray[0]._sum.stock / processingArray[1]._sum.capacity)
+              arr.push(100 * processingArray[0][i]._sum.stock / processingArray[1][i]._sum.capacity)
             }
           }
           newData.datasets[0].data = arr;
