@@ -30,6 +30,7 @@ export default function InventoryView() {
     query: {},
     userId: '2b10cCJnIm8XWOF9EYuRlivc'
   }
+  console.log('in inventory view');
 
   useEffect(() => {
     function generateRequests() {
