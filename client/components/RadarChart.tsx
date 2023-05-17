@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "../styles/inventoryView.module.css";
 import {
   Chart as ChartJS,
   Title,
@@ -19,27 +20,23 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-import { Radar } from 'react-chartjs-2';
+import { Radar } from "react-chartjs-2";
 
 interface Props {
-  data: any
+  data: any;
 }
 
 export const RadarChart = ({ data }: Props) => {
-
   const options = {
     r: {
       suggestedMax: 100,
-      suggestedMin: 0
-    }
-  }
+      suggestedMin: 0,
+    },
+  };
 
   return (
     <>
-      <Radar
-        data={data}
-        options={options}
-      />
+      <Radar data={data} options={options} className={styles.chart} />
     </>
-  )
-}
+  );
+};

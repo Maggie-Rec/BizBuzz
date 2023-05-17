@@ -16,6 +16,7 @@ const LoginWindow = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // const dispatch = useDispatch()
   function toggleRegister() {
@@ -33,15 +34,14 @@ const LoginWindow = () => {
     };
 
     const data = await getLogin(creds);
-  //  const token = data.token
+    //  const token = data.token
     if (data.ok) {
       window.location.replace("http://localhost:3000/");
     } else {
       alert("Wrong Login Details. Try again.");
     }
 
-// dispatch({type: "LOGIN", payload:  })
-
+    // dispatch({type: "LOGIN", payload:  })
   };
 
   const handleRegistration = async () => {
@@ -51,9 +51,12 @@ const LoginWindow = () => {
       email: email,
       password: password,
     };
+    setIsLoading(true);
     const data = await registerUser(user);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 7000);
     window.location.replace("http://localhost:3000/");
-    // dispatch({type: "REGISTER", payload: businessName})
   };
 
   return (
@@ -150,7 +153,11 @@ const LoginWindow = () => {
                     }
                   />
                 </div>
-                <Button className={styles.button} onClick={handleRegistration}>
+                <Button
+                  loading={isLoading}
+                  className={styles.button}
+                  onClick={handleRegistration}
+                >
                   Register
                 </Button>
               </form>

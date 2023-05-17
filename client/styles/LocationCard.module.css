@@ -1,7 +1,9 @@
 .card {
-  background-color: lightgoldenrodyellow;
+  background-color: white;
   width: 300px;
   font-size: 1.1em;
+   border: 3px antiquewhite solid;
+   box-shadow: 0px 40px 85px -20px #cacaca;
 }
 
 .title {

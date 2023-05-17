@@ -1,23 +1,27 @@
-import { RadarChart } from './RadarChart';
+import { RadarChart } from "./RadarChart";
 import React, { useEffect, useState } from "react";
 import { Button, Space, Switch, Radio } from 'antd';
 import { generateAggSumQuery } from '../utils/aggregateSumQueries';
 import { setDatasets } from 'react-chartjs-2/dist/utils';
 import { makeFetchRequest } from '../utils/queryRequestMaker';
 import { InventoryTable } from './InventoryTable';
+import styles from "../styles/inventoryView.module.css";
 
 export default function InventoryView() {
   const marksData = {
     labels: ["English", "Maths", "Physics", "Chemistry", "Biology", "History"],
-    datasets: [{
-      label: "Student A",
-      backgroundColor: "rgba(200,0,0,0.2)",
-      data: [65, 75, 70, 80, 60, 80]
-    }, {
-      label: "Student B",
-      backgroundColor: "rgba(0,0,200,0.2)",
-      data: [54, 65, 60, 70, 70, 75]
-    }]
+    datasets: [
+      {
+        label: "Student A",
+        backgroundColor: "rgba(200,0,0,0.2)",
+        data: [65, 75, 70, 80, 60, 80],
+      },
+      {
+        label: "Student B",
+        backgroundColor: "rgba(0,0,200,0.2)",
+        data: [54, 65, 60, 70, 70, 75],
+      },
+    ],
   };
   const [data, setData] = useState(marksData);
   const [displayAsRadarChart, setDisplayAsRadarChart] = useState(true);
@@ -25,14 +29,20 @@ export default function InventoryView() {
   const [focus, setFocus] = useState('locations');
   const [availableLocations, setAvailableLocations] = useState([1, 2, 3, 4, 5]);
   const [locations, setLocations] = useState(availableLocations);
-  const [availableItemCategories, setAvailableItemCategories] = useState(['condiments', 'starters', 'drinks', 'desserts', 'mains']);
+  const [availableItemCategories, setAvailableItemCategories] = useState([
+    "condiments",
+    "starters",
+    "drinks",
+    "desserts",
+    "mains",
+  ]);
   const [itemCategories, setItemCategories] = useState(availableItemCategories);
   const [allItems, setAllItems] = useState([]);
   const baseQuery = {
     query: {},
     userId: '2b10cCJnIm8XWOF9EYuRlivc'
   }
-  const colors = ['#F2A202', '#F08605', '#DB6443'];
+  const colors = ["#F2A202", "#F08605", "#DB6443", "#ad4544", "#7e2644"];
   // const colors = ['yellow', '#F2A202', '#F08605', '#DB6443', 'crimson'];
 
   useEffect(() => {
@@ -62,10 +72,13 @@ export default function InventoryView() {
         for (let category of itemCategories) {
           newQuery.query.where = {
             item: {
-              category: category
-            }
-          }
-          const [stocks, capacities] = [structuredClone(newQuery), structuredClone(newQuery)];
+              category: category,
+            },
+          };
+          const [stocks, capacities] = [
+            structuredClone(newQuery),
+            structuredClone(newQuery),
+          ];
           stocks.query._sum = { stock: true };
           capacities.query._sum = { capacity: true };
           newRequests.push([category, stocks, capacities]);
@@ -103,7 +116,7 @@ export default function InventoryView() {
         newRequests.push(newQuery);
       }
       setRequests(newRequests);
-    };
+    }
     generateRequests();
   }, [displayAsRadarChart, focus, allItems])
 
@@ -142,7 +155,10 @@ export default function InventoryView() {
       if (focus === 'locations') {
         await Promise.all(
           requests.map(async (request) => {
-            const dataPoint = await makeFetchRequest({ queryObject: JSON.stringify(request), route: 'inventory' });
+            const dataPoint = await makeFetchRequest({
+              queryObject: JSON.stringify(request),
+              route: "inventory",
+            });
             processingArray.push(dataPoint);
           })
         ).then(() => {
@@ -159,8 +175,14 @@ export default function InventoryView() {
       } else if (focus === 'categories' || focus === 'items') {
         await Promise.all(
           requests.map(async (request) => {
-            const dataPoint1 = await makeFetchRequest({ queryObject: JSON.stringify(request[1]), route: 'inventory' });
-            const dataPoint2 = await makeFetchRequest({ queryObject: JSON.stringify(request[2]), route: 'inventory' });
+            const dataPoint1 = await makeFetchRequest({
+              queryObject: JSON.stringify(request[1]),
+              route: "inventory",
+            });
+            const dataPoint2 = await makeFetchRequest({
+              queryObject: JSON.stringify(request[2]),
+              route: "inventory",
+            });
             processingArray.push([request[0], dataPoint1, dataPoint2]);
           })
         ).then(() => {
@@ -195,18 +217,18 @@ export default function InventoryView() {
       }
       setData(newData);
     }
-    sendRequests()
+    sendRequests();
   }, [requests]);
   async function refreshItemCategories() {
-    let itemCategories = await fetch('http://localhost:3020/items', {
+    let itemCategories = await fetch("http://localhost:3020/items", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: `{"query":{"by":["category"],"_count":{"SKU":true}},
         "keyword":"groupBy","userId":"2b10cCJnIm8XWOF9EYuRlivc"`,
-      credentials: "include"
-    })
+      credentials: "include",
+    });
     itemCategories = await itemCategories.json();
     setAvailableItemCategories(itemCategories);
   }
@@ -217,20 +239,29 @@ export default function InventoryView() {
 
 
   return (
-    <Space id="container">
-      <Space id="header-bar">
-        <Space id="data-display-type">
-          {/* <Switch
+    <Space className={styles.container}>
+      <Space id="container" className={styles.container}>
+        <Space id="header-bar" className={styles.headerBar}>
+          <Space id="data-display-type">
+            {/* <Switch
             checkedChildren='Display as radar chart'
             unCheckedChildren='Display as table'
             onChange={() => setDisplayAsRadarChart(!displayAsRadarChart)}
           /> */}
-          <Radio.Group onChange={handleChangeFocus} value={focus}>
-            <Radio value="locations">By location</Radio>
-            <Radio value="items">By item</Radio>
-            <Radio value="categories">By category of goods</Radio>
-            <Radio value="all">Display all information</Radio>
-          </Radio.Group>
+            <Radio.Group onChange={handleChangeFocus} value={focus}>
+              <Radio value="locations">By location</Radio>
+              <Radio value="items">By item</Radio>
+              <Radio value="categories">By category of goods</Radio>
+              <Radio value="all">Display all information</Radio>
+            </Radio.Group>
+          </Space>
+        </Space>
+        <Space id="data-display" className={styles.dataDisplay}>
+          {displayAsRadarChart === true ? (
+            <RadarChart data={data} />
+          ) : (
+            <InventoryTable data={data} focus={focus} />
+          )}
         </Space>
       </Space>
       <Space id="data-display">
