@@ -1,6 +1,8 @@
+import { PORT } from "./variables";
+
 export async function postUserDetails(user) {
   try {
-    const resp = fetch("http://localhost:3020/user", {
+    const resp = fetch(`http://localhost:${PORT}/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -14,4 +16,4 @@ export async function postUserDetails(user) {
   } catch (error) {
     throw new Error(error);
   }
-}
+};

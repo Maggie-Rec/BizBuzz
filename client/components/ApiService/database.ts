@@ -1,6 +1,5 @@
 import { Location } from "../../utils/types";
-
-const PORT = 3020;
+import { PORT } from "./variables";
 
 const baseUrl = `http://localhost:${PORT}`
 

@@ -1,19 +1,14 @@
-import { Prisma, PrismaClient } from '@prisma/client';
-import { Type } from 'typescript';
-import { PrismaFindMany } from '../types/PrismaQueryReturns';
-import { Query } from '../types/Query';
-// import prisma from '../db';
+// @ts-nocheck
 
 // ISSUE: CREATING A NEW PRISMA CLIENT STALLS THE DB ON MAKING REQUESTS TO IT
 // A NEW CLIENT DOES NOT SEE THE OTHER CLIENTS' TABLES
-// POSSIBLE REASON: DB PUSH DOES NOT REGENERATE THE CLIENT
-const prisma = new PrismaClient() as any;
 
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 export default prisma;
 
 export function makePrismaQuery({ keyword, userID, query, table }: { keyword: string, userID: number | string, query: any, table: string }) {
-  console.log('Query in makePrismaQuery:', query);
-  console.log('keyword', keyword, 'userId', userID, 'table', table);
   try {
     if (keyword === 'findMany') {
       return prisma[`${table}_${userID}`].findMany(query);
