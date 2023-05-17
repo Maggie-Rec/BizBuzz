@@ -52,7 +52,8 @@ export default function DataUpload() {
       <h1>Data upload</h1>
       <h3>Batch upload your data from .csv files</h3>
       <br />
-      <label htmlFor="typeSelect">I want to upload
+      <label htmlFor="typeSelect">
+        I want to upload
         <Select
           id="typeSelect"
           className={styles.typeSelect}
@@ -61,22 +62,35 @@ export default function DataUpload() {
             { value: "location", label: "locations" },
             { value: "item", label: "items" },
             { value: "customer", label: "customers" },
-            { value: "transaction", label: "transactions" }
+            { value: "transaction", label: "transactions" },
           ]}
           onChange={(value) => handleSelection(value)}
-        >
-        </Select>
-        data <br />(check out the <Popover content={<p>{prompt}</p>}>
-          <a> format reference</a>
+        ></Select>
+        data <br />
+        (check out the{" "}
+        <Popover content={<p>{prompt}</p>}>
+          <a className={styles.clickableText}> format reference</a>
         </Popover>
         )
       </label>
       <br />
       <br />
-      <input id="fileUpload" type="file" onChange={handleFile} />
+      <div className={styles.fileUpload}>
+        <input
+          id="fileUpload"
+          type="file"
+          onChange={handleFile}
+          className={styles.fileUpload__input}
+        />
+      </div>
+      <Button icon={<UploadOutlined />} onClick={() => handleFile} type="primary">
+        Upload
+      </Button>
       <br />
       <br />
-      <Button icon={<UploadOutlined />} onClick={handleUpload} type="primary">Upload</Button>
+      <Button icon={<UploadOutlined />} onClick={handleUpload} type="primary">
+        Upload
+      </Button>
     </>
-  )
+  );
 }

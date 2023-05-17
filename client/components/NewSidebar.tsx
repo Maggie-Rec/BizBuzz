@@ -223,24 +223,24 @@ const NewSideBar2 = () => {
           >
             {isCollapsed ? <CaretRightOutlined /> : <CaretLeftOutlined />}
           </div>
-        </ConfigProvider>
         {showUploadModal ? (
           <Modal
-            open={showUploadModal}
-            onCancel={handleCancel}
-            footer={[
-              <Button
-                key={randomAlphaNumeric()}
-                onClick={handleUploadModal}
-                type="primary"
-              >
+          open={showUploadModal}
+          onCancel={handleCancel}
+          footer={[
+            <Button
+            key={randomAlphaNumeric()}
+            onClick={handleUploadModal}
+            type="primary"
+            >
                 Done
               </Button>,
             ]}
-          >
+            >
             {<DataUpload />}
           </Modal>
         ) : undefined}
+        </ConfigProvider>
       </div>
     </>
   );

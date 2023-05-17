@@ -3,3 +3,12 @@
   margin-right: 5px;
   width: 130px;
 }
+.clickableText {
+  color: #f8b825;
+}
+
+.clickableText:hover {
+  color: #ad4544;
+}
+
+
