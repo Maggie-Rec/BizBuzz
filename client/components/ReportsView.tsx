@@ -349,48 +349,59 @@ const ReportsView = () => {
     <div className={styles.container}>
       <div className={styles.controls}>
         <Cascader
-          style={{ width: '25vw' }}
-          placeholder='Select Filters'
+          style={{ width: "25vw" }}
+          placeholder="Select Filters"
           multiple
           showSearch={true}
           maxTagCount="responsive"
-          defaultValue={[['all_columns', 'date'], ['all_columns', 'time']]}
+          defaultValue={[
+            ["all_columns", "date"],
+            ["all_columns", "time"],
+          ]}
           showCheckedStrategy={SHOW_CHILD}
           options={selectableFilters}
           onChange={(value) => handleNewProperty(value as unknown as string[])}
         />
         <Segmented
-          options={['Today', 'Last Week', 'Last Month', 'Last Quarter', 'Last Year', 'All Time']}
+          options={[
+            "Today",
+            "Last Week",
+            "Last Month",
+            "Last Quarter",
+            "Last Year",
+            "All Time",
+          ]}
           disabled={customDateRange}
           onChange={(value) => handleSegmentedChange(value as string)}
+          style={{ backgroundColor: "#ffee98" }}
         />
         <RangePicker
-          style={{ width: '15vw' }}
+          style={{ width: "15vw" }}
           onChange={(value, strArr) => handleNewDateRange(strArr)}
         />
-        <Tooltip title='Upload Data' placement='bottomLeft'>
+        {/* <Tooltip title='Upload Data' placement='bottomLeft'>
           <Button type='primary'><PlusOutlined /></Button>
-        </Tooltip>
+        </Tooltip> */}
       </div>
       <div className={styles.tableContainer}>
         <Table
           loading={isTableLoading}
           bordered
-          size='small'
+          size="small"
           pagination={{
-            position: ['bottomCenter'],
-            defaultPageSize: 50
+            position: ["bottomCenter"],
+            defaultPageSize: 50,
           }}
           scroll={{
             y: "75vh",
-            x: "1300"
+            x: "1300",
           }}
           dataSource={tableData}
           columns={tableColumns}
         />
       </div>
     </div>
-  )
+  );
 }
 
 export default ReportsView;
