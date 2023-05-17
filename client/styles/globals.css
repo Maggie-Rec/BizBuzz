@@ -8,3 +8,13 @@
   display: flex;
   justify-content: flex-start;
 }
+
+html {
+  overflow-x: hidden;
+  height: fit-content;
+}
+
+/* TO HIDE NEXT JS ERROR POP UPS */
+nextjs-portal {
+  display: none;
+}

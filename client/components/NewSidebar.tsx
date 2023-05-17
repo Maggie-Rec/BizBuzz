@@ -46,15 +46,17 @@ const NewSideBar2 = () => {
     setActiveProfile(false);
   }
 
-  interface cookieStore {
-    get: (arg: string) => void;
-  }
+  interface cStore {
+    get: (arg: string) => Promise<{ value: string }>;
+  };
+
   useEffect(() => {
-    // const cookies = cookieStore as cookieStore;
-    const username = cookieStore.get("username").then((data) => {
-      console.log(data);
-      setUsername(data.value);
-    });
+    // cookieStore API IS NOT SUPPORTED BY TYPESCRIPT
+    /* @ts-ignore */
+    cookieStore.get("username")
+      .then((data) => {
+        setUsername(data.value);
+      });
   }, []);
 
   return (
