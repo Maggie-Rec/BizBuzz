@@ -27,10 +27,18 @@ interface Props {
 
 export const RadarChart = ({ data }: Props) => {
 
+  const options = {
+    r: {
+      suggestedMax: 100,
+      suggestedMin: 0
+    }
+  }
+
   return (
     <>
       <Radar
         data={data}
+        options={options}
       />
     </>
   )
