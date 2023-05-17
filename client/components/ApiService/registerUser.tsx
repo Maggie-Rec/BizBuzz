@@ -1,12 +1,12 @@
 export async function registerUser(user) {
   try {
-    const resp = fetch("http://localhost:3001/register", {
+    const resp = fetch("http://localhost:3020/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-      credentials: "include"
+      credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => data);

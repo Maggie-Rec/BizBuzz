@@ -33,7 +33,7 @@ const NewSideBar2 = () => {
 
   function handleUploadModal() {
     setShowUploadModal(!showUploadModal);
-  };
+  }
 
   function openProfile() {
     setActiveProfile(true);
@@ -46,13 +46,15 @@ const NewSideBar2 = () => {
     setActiveProfile(false);
   }
 
+  interface cookieStore {
+    get: (arg: string) => void;
+  }
   useEffect(() => {
-    const username = cookieStore.get("username")
-      .then(data => {
-        console.log(data);
-        setUsername(data.value)
-      }
-      );
+    // const cookies = cookieStore as cookieStore;
+    const username = cookieStore.get("username").then((data) => {
+      console.log(data);
+      setUsername(data.value);
+    });
   }, []);
 
   return (
@@ -102,22 +104,19 @@ const NewSideBar2 = () => {
                 <Profile />
               </Modal>
 
-              <div onClick={() => {
-                openProfile();
-              }}
+              <div
+                onClick={() => {
+                  openProfile();
+                }}
                 className={
                   isCollapsed
                     ? styles.iconContainerCollapsed
                     : styles.iconContainer
                 }
               >
-                <UserOutlined
-                  className={styles.icon}
-
-                />
+                <UserOutlined className={styles.icon} />
                 {!isCollapsed && <h3>{username}</h3>}
               </div>
-
             </div>
 
             <div className={styles.moduleListContainer}>
@@ -129,7 +128,10 @@ const NewSideBar2 = () => {
                       : styles.iconContainer
                   }
                   onClick={() =>
-                    dispatch({ type: "CHANGE_CURRENT_TAB", payload: "dashboard" })
+                    dispatch({
+                      type: "CHANGE_CURRENT_TAB",
+                      payload: "dashboard",
+                    })
                   }
                 >
                   <DashboardOutlined className={styles.icon} />
@@ -155,7 +157,10 @@ const NewSideBar2 = () => {
                       : styles.iconContainer
                   }
                   onClick={() =>
-                    dispatch({ type: "CHANGE_CURRENT_TAB", payload: "locations" })
+                    dispatch({
+                      type: "CHANGE_CURRENT_TAB",
+                      payload: "locations",
+                    })
                   }
                 >
                   <EnvironmentOutlined className={styles.icon} />
@@ -168,14 +173,16 @@ const NewSideBar2 = () => {
                       : styles.iconContainer
                   }
                   onClick={() =>
-                    dispatch({ type: "CHANGE_CURRENT_TAB", payload: "inventory" })
+                    dispatch({
+                      type: "CHANGE_CURRENT_TAB",
+                      payload: "inventory",
+                    })
                   }
                 >
                   <ShopOutlined className={styles.icon} />
                   {!isCollapsed && <p>Inventory</p>}
                 </div>
               </div>
-
 
               <div className={styles.utisList}>
                 <div onClick={handleUploadModal}>
@@ -191,7 +198,6 @@ const NewSideBar2 = () => {
                   </div>
                 </div>
 
-
                 <div>
                   <div
                     className={
@@ -205,11 +211,8 @@ const NewSideBar2 = () => {
                   </div>
                 </div>
               </div>
-
             </div>
-
           </div>
-
 
           <div
             className={styles.collapseButton}
@@ -219,19 +222,25 @@ const NewSideBar2 = () => {
             }}
           >
             {isCollapsed ? <CaretRightOutlined /> : <CaretLeftOutlined />}
-
           </div>
         </ConfigProvider>
-        {
-          showUploadModal ?
-            <Modal open={showUploadModal} onCancel={handleCancel}
-              footer={[
-                <Button key={randomAlphaNumeric()} onClick={handleUploadModal} type="primary">Done</Button>
-              ]}>
-              {<DataUpload />}
-            </Modal>
-            : undefined
-        }
+        {showUploadModal ? (
+          <Modal
+            open={showUploadModal}
+            onCancel={handleCancel}
+            footer={[
+              <Button
+                key={randomAlphaNumeric()}
+                onClick={handleUploadModal}
+                type="primary"
+              >
+                Done
+              </Button>,
+            ]}
+          >
+            {<DataUpload />}
+          </Modal>
+        ) : undefined}
       </div>
     </>
   );
