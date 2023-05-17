@@ -3,3 +3,25 @@
   margin-right: 5px;
   width: 130px;
 }
+.clickableText {
+  color: #f8b825;
+}
+
+.clickableText:hover {
+  color: #ad4544;
+}
+
+.input::file-selector-button{
+  background-color: #f8b825;
+  border: none;
+  padding: 9px;
+  color: white;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+.input::file-selector-button:hover{
+  cursor: pointer;
+  background-color: #fcd270;
+  transition: ease-in-out 0.1s;
+}
