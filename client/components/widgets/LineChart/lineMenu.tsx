@@ -202,7 +202,7 @@ const LineMenu = ({ func }) => {
               },
             ]}
           />
-          <Space />
+          <br />
           <p>X-axis:</p>
           <Cascader
             aria-label="X-axis"
