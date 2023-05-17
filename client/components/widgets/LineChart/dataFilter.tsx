@@ -56,7 +56,6 @@ export const DataFilter = ({ filter }) => {
 
   return (
     <>
-      <p>Filtering for {filter}</p>
       {filter === 'location' || filter === 'region' || filter === 'is_member' || filter === 'gender' ?
         <Select
           mode="multiple"

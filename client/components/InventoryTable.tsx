@@ -4,11 +4,6 @@ import { useEffect, useState } from 'react';
 
 
 export function InventoryTable({ data, initfocus, locations, categories }) {
-  // console.log(arguments);
-  // console.log(data);
-  // console.log(focus);
-  // console.log({ locations });
-  // console.log({ categories });
   const [focus, setFocus] = useState(initfocus);
   const [columns, setColumns] = useState([]);
 
