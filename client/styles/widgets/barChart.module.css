@@ -1,6 +1,11 @@
 .container {
   box-sizing: border-box;
-  padding: 5vh 2vw;
+  padding: 5vh 1vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .chart {

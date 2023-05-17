@@ -80,7 +80,7 @@ const lineChartReducer = (
   },
   action
 ) => {
-  if (state.period) console.log("Reducer called", state.period);
+  // if (state.period) console.log("Reducer called", state.period);
   switch (action.type) {
     case "ADD_FILTER":
       const newState = { ...state };
@@ -171,10 +171,7 @@ const widgetReducer = (state = [], action) => {
         stringifyWidgets(state.concat([action.payload]))
       );
 
-      console.log('after', stringifyWidgets(state.concat([action.payload])))
       const result = state.concat([action.payload]);
-      // console.log(result);
-      // return;
       return result;
     case "REMOVE_WIDGET":
       let newSelection = state.filter(
@@ -185,14 +182,12 @@ const widgetReducer = (state = [], action) => {
       return newSelection;
     case "REPOPULATE_DASHBOARD":
       let savedWidgetsData = JSON.parse(window.localStorage.getItem("widgets"));
-      console.log('savedWidgets', savedWidgetsData)
       if (savedWidgetsData) {
         let restoredWidgets = savedWidgetsData?.map((item) => {
           try {
             if (item.widgetType === "PieChart") {
               return <PieChart {...item.props} key={randomAlphaNumeric()} />;
             } else if (item.widgetType === "BarChart" || item.widgetType === "BarChart2") {
-              console.log('BarChart2 Props ', item.props);
               return <BarChart2 {...item.props} key={randomAlphaNumeric()} />;
             } else if (item.widgetType === "LineChart") {
               return <LineChart {...item.props} key={randomAlphaNumeric()} />;
@@ -207,7 +202,6 @@ const widgetReducer = (state = [], action) => {
             console.error(error);
           }
         });
-        console.log(restoredWidgets);
         return restoredWidgets;
       }
     default:

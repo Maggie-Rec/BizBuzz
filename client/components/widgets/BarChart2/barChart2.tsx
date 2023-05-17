@@ -26,11 +26,8 @@ import {
 
 interface IBarChartProps {
   id: number,
-  option: string,
+  options: string[],
   period: string[],
-  // labels: string[],
-  // datasetLabels: string[],
-  // datasetData: Array<number[]>
 }
 
 interface IBarData {
@@ -55,6 +52,20 @@ const MONTHS = [
   "October",
   "November",
   "December"
+]
+
+const COLORS = [
+  "#f0a202",
+  "#d95d39",
+  "#6d213c",
+  "#fdc149",
+  "#fbac4b",
+  "#e89c87",
+  "#ad345e",
+  "#E6F69D",
+  "#AADEA7",
+  "#64C2A6",
+  "#2D87BB",
 ]
 
 async function fecthAPI(stringifiedQuery: string) {
@@ -111,43 +122,43 @@ function generateOneMonthDateRange(monthRange: string[]) {
 // ["2023-02-01", "2023-02-28"], ["2023-03-01", "2023-03-31"]]
 // OUTPUT EXPECTED (e.g.) ==> [3392, 8812, 1031, 0]
 async function generateDataArrayFromDB(dateTupleArray: Array<Date[]>, dataToFetch: string) {
-  const dataArray: number[] = [];
-  // return dateTupleArray;
+  let dataArray: number[] = [];
+
   switch (dataToFetch) {
     case 'total_items':
-      dateTupleArray.forEach(async (tuple) => {
+      const itemsArray = await Promise.all(dateTupleArray.map(async (tuple) => {
         const res = await fecthAPI(queryTotalItemsByMonth(tuple));
-        dataArray.push(Number.isNaN(parseInt(res?._sum.quantity)) ? 0 : parseInt(res?._sum.quantity));
-      })
+        return Number.isNaN(parseInt(res?._sum.quantity)) ? 0 : parseInt(res?._sum.quantity);
+      }))
+      dataArray.push(...itemsArray);
       break;
     case 'total_customers':
-      dateTupleArray.forEach(async (tuple) => {
+      const customersArray = await Promise.all(dateTupleArray.map(async (tuple) => {
         const res = await fecthAPI(queryTotalCustomersByMonth(tuple));
-        console.log('res', res)
-        dataArray.push(res ? res.length : 0);
-      })
+        return res.length;
+      }))
+      dataArray.push(...customersArray);
       break;
     case 'total_with_tax':
-      dateTupleArray.forEach(async (tuple) => {
+      const amountArray = await Promise.all(dateTupleArray.map(async (tuple) => {
         const res = await fecthAPI(queryTotalAmountByMonth(tuple));
-        dataArray.push(Number.isNaN(parseInt(res?._sum.quantity)) ? 0 : parseInt(res?._sum.quantity));
-      })
+        return Number.isNaN(parseInt(res?._sum.total_with_tax)) ? 0 : parseInt(res?._sum.total_with_tax);
+      }))
+      dataArray.push(...amountArray);
       break;
     case 'total_transactions':
-      dateTupleArray.forEach(async (tuple) => {
+      const transactionsArray = await Promise.all(dateTupleArray.map(async (tuple) => {
         const res = await fecthAPI(queryTotalTransactionsByMonth(tuple));
-        dataArray.push(res ? res.length : 0);
-      })
+        return res.length;
+      }))
+      dataArray.push(...transactionsArray);
       break;
   }
-  console.log(dataToFetch ,dataArray);
+
   return dataArray;
 }
 
 function adequateBarData(labels: string[], datasetLabels: string[], datasetData: Array<number[]>) {
-
-  console.log('datasetData', datasetData[0])
-  console.log('newData', datasetData[0][0])
 
   // INTITAL BAR CHART OBJECT DATA
   const finalData: IBarData = {
@@ -156,21 +167,18 @@ function adequateBarData(labels: string[], datasetLabels: string[], datasetData:
   }
 
   for (let i = 0; i < Math.min(datasetLabels.length, datasetData.length); i++) {
-    const data = datasetData[i];
-
     finalData.datasets.push({
       label: datasetLabels[i],
-      data: datasetData[i]
+      data: datasetData[i],
+      backgroundColor: COLORS[i]
     })
   }
-
-  console.log('finalData', finalData);
 
   return finalData;
 }
 
 
-async function loadWidgetData (period: string[], option: string) {
+async function loadWidgetData(period: string[], options: string[]) {
   // GET LABELS FOR CHART
   const labels = generateBarChartLabels(period[0], period[1]);
 
@@ -178,23 +186,14 @@ async function loadWidgetData (period: string[], option: string) {
   const dateTupleArray = generateOneMonthDateRange(period);
 
   // FETCH DATA FROM DB USING dateTupleArray
-  const chartData = await generateDataArrayFromDB(dateTupleArray, option);
+  const chartData = await Promise?.all(options?.map(async (option) => await generateDataArrayFromDB(dateTupleArray, option)))
 
-  console.log('HERE', chartData)
-  console.log('here', await adequateBarData(labels, [option], new Array(chartData)))
-
-  return adequateBarData(labels, [option], [chartData]);
+  return adequateBarData(labels, options, chartData);
 }
 
-const config = {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
+const BarChart2 = ({ id, options, period }: IBarChartProps) => {
 
-const BarChart2 = ({ id, option, period }: IBarChartProps) => {
+  const dispatch = useDispatch();
 
   /* SIZE OF THE WIDGET */
   const [size, setSize] = useState({ width: 300, height: 300 });
@@ -204,20 +203,64 @@ const BarChart2 = ({ id, option, period }: IBarChartProps) => {
   /* CURRENT DATA OF THE BAR CHART */
   const [barData, setBarData] = useState({} as IBarData);
 
-  const options = {scales: {y: { beginAtZero: true}}}
+  const config = { scales: { y: { beginAtZero: true } } }
 
   useEffect(() => {
-    loadWidgetData(period, option)
+    restorePosition(id, setPosition, setSize);
+    loadWidgetData(period, options)
       .then(res => {
-        console.log('res', res);
-        setBarData({...res})
+        setBarData({ ...res })
       })
   }, []);
 
+  const handleClose = () => {
+    dispatch({
+      type: "REMOVE_WIDGET",
+      payload: id,
+    });
+  };
+  const onDragStop = (e, d) => {
+    setPosition({ x: d.x, y: d.y });
+    savePositionLocal(id, size, position);
+  };
+
+  const onResizeStop = (e, direction, ref, delta, position) => {
+    setSize({
+      width: parseInt(ref.style.width),
+      height: parseInt(ref.style.height),
+    });
+    setPosition(position);
+    savePositionLocal(id, size, position);
+  };
+
   return (
-    <div style={{ height: '30vh', width: '50vw', position: 'absolute', zIndex: '3', backgroundColor: 'whitesmoke', color: 'white' }}>
-      {Object.getOwnPropertyNames(barData).length > 0 && <Bar options={options} data={barData}/>}
-    </div>
+    <Rnd
+      size={size}
+      position={position}
+      onDragStop={onDragStop}
+      onResizeStop={onResizeStop}
+      dragGrid={[30, 30]}
+      resizeGrid={[30, 30]}
+      bounds="parent"
+      minWidth={500}
+      minHeight={320}
+    >
+      <div className={styles.chart}>
+        <div className={styles.icons}>
+          <DragOutlined />
+          <p style={{ textAlign: "center" }}>
+            {
+              options.map((option, index) =>
+                option.split('_').map((el, i) =>
+                  el.charAt(0).toUpperCase() + el.slice(1) + `${i === 0 ? ' ' : ''}`).concat(`${index === options.length - 1 ? ' ' : ', '}`))
+            }
+            {'from ' + period[0] + ' to ' + period[1]}
+          </p>
+          <CloseOutlined onClick={handleClose} />
+        </div>
+        {Object.getOwnPropertyNames(barData).length > 0 && <Bar options={config} data={barData} />}
+      </div>
+    </Rnd>
   )
 }
 
