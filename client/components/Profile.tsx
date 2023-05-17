@@ -13,20 +13,20 @@ import LogOutTab from "./LogOutTab";
 const Profile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openTab, setOpenTab] = useState(0);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState('')
 
   function handleOpenProfile() {
     if (!isModalOpen) setIsModalOpen(true);
   }
 
   useEffect(() => {
+    // cookieStore API IS NOT SUPPORTED BY TYPESCRIPT
     /* @ts-ignore */
-    const username = cookieStore.get("username").then((data) => {
+    cookieStore.get("username").then((data) => {
       console.log(data);
       setUsername(data.value);
     });
   }, []);
-   
 
   return (
     <ConfigProvider
@@ -40,10 +40,11 @@ const Profile = () => {
         <div className={styles.modal}>
           <div className={styles.firstRow}>
             <div className={styles.profilePic}>
-              <h1>Welcome!</h1>
-              <h2>{username}</h2>
+               <h1>Welcome!</h1>
+                <h2>{username}</h2>
             </div>
             <div className={styles.buttonContainer}>
+
               <span
                 style={{ backgroundColor: openTab === 1 ? "" : "#f9cf80" }}
                 onClick={() => setOpenTab(1)}
@@ -59,6 +60,7 @@ const Profile = () => {
             </div>
           </div>
           <div className={styles.secondRow}>
+
             {openTab === 1 && <ChangePasswordTab></ChangePasswordTab>}
             {openTab === 2 && <LogOutTab></LogOutTab>}
           </div>
