@@ -53,8 +53,8 @@ const LoginWindow = () => {
       setIsLoading(true);
       const data = await registerUser(user);
       if (data.message === "Registration: invalid credentials") {
-        alert("user already exist");
         setIsLoading(false);
+        alert("user already exist");
       } else {
         setTimeout(() => {
           setIsLoading(false);
