@@ -35,7 +35,7 @@ export default function DataUpload() {
         message.error(`Failed to upload ${selection} data`);
       };
     } catch (error) {
-      message.error("Hey");
+      message.error(`Failed to upload ${selection} data`);
       console.error(error);
     }
   };

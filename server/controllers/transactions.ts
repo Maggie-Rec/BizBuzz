@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { Transaction } from '../types/Transaction';
 import { makePrismaQuery } from '../helpers/makePrismaQuery';
 import { removeRecordId } from '../helpers/removeRecordId';
-import prisma from '../helpers/makePrismaQuery';
 
 export async function getAllTransactions(req: Request, res: Response) {
   try {

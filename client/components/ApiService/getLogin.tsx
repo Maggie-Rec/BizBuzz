@@ -1,6 +1,8 @@
+import { PORT } from "./variables";
+
 export async function getLogin(creds) {
   try {
-    const response = await fetch("http://localhost:3020/login", {
+    const response = await fetch(`http://localhost:${PORT}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

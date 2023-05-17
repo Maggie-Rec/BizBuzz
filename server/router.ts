@@ -15,7 +15,6 @@ router.get('/test', ((req: Request, res: Response) => {
 }));
 
 
-// TODO: INTERPOSE VERIFICATION MIDDLEWARE
 router
   .post('/register', registerUser)
   .post('/login', loginUser)

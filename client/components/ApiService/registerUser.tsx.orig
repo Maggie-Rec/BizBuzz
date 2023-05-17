@@ -1,8 +1,12 @@
 import { PORT } from "./variables";
 
-export async function postUserDetails(user) {
+export async function registerUser(user) {
   try {
-    const resp = fetch(`http://localhost:${PORT}/user`, {
+<<<<<<< HEAD
+    const resp = fetch("http://localhost:3020/register", {
+=======
+    const resp = fetch(`http://localhost:${PORT}/register`, {
+>>>>>>> 62908b2 (minor refactoring)
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -16,4 +20,4 @@ export async function postUserDetails(user) {
   } catch (error) {
     throw new Error(error);
   }
-};
+}

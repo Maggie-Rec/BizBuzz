@@ -1,6 +1,8 @@
+import { PORT } from "./variables";
+
 export default async function registerUser(password) {
   try {
-    const resp = fetch("http://localhost:3020/changePassword", {
+    const resp = fetch(`http://localhost:${PORT}/changePassword`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
