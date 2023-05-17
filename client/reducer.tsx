@@ -83,7 +83,6 @@ const lineChartReducer = (
   },
   action
 ) => {
-  if (state.period) console.log("Reducer called", state.period);
   switch (action.type) {
     case "ADD_FILTER":
       const newState = { ...state };
@@ -137,7 +136,6 @@ const lineChartReducer = (
     case "SET_DATES": {
       const adjust = { ...state };
       adjust.period = action.payload;
-      console.log(action.payload);
       return adjust;
     }
     case "TEST": {
@@ -218,7 +216,7 @@ const currentTabReducer = (state = "dashboard", action) => {
   switch (action.type) {
     case "CHANGE_CURRENT_TAB":
       state = action.payload;
-      
+
       return state;
     default:
       return state;
@@ -242,9 +240,9 @@ const currentTabReducer = (state = "dashboard", action) => {
 //   }
 // };
 
-const registerReducer= (state = {businessName: ''}, action) => {
-  if(action.type === "REGISTER"){
-    return {...state, businessName: action.payload}
+const registerReducer = (state = { businessName: '' }, action) => {
+  if (action.type === "REGISTER") {
+    return { ...state, businessName: action.payload }
   }
   return state
 }

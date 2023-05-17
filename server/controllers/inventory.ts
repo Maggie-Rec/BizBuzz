@@ -15,6 +15,7 @@ export async function getInventory(req: Request, res: Response) {
     });
     res.status(200);
     res.send(JSON.stringify(inventoryData));
+    console.log(inventoryData);
   } catch (error) {
     console.log(error, 'In db.ts');
     res.status(404);

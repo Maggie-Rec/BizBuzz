@@ -25,7 +25,8 @@ router
   .post('/transactions', verifyToken, getAllTransactions)
   .post('/locations', verifyToken, getAllLocations)
   .post('/customers', verifyToken, getAllCustomers)
-  .post('/items', verifyToken, getAllItems)
+  // .post('/items', verifyToken, getAllItems)
+  .post('/items', getAllItems)
   .post('/inventory', getInventory)
   // .post('/inventory', verifyToken, getInventory)
 

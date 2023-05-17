@@ -10,6 +10,7 @@ import {
   ControlOutlined,
   UserOutlined,
   EnvironmentOutlined,
+  ShopOutlined,
   CloudUploadOutlined,
 } from "@ant-design/icons";
 import { Modal, ConfigProvider, Button } from "antd";
@@ -87,7 +88,7 @@ const NewSideBar2 = () => {
                   className={styles.logo}
                 />
               )}
-      
+
               <Modal
                 open={!!activeProfile}
                 title="Your Profile"
@@ -118,7 +119,7 @@ const NewSideBar2 = () => {
               </div>
 
             </div>
-            
+
             <div className={styles.moduleListContainer}>
               <div className={styles.moduleList}>
                 <div
@@ -160,7 +161,21 @@ const NewSideBar2 = () => {
                   <EnvironmentOutlined className={styles.icon} />
                   {!isCollapsed && <p>Locations</p>}
                 </div>
+                <div
+                  className={
+                    isCollapsed
+                      ? styles.iconContainerCollapsed
+                      : styles.iconContainer
+                  }
+                  onClick={() =>
+                    dispatch({ type: "CHANGE_CURRENT_TAB", payload: "inventory" })
+                  }
+                >
+                  <ShopOutlined className={styles.icon} />
+                  {!isCollapsed && <p>Inventory</p>}
+                </div>
               </div>
+
 
               <div className={styles.utisList}>
                 <div onClick={handleUploadModal}>
@@ -175,6 +190,7 @@ const NewSideBar2 = () => {
                     {!isCollapsed && <p>Upload data</p>}
                   </div>
                 </div>
+
 
                 <div>
                   <div
@@ -194,6 +210,7 @@ const NewSideBar2 = () => {
 
           </div>
 
+
           <div
             className={styles.collapseButton}
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -202,6 +219,7 @@ const NewSideBar2 = () => {
             }}
           >
             {isCollapsed ? <CaretRightOutlined /> : <CaretLeftOutlined />}
+
           </div>
         </ConfigProvider>
         {

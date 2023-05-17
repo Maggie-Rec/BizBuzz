@@ -34,14 +34,13 @@ import { makeFetchRequest } from "../../../utils/queryRequestMaker";
 import { translateQuantity } from "./translations";
 import { monthData } from "../../../utils/monthData";
 
-const LineChart = ({id,type}) => {
+const LineChart = ({ id, type }) => {
   const dispatch = useDispatch();
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
   const queriesInfo = useSelector((state) => {
     return state.lineChart;
   });
-  console.log(1, { queriesInfo });
   const monthLabels = [
     "January",
     "February",
@@ -66,7 +65,6 @@ const LineChart = ({id,type}) => {
   function returnLabels(number) {
     let result = [];
     let period = queriesInfo.axes.x[1];
-    console.log("2", { queriesInfo });
     let current = queriesInfo.period.start;
     if (period === "month") {
       while (result.length < number) {
@@ -99,8 +97,7 @@ const LineChart = ({id,type}) => {
       let [firstOfYear, firstOfMonth] = [true, true];
       while (result.length < number) {
         result.push(
-          `${firstOfYear ? current.year + " " : ""}${
-            firstOfMonth ? monthLabels[current.month - 1] + " " : ""
+          `${firstOfYear ? current.year + " " : ""}${firstOfMonth ? monthLabels[current.month - 1] + " " : ""
           }${current.day}`
         );
         [firstOfYear, firstOfMonth] = [false, false];
@@ -123,8 +120,7 @@ const LineChart = ({id,type}) => {
       let [firstOfYear, firstOfMonth] = [true, true];
       while (result.length < number) {
         result.push(
-          `${firstOfYear ? current.year + " " : ""}${
-            firstOfMonth ? monthLabels[current.month - 1] + " " : ""
+          `${firstOfYear ? current.year + " " : ""}${firstOfMonth ? monthLabels[current.month - 1] + " " : ""
           }${current.day}`
         );
         [firstOfYear, firstOfMonth] = [false, false];
@@ -158,7 +154,7 @@ const LineChart = ({id,type}) => {
   //       start :{ year: 2022, month: 7 }
   //   }
   // }
-  
+
   let { startDates, endDates } = generateTimePeriods({
     start: queriesInfo.period.start,
     end: queriesInfo.period.end,
@@ -167,8 +163,6 @@ const LineChart = ({id,type}) => {
   const [requests, setRequests] = useState([]);
 
   function generateRequests() {
-    console.log("Dates:", startDates, endDates);
-    console.log(queriesInfo);
     let newRequests = [];
     if (queriesInfo.axes.y[1] === "acrossLocations") {
       for (let i = 0; i < startDates.length; i++) {
