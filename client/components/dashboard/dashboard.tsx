@@ -4,10 +4,10 @@ import SMLCalendar from "../SmallCalendar";
 // import LineChart from "../widgets/LineChart/lineChart";
 import PieMenu from "../widgets/PieChart/pieMenu";
 import LineMenu from "../widgets/LineChart/lineMenu";
-import BarMenu from "../widgets/BarChart/barMenu";
+import BarMenu2 from "../widgets/BarChart2/barMenu2";
 import ProgressMenu from "../widgets/Progress/ProgressMenu";
 // import BarChart from "../widgets/BarChart/barChart";
-// import ProgressChart from "../widgets/Progress/progressChart";
+import ProgressChart from "../widgets/Progress/progressChart";
 import { useSelector, useDispatch } from "react-redux";
 import Note from "../widgets/Note";
 import randomAlphaNumeric from "../../utils/randomizer";
@@ -33,7 +33,7 @@ import DataUpload from "../DataUpload";
 
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
-  const [activeMenu, setActiveMenu] = useState<ReactNode>();
+  const [activeMenu, setActiveMenu] = useState<ReactNode>(undefined);
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
   const [notes, setNotes] = useState([]);
 
@@ -48,7 +48,7 @@ const Dashboard = () => {
   }
   const showWindow = (value: string) => {
     if (value === "bar-chart") {
-      setActiveMenu(<BarMenu func={refreshActiveMenu} />);
+      setActiveMenu(<BarMenu2 func={refreshActiveMenu} />);
     }
     if (value === "pie-chart") {
       setActiveMenu(<PieMenu func={refreshActiveMenu} />);
@@ -67,11 +67,11 @@ const Dashboard = () => {
   // };
 
   function handleOk() {
-    setActiveMenu(false);
+    setActiveMenu(undefined);
   }
 
   const handleCancel = () => {
-    setActiveMenu(false);
+    setActiveMenu(undefined);
   };
 
   const calendar = <SMLCalendar />;
@@ -176,14 +176,14 @@ const Dashboard = () => {
 
           <Dropdown
             overlayStyle={{ width: "300px" }}
-            menu={{ items, selectable: true }}
+            menu={{ items, selectable: true, selectedKeys: [''] }}
           >
             <Button type="primary" className={styles.widgetBtn}>
               Add Widget
             </Button>
           </Dropdown>
         </div>
-        <div className={styles.containerDashboard}>
+        <div className={styles.containerDashboard} id="test"> 
           {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE
           {openWidget.chartType === "Line Chart" && (
             <LineChart showWidget={() => setOpenWidget({})} />
@@ -207,8 +207,7 @@ const Dashboard = () => {
               );
             })}
           </section>
-
-          {activeMenu}
+            {!!activeMenu && activeMenu}
         </div>
       </div>
     </ConfigProvider>
