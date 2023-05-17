@@ -1,4 +1,5 @@
-const PORT = 3001;
+import { Location } from "../../utils/types";
+import { PORT } from "./variables";
 
 const baseUrl = `http://localhost:${PORT}`
 
@@ -40,5 +41,23 @@ export async function uploadData(formDataObject: FormData) {
     body: formDataObject,
     credentials: "include"
   });
+  return response;
+};
+
+export async function addLocation(locationObj: Location) {
+  console.log(locationObj);
+  let response = await fetch(baseUrl + '/locations', {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      query: {
+        data: [locationObj]
+      }
+    }),
+    credentials: "include"
+  });
+  response = await response.json();
   return response;
 };

@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { Location } from '../types/Location';
 import { makePrismaQuery } from '../helpers/makePrismaQuery';
-import prisma from '../helpers/makePrismaQuery';
 
 export async function getAllLocations(req: Request, res: Response) {
   try {
@@ -23,3 +22,21 @@ export async function getAllLocations(req: Request, res: Response) {
     res.send('Resource not found');
   }
 };
+
+export async function addNewLocation(req: Request, res: Response) {
+  try {
+    const { userId, query } = req.body;
+    const createMany = await makePrismaQuery({
+      keyword: "create",
+      userID: `${userId}`,
+      query,
+      table: "location"
+    });
+    res.status(201);
+    res.send(JSON.stringify({ message: "Posted a location to the database" }));
+  } catch (error) {
+    console.error(error);
+    res.status(404);
+    res.send({ message: "Failed to post a location to the database" });
+  }
+}

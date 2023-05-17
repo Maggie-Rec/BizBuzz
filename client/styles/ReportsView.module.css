@@ -3,6 +3,7 @@
   height: 100vh;
   box-sizing: border-box;
   padding-top: 1vh;
+    background-color: rgb(250, 244, 235);
 }
 
 .controls {
@@ -10,7 +11,7 @@
   height: 10vh;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   box-sizing: border-box;
   padding: 0 3vw;
 }

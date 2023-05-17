@@ -38,6 +38,12 @@
   margin: 40px 30px 0 10px;
 }
 
+.title{
+  margin-left: 20vw;
+  margin-top: 4vh;
+  font-size: 40px;
+}
+
 .dropdownText {
   font-size: 16px;
 }

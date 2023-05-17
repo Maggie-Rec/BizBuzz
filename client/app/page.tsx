@@ -17,6 +17,8 @@ import LoginPage from "./login/page";
 import LocationsView from "../components/LocationsView";
 import Loading from "./loading";
 import ReportsView from "../components/ReportsView";
+import InventoryView from "../components/InventoryView";
+import EmailMaker from "../components/email";
 
 const store = legacy_createStore(rootReducer);
 
@@ -36,17 +38,20 @@ const MainPage = () => {
     <>
       <Provider store={store}>
         <div>
-            {/* <Suspense fallback={<p>Loading..</p>}>
+          {/* <Suspense fallback={<p>Loading..</p>}>
           <NavBar />
             </Suspense> */}
           <div className="container">
             <NewSideBar2 />
             {currentTab === "dashboard" ? (
               <Dashboard />
+              // <EmailMaker />
             ) : currentTab === "reports" ? (
               <ReportsView />
             ) : currentTab === "locations" ? (
               <LocationsView />
+            ) : currentTab === "inventory" ? (
+              <InventoryView />
             ) : (
               <p>ERROR</p>
             )}

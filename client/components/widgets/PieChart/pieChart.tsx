@@ -21,7 +21,7 @@ ChartJS.register(
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 
 import styles from "../../../styles/widgets/pieChart.module.css";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { Rnd } from "react-rnd";
 import { useDispatch } from "react-redux";
@@ -36,7 +36,9 @@ interface Props {
 const PieChart = ({ pieChartSelection, id, type }: Props) => {
   const [labels, setLabels] = useState([] as string[]);
   const [pieData, setPieData] = useState([] as number[]);
+  // const sizeRef = useRef({ width: 300, height: 300 });
   const [size, setSize] = useState({ width: 300, height: 300 });
+  // const positionRef = useRef({ x: 10, y: 10 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
 
   const [period, setPeriod] = useState(pieChartSelection[0] as string);
@@ -75,7 +77,9 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
 
   const onDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });
+    // positionRef.current = { x: d.x, y: d.y };
     savePositionLocal(id, size, position);
+    // savePositionLocal(id, sizeRef.current, positionRef.current);
   };
 
   const onResizeStop = (e, direction, ref, delta, position) => {
@@ -83,9 +87,12 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
       width: parseInt(ref.style.width),
       height: parseInt(ref.style.height),
     });
+    // sizeRef.current.width = parseInt(ref.style.width);
+    // sizeRef.current.height = parseInt(ref.style.height);
     setPosition(position);
+    // positionRef.current = position;
     savePositionLocal(id, size, position);
-    console.log(size);
+    // savePositionLocal(id, sizeRef.current, positionRef.current);
   };
 
   useEffect(() => {
@@ -210,13 +217,18 @@ const PieChart = ({ pieChartSelection, id, type }: Props) => {
     fetchData();
 
     restorePosition(id, setPosition, setSize);
+    // restorePosition(id, 
+      // (position) => positionRef.current = position,
+      // (size) => sizeRef.current = size);
 
   }, [pieChartSelection]);
 
   return (
     <Rnd
       size={size}
+      // size={sizeRef.current}
       position={position}
+      // position={positionRef.current}
       onDragStop={onDragStop}
       onResizeStop={onResizeStop}
       dragGrid={[30, 30]}

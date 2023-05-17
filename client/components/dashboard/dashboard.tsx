@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode, useRef } from "react";
 import styles from "../../styles/Dashboard.module.css";
 import SMLCalendar from "../SmallCalendar";
-import LineChart from "../widgets/LineChart/lineChart";
+// import LineChart from "../widgets/LineChart/lineChart";
 import PieMenu from "../widgets/PieChart/pieMenu";
 import LineMenu from "../widgets/LineChart/lineMenu";
 import BarMenu2 from "../widgets/BarChart2/barMenu2";
@@ -11,6 +11,7 @@ import ProgressChart from "../widgets/Progress/progressChart";
 import { useSelector, useDispatch } from "react-redux";
 import Note from "../widgets/Note";
 import randomAlphaNumeric from "../../utils/randomizer";
+
 
 import type { MenuProps } from "antd";
 import {
@@ -35,11 +36,6 @@ const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState<ReactNode>(undefined);
   const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
   const [notes, setNotes] = useState([]);
-  const [showUploadModal, setShowUploadModal] = useState(false);
-
-  function handleUploadModal() {
-    setShowUploadModal(!showUploadModal);
-  };
 
   const widgetSelection = useSelector((state: any) => {
     return state.widgetSelection;
@@ -167,8 +163,8 @@ const Dashboard = () => {
     >
       <div>
         <div className={styles.toolBar}>
+          <h1 className={styles.title}>Sales Dashboard</h1>
           <Space wrap>
-          <Button onClick={handleUploadModal}>Upload data</Button>
             <Popover content={calendar} trigger="click">
               <Button className={styles.calendarBtn}>Calendar</Button>
             </Popover>
@@ -212,16 +208,6 @@ const Dashboard = () => {
             })}
           </section>
             {!!activeMenu && activeMenu}
-          { 
-        showUploadModal ?
-        <Modal open={showUploadModal} 
-          footer={[
-            <Button key={randomAlphaNumeric()} onClick={handleUploadModal}>Done</Button>
-          ]}>
-          { <DataUpload /> }
-        </Modal> 
-        : undefined  
-      }
         </div>
       </div>
     </ConfigProvider>

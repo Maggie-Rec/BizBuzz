@@ -55,7 +55,7 @@ const barChartReducer = (state = initialStateBar, action) => {
 };
 
 function stringifyWidgets(newState) {
-  console.log('newState', newState)
+  console.log(newState);
   return JSON.stringify(
     newState?.map((item) => {
       if (item !== null && item !== undefined) {
@@ -72,7 +72,12 @@ function stringifyWidgets(newState) {
 }
 
 const lineChartReducer = (
-  state = { axes: { x: ['time','year'], y: ['totalSales', 'acrossLocations'] }, period: {start: {year: 2023}, end: {year: 2023}}, filters: [], filterNames: [] } as {
+  state = {
+    axes: { x: ["time", "year"], y: ["totalSales", "acrossLocations"] },
+    period: { start: { year: 2023 }, end: { year: 2023 } },
+    filters: [],
+    filterNames: [],
+  } as {
     axes: any;
     filters: object[];
     period: any;
@@ -80,7 +85,6 @@ const lineChartReducer = (
   },
   action
 ) => {
-  // if (state.period) console.log("Reducer called", state.period);
   switch (action.type) {
     case "ADD_FILTER":
       const newState = { ...state };
@@ -134,7 +138,6 @@ const lineChartReducer = (
     case "SET_DATES": {
       const adjust = { ...state };
       adjust.period = action.payload;
-      console.log(action.payload);
       return adjust;
     }
     case "TEST": {
@@ -167,7 +170,8 @@ const widgetReducer = (state = [], action) => {
       // window.localStorage.setItem(
       //   "widgets",
       // // console.log(action.type, action.payload);
-      window.localStorage.setItem("widgets",
+      window.localStorage.setItem(
+        "widgets",
         stringifyWidgets(state.concat([action.payload]))
       );
 
@@ -213,11 +217,36 @@ const currentTabReducer = (state = "dashboard", action) => {
   switch (action.type) {
     case "CHANGE_CURRENT_TAB":
       state = action.payload;
+
       return state;
     default:
       return state;
   }
 };
+
+// const initialLoginState = {
+//   username: "",
+//   password: "",
+//   token: "",
+// };
+
+// const loginReducer = (state = initialLoginState, action) => {
+//   if (action.type === "LOGIN") {
+//     return {
+//       ...state,
+//       username: action.payload.username,
+//       password: action.payload.password,
+//       token: action.payload.token,
+//     };
+//   }
+// };
+
+const registerReducer = (state = { businessName: '' }, action) => {
+  if (action.type === "REGISTER") {
+    return { ...state, businessName: action.payload }
+  }
+  return state
+}
 
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
@@ -225,6 +254,8 @@ const rootReducer = combineReducers({
   lineChart: lineChartReducer,
   widgetSelection: widgetReducer,
   currentTab: currentTabReducer,
+  // login: loginReducer,
+  register: registerReducer
 });
 
 export default rootReducer;

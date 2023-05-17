@@ -1,9 +1,23 @@
-.card {
-  background-color: peachpuff;
+.addBtn {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  top: 3vh;
+  right: 2vw;
 }
-
 .cardSection {
+  padding-top: 100px;
+
+  padding-left: 5vw;
   display: flex;
   flex-flow: row wrap;
   align-content: flex-start;
+  gap: 20px;
+
+}
+
+.viewContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(250, 244, 235);
 }

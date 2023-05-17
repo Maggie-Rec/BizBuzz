@@ -1,0 +1,21 @@
+.container {
+  background-color: rgb(250, 244, 235);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 6vh;
+  padding-left: 10vw;
+}
+
+.headerBar {
+  margin-bottom: 2vw;
+  margin-left: 3vw;
+}
+
+.chart {
+  width: 30vw;
+  height: 30vh;
+}

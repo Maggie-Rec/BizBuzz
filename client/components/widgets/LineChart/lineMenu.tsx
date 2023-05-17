@@ -90,7 +90,6 @@ const LineMenu = ({ func }) => {
     });
   }, [yAxis, xAxis]);
   useEffect(() => {
-    console.log(xStartEnd);
     dispatch({
       type: "SET_DATES",
       payload: xStartEnd,

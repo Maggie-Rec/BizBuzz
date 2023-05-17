@@ -1,4 +1,4 @@
-import { Response, Request, response, Application } from 'express';
+import { Response, Request, response, Application, NextFunction } from 'express';
 import { execaCommand } from 'execa';
 import { addTransactionsTable } from '../helpers/addTransactionsTable';
 import { addItemsTable } from '../helpers/addItemsTable';
@@ -10,7 +10,9 @@ import prettify from '../helpers/prettify';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { secret } from '../config';
-import prisma from '../helpers/makePrismaQuery';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function registerUser(req: Request, res: Response) {
   try {
@@ -30,14 +32,12 @@ export async function registerUser(req: Request, res: Response) {
       const save = await prisma.user.create({
         data: newUserRecord
       });
-      // DONE: AUTO LOGIN
-      // res.status(200);
-      // res.json({ message: 'Registered a new user' });
       await createUserTables(newUserRecord.id);
-      await loginUser(req, res, newUser.password);
+      await loginUser(req, res, () => { }, newUser.password);
+      // TODO: IMPROVE REGISTRATION & TABLE CREATION PROCESS
     } else {
       res.status(400);
-      res.json({ message: 'Registration: invalid credentials'});
+      res.json({ message: 'Registration: invalid credentials' });
     }
   } catch (error) {
     console.error(error);
@@ -52,33 +52,29 @@ async function createUserTables(userId: string) {
   addLocationsTable(userId);
   addCustomersTable(userId);
   await execaCommand('npx prisma db push');
-  // await execaCommand(`npx prisma migrate dev -- --name ${userId}`);
+  await execaCommand('npx prisma generate');
+  // await execaCommand('npx prisma migrate deploy');
+  // ISSUE: PRISMA DETECTS MACHINE-RUN MIGRATIONS AND STOPS THEM
 };
 
-export async function loginUser(req: Request, res: Response, newUserPassword: any = "") {
+export async function loginUser(req: Request, res: Response, next: NextFunction, newUserPassword: string = "") {
   try {
     const user = req.body;
-    console.log(user);
-    // THIRD ARGUMENT BECOMES A FUNCTION FOR SOME REASON, HENCE ADDITIONAL CHECK
-    if (newUserPassword.length > 0 && typeof newUserPassword !== "function") user.password = newUserPassword;
-    console.log('email:', user.email);
+    if (newUserPassword !== "") user.password = newUserPassword;
     const registeredUser = await prisma.user.findUnique({
       where: {
         email: user.email
       }
     });
-    console.log(registeredUser);
-    console.log(user);
     if (registeredUser) {
       const passwordCheck = await bcrypt.compare(user.password, registeredUser.password as string);
-      console.log(passwordCheck);
       if (passwordCheck) {
         const token = jwt.sign({ id: registeredUser.id }, `${secret}`);
         const userData = registeredUser;
-        console.log(token);
         userData.password = "";
         res.status(200);
         res.cookie("token", token);
+        res.cookie("username", userData.username);
         res.json({ token, userData });
         return;
       } else {
