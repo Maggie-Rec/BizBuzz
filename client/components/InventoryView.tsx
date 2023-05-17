@@ -59,7 +59,29 @@ export default function InventoryView() {
       }
       const newRequests = [];
       const newQuery = structuredClone(baseQuery) as any;
-      if (focus === 'locations') {
+      if (focus === 'all' || !displayAsRadarChart) {
+        if (!allItems[0]) {
+          getItemNames();
+        }
+        newQuery.query.select = {
+          location_id: true,
+          stock: true,
+          capacity: true,
+          item: {
+            select: {
+              description: true,
+            }
+          }
+        }
+        if (!displayAsRadarChart) {
+          newQuery.query.select.item.select = {
+            SKU: true,
+            description: true,
+            category: true
+          }
+        }
+        newRequests.push(newQuery);
+      } else if (focus === 'locations') {
         newQuery.query.by = ['location_id'];
         newQuery.query.orderBy = { location_id: 'asc' };
         newQuery.keyword = 'groupBy';
@@ -99,21 +121,6 @@ export default function InventoryView() {
           capacities.query._sum = { capacity: true };
           newRequests.push([item, stocks, capacities]);
         }
-      } else if (focus === 'all') {
-        if (!allItems[0]) {
-          getItemNames();
-        }
-        newQuery.query.select = {
-          location_id: true,
-          stock: true,
-          capacity: true,
-          item: {
-            select: {
-              description: true
-            }
-          }
-        }
-        newRequests.push(newQuery);
       }
       setRequests(newRequests);
     }
@@ -152,7 +159,32 @@ export default function InventoryView() {
         })
       }
       let processingArray = [];
-      if (focus === 'locations') {
+      if (!displayAsRadarChart) {
+        const allData = await makeFetchRequest({ queryObject: JSON.stringify(requests[0]), route: 'inventory' });
+        setData(allData);
+        return;
+      } else if (focus === 'all') {
+        const allData = await makeFetchRequest({ queryObject: JSON.stringify(requests[0]), route: 'inventory' });
+        const today = new Date();
+        for (let i = 0; i < allData.length; i++) {
+          if (today.getMonth() === 3 && today.getDate() === 1) {
+            if (i % 3 === 0) {
+              console.log('Biz');
+            }
+            if (i % 4 === 0) {
+              console.log('Buzz');
+            }
+            if (i % 12 !== 0) {
+              console.log(i);
+            }
+          }
+          let dataset = newData.datasets.find((set) => {
+            return set.location === allData[i].location_id.toString();
+          });
+          let itemIndex = allItems.findIndex((item) => item === allData[i].item.description);
+          dataset.data[itemIndex] = 100 * allData[i].stock / allData[i].capacity;
+        }
+      } else if (focus === 'locations') {
         await Promise.all(
           requests.map(async (request) => {
             const dataPoint = await makeFetchRequest({
@@ -193,32 +225,11 @@ export default function InventoryView() {
             )
           })
         })
-      } else if (focus === 'all') {
-        const allData = await makeFetchRequest({ queryObject: JSON.stringify(requests[0]), route: 'inventory' });
-        const today = new Date();
-        for (let i = 0; i < allData.length; i++) {
-          if (today.getMonth() === 3 && today.getDate() === 1) {
-            if (i % 3 === 0) {
-              console.log('Biz');
-            }
-            if (i % 4 === 0) {
-              console.log('Buzz');
-            }
-            if (i % 12 !== 0) {
-              console.log(i);
-            }
-          }
-          let dataset = newData.datasets.find((set) => {
-            return set.location === allData[i].location_id.toString();
-          });
-          let itemIndex = allItems.findIndex((item) => item === allData[i].item.description);
-          dataset.data[itemIndex] = 100 * allData[i].stock / allData[i].capacity;
-        }
       }
       setData(newData);
     }
     sendRequests();
-  }, [requests]);
+  }, [requests, displayAsRadarChart]);
   async function refreshItemCategories() {
     let itemCategories = await fetch("http://localhost:3020/items", {
       method: "POST",
@@ -237,37 +248,29 @@ export default function InventoryView() {
     setFocus(event.target.value);
   }
 
-
   return (
     <Space className={styles.container}>
       <Space id="container" className={styles.container}>
         <Space id="header-bar" className={styles.headerBar}>
           <Space id="data-display-type">
-            {/* <Switch
-            checkedChildren='Display as radar chart'
-            unCheckedChildren='Display as table'
-            onChange={() => setDisplayAsRadarChart(!displayAsRadarChart)}
-          /> */}
+            <Switch
+              checkedChildren='Display as radar chart'
+              unCheckedChildren='Display as table'
+              onChange={() => setDisplayAsRadarChart(!displayAsRadarChart)}
+            />
             <Radio.Group onChange={handleChangeFocus} value={focus}>
               <Radio value="locations">By location</Radio>
               <Radio value="items">By item</Radio>
               <Radio value="categories">By category of goods</Radio>
-              <Radio value="all">Display all information</Radio>
+              {displayAsRadarChart ? <Radio value="all">Display all information</Radio> : <></>}
             </Radio.Group>
           </Space>
         </Space>
-        <Space id="data-display" className={styles.dataDisplay}>
-          {displayAsRadarChart === true ? (
-            <RadarChart data={data} />
-          ) : (
-            <InventoryTable data={data} focus={focus} />
-          )}
+        <Space id="data-display">
+          {displayAsRadarChart === true ?
+            <RadarChart data={data} /> :
+            <InventoryTable data={data} initfocus={focus} categories={itemCategories} locations={locations} />}
         </Space>
-      </Space>
-      <Space id="data-display">
-        {displayAsRadarChart === true ?
-          <RadarChart data={data} /> :
-          <InventoryTable data={data} focus={focus} />}
       </Space>
     </Space>
   )

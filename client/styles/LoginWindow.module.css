@@ -112,11 +112,12 @@
 
 .smallText {
   font-size: 15px;
-  margin-top: 150px;
+  margin-top: 30px;
   text-align: center;
 }
 .smallText:hover {
   cursor: pointer;
+  color: #ffa90a;
 }
 .registration {
    display: flex;

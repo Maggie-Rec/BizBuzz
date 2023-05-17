@@ -2,7 +2,7 @@
 
 import styles from "../styles/Profile.module.css";
 import React, { useState, useEffect } from "react";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Alert } from "antd";
 import { useSelector } from "react-redux";
 
 /* COMPONENTS */
@@ -15,23 +15,17 @@ const Profile = () => {
   const [openTab, setOpenTab] = useState(0);
   const [username, setUsername] = useState('')
 
-
-
   function handleOpenProfile() {
     if (!isModalOpen) setIsModalOpen(true);
   }
 
-  interface cStore {
-    get: (arg: string) => Promise<{ value: string }>;
-  };
-
   useEffect(() => {
     // cookieStore API IS NOT SUPPORTED BY TYPESCRIPT
-     /* @ts-ignore */
-    cookieStore.get("username")
-      .then((data) => {
-        setUsername(data.value);
-      });
+    /* @ts-ignore */
+    cookieStore.get("username").then((data) => {
+      console.log(data);
+      setUsername(data.value);
+    });
   }, []);
 
   return (
@@ -46,8 +40,8 @@ const Profile = () => {
         <div className={styles.modal}>
           <div className={styles.firstRow}>
             <div className={styles.profilePic}>
-              <h1>Welcome!</h1>
-              <h2>{username}</h2>
+               <h1>Welcome!</h1>
+                <h2>{username}</h2>
             </div>
             <div className={styles.buttonContainer}>
 
