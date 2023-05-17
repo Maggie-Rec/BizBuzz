@@ -6,7 +6,7 @@ import PieMenu from "../widgets/PieChart/pieMenu";
 import LineMenu from "../widgets/LineChart/lineMenu";
 import BarMenu2 from "../widgets/BarChart2/barMenu2";
 import ProgressMenu from "../widgets/Progress/ProgressMenu";
-import BarChart from "../widgets/BarChart/barChart";
+// import BarChart from "../widgets/BarChart/barChart";
 import ProgressChart from "../widgets/Progress/progressChart";
 import { useSelector, useDispatch } from "react-redux";
 import Note from "../widgets/Note";
@@ -211,9 +211,6 @@ const Dashboard = () => {
               );
             })}
           </section>
-
-          {/* <Modal open={!!activeMenu} onOk={handleOk} onCancel={handleCancel}>
-          </Modal> */}
             {!!activeMenu && activeMenu}
           { 
         showUploadModal ?
