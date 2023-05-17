@@ -44,11 +44,9 @@
 }
 
 .profilePic {
-  min-height: 15vh;
-  min-width: 15vh;
-  border: 2px solid black;
-  border-radius: 100%;
-  margin-bottom: 1vh;
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 4vh;
 }
 
 .spacer {
@@ -80,5 +78,5 @@
   cursor: pointer;
 }
 .businessInput {
-  margin-bottom: 3px !important
+  margin-bottom: 3px !important;
 }

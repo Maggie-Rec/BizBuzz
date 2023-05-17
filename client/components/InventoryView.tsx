@@ -1,23 +1,27 @@
-import { RadarChart } from './RadarChart';
+import { RadarChart } from "./RadarChart";
 import React, { useEffect, useState } from "react";
 import { Button, Space, Switch, Radio } from 'antd';
 import { generateAggSumQuery } from '../utils/aggregateSumQueries';
 import { setDatasets } from 'react-chartjs-2/dist/utils';
 import { makeFetchRequest } from '../utils/queryRequestMaker';
 import { InventoryTable } from './InventoryTable';
+import styles from "../styles/inventoryView.module.css";
 
 export default function InventoryView() {
   const marksData = {
     labels: ["English", "Maths", "Physics", "Chemistry", "Biology", "History"],
-    datasets: [{
-      label: "Student A",
-      backgroundColor: "rgba(200,0,0,0.2)",
-      data: [65, 75, 70, 80, 60, 80]
-    }, {
-      label: "Student B",
-      backgroundColor: "rgba(0,0,200,0.2)",
-      data: [54, 65, 60, 70, 70, 75]
-    }]
+    datasets: [
+      {
+        label: "Student A",
+        backgroundColor: "rgba(200,0,0,0.2)",
+        data: [65, 75, 70, 80, 60, 80],
+      },
+      {
+        label: "Student B",
+        backgroundColor: "rgba(0,0,200,0.2)",
+        data: [54, 65, 60, 70, 70, 75],
+      },
+    ],
   };
   const [data, setData] = useState(marksData);
   const [displayAsRadarChart, setDisplayAsRadarChart] = useState(true);
@@ -25,7 +29,13 @@ export default function InventoryView() {
   const [focus, setFocus] = useState('locations');
   const [availableLocations, setAvailableLocations] = useState([1, 2, 3, 4, 5]);
   const [locations, setLocations] = useState(availableLocations);
-  const [availableItemCategories, setAvailableItemCategories] = useState(['condiments', 'starters', 'drinks', 'desserts', 'mains']);
+  const [availableItemCategories, setAvailableItemCategories] = useState([
+    "condiments",
+    "starters",
+    "drinks",
+    "desserts",
+    "mains",
+  ]);
   const [itemCategories, setItemCategories] = useState(availableItemCategories);
   const [allItems, setAllItems] = useState([]);
   const baseQuery = {
@@ -63,10 +73,13 @@ export default function InventoryView() {
         for (let category of itemCategories) {
           newQuery.query.where = {
             item: {
-              category: category
-            }
-          }
-          const [stocks, capacities] = [structuredClone(newQuery), structuredClone(newQuery)];
+              category: category,
+            },
+          };
+          const [stocks, capacities] = [
+            structuredClone(newQuery),
+            structuredClone(newQuery),
+          ];
           stocks.query._sum = { stock: true };
           capacities.query._sum = { capacity: true };
           newRequests.push([category, stocks, capacities]);
@@ -103,7 +116,7 @@ export default function InventoryView() {
         }
       }
       setRequests(newRequests);
-    };
+    }
     generateRequests();
   }, [displayAsRadarChart, focus, allItems])
 
@@ -140,7 +153,10 @@ export default function InventoryView() {
       if (focus === 'locations') {
         await Promise.all(
           requests.map(async (request) => {
-            const dataPoint = await makeFetchRequest({ queryObject: JSON.stringify(request), route: 'inventory' });
+            const dataPoint = await makeFetchRequest({
+              queryObject: JSON.stringify(request),
+              route: "inventory",
+            });
             processingArray.push(dataPoint);
           })
         ).then(() => {
@@ -157,8 +173,14 @@ export default function InventoryView() {
       } else if (focus === 'categories' || focus === 'items') {
         await Promise.all(
           requests.map(async (request) => {
-            const dataPoint1 = await makeFetchRequest({ queryObject: JSON.stringify(request[1]), route: 'inventory' });
-            const dataPoint2 = await makeFetchRequest({ queryObject: JSON.stringify(request[2]), route: 'inventory' });
+            const dataPoint1 = await makeFetchRequest({
+              queryObject: JSON.stringify(request[1]),
+              route: "inventory",
+            });
+            const dataPoint2 = await makeFetchRequest({
+              queryObject: JSON.stringify(request[2]),
+              route: "inventory",
+            });
             processingArray.push([request[0], dataPoint1, dataPoint2]);
           })
         ).then(() => {
@@ -174,18 +196,18 @@ export default function InventoryView() {
       }
       setData(newData);
     }
-    sendRequests()
+    sendRequests();
   }, [requests]);
   async function refreshItemCategories() {
-    let itemCategories = await fetch('http://localhost:3020/items', {
+    let itemCategories = await fetch("http://localhost:3020/items", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: `{"query":{"by":["category"],"_count":{"SKU":true}},
         "keyword":"groupBy","userId":"2b10cCJnIm8XWOF9EYuRlivc"`,
-      credentials: "include"
-    })
+      credentials: "include",
+    });
     itemCategories = await itemCategories.json();
     setAvailableItemCategories(itemCategories);
   }
