@@ -80,12 +80,10 @@ export default function DataUpload() {
           id="fileUpload"
           type="file"
           onChange={handleFile}
-          className={styles.fileUpload__input}
+          className={styles.input}
         />
       </div>
-      <Button icon={<UploadOutlined />} onClick={() => handleFile} type="primary">
-        Upload
-      </Button>
+     
       <br />
       <br />
       <Button icon={<UploadOutlined />} onClick={handleUpload} type="primary">
