@@ -39,7 +39,7 @@ const LineMenu = ({ func }) => {
     // showWidget("Line Chart");
   };
   const filterOptions = [
-    { value: "location", label: "Location" },
+    // { value: "location", label: "Location" },
     {
       value: "gender",
       label: "Gender",
@@ -238,11 +238,11 @@ const LineMenu = ({ func }) => {
                   },
                 ],
               },
-              {
-                value: "customerAge",
-                label: "Registered Customer Age",
-                children: [],
-              },
+              // {
+              //   value: "customerAge",
+              //   label: "Registered Customer Age",
+              //   children: [],
+              // },
             ]}
           />
           {xAxis && xAxis[0] === "time" ? (
@@ -252,6 +252,7 @@ const LineMenu = ({ func }) => {
                 picker={xAxis[1]}
                 style={{ width: 300 }}
                 onChange={(value) => {
+                  console.log(value);
                   const [start, end] = [
                     { year: value[0].year() },
                     { year: value[1].year() },
@@ -263,8 +264,8 @@ const LineMenu = ({ func }) => {
                   start.month = value[0].month() + 1;
                   end.month = value[1].month() + 1;
                   if (xAxis[1] === "day" || xAxis[1] === "week") {
-                    start.day = value[0].day();
-                    end.day = value[1].day();
+                    start.day = value[0].$D;
+                    end.day = value[1].$D;
                   }
                   setXStartEnd({ start, end });
                 }}

@@ -18,20 +18,37 @@ export function generateTimePeriods({ start, end, unit }) {
     const result = createMonths({ start, number });
     return result;
   } else if (unit === "week") {
-    // console.log({ start, end });
-    // console.log(DateTime.fromObject(start));
-    // console.log(DateTime.fromObject(end).diff(DateTime.fromObject(start), 'weeks'));
-    // console.log(DateTime.fromObject(end).diff(DateTime.fromObject(start), 'weeks').values.weeks);
-    let number = DateTime.fromObject(end).diff(
-      DateTime.fromObject(start),
-      "weeks"
-    ).values.weeks;
+    let number = end.day - start.day;
+    while (start.month < end.month) {
+      number += monthData(start.month).lastDay;
+      start.month++;
+    }
+
+    while (start.year < end.year) {
+      if (start.year % 400 === 0 || (start.year % 4 === 0 && start.year % 100 !== 0)) {
+        number += 366;
+      } else {
+        number += 365;
+      }
+      start.year++;
+    }
+
+    number = number / 7;
     return createWeeks({ start, number });
   } else if (unit === "day") {
-    let number = DateTime.fromObject(end).diff(
-      DateTime.fromObject(start),
-      "days"
-    ).values.days;
+    let number = end.day - start.day;
+    while (start.month < end.month) {
+      number += monthData(start.month).lastDay;
+      start.month++;
+    }
+    while (start.year < end.year) {
+      if (start.year % 400 === 0 || (start.year % 4 === 0 && start.year % 100 !== 0)) {
+        number += 366;
+      } else {
+        number += 365;
+      }
+      start.year++;
+    }
     return createDays({ start, number });
   }
 }
@@ -108,6 +125,7 @@ function createDays({ start, number }) {
   let obj = { ...start };
   obj.hour = obj.minute = 0;
   let currentDay = DateTime.fromObject(obj);
+
   for (let i = 0; i < number; i++) {
     dayStarts.push(currentDay.minus({ milliseconds: 1 }).toJSDate());
     dayEnds.push(currentDay.plus({ days: 1 }).toJSDate());
