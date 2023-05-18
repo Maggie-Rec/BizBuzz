@@ -38,6 +38,7 @@ const LineChart = ({ id, type }) => {
   const dispatch = useDispatch();
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
+  const [locations, setLocations] = useState([1, 2, 3, 4, 5]);
   const queriesInfo = useSelector((state) => {
     return state.lineChart;
   });
@@ -215,27 +216,24 @@ const LineChart = ({ id, type }) => {
             operator: translateQuantity(queriesInfo.axes.y[0]),
           }),
         });
-        for (let location of [1, 2, 3, 4, 5]) {
-          for (let i = 0; i < startDates.length; i++) {
-            newRequests.push({
-              label: location,
-              query: generateAggSumQuery({
-                filterArr: queriesInfo.filters.concat({
-                  location_id: location,
-                }),
-                filterNames: queriesInfo.filterNames,
-                filterArr: queriesInfo.filters.concat({
-                  location_id: location,
-                }),
-                dateArr: [startDates[i], endDates[i]],
-                keyword: "aggregate",
-                operator: translateQuantity(queriesInfo.axes.y[0]),
+        for (let location of locations) {
+          newRequests.push({
+            label: location,
+            query: generateAggSumQuery({
+              filterNames: queriesInfo.filterNames.concat("location"),
+              filterArr: queriesInfo.filters.concat({
+                location_id: location,
               }),
-            });
-          }
+              dateArr: [startDates[i], endDates[i]],
+              keyword: "aggregate",
+              operator: translateQuantity(queriesInfo.axes.y[0]),
+            }),
+          });
+
         }
       }
     }
+    if (newRequests[1]) console.log(newRequests[1].query);
     setRequests(newRequests);
   }
 

@@ -87,6 +87,7 @@ const lineChartReducer = (
 ) => {
   switch (action.type) {
     case "ADD_FILTER":
+      console.log('here');
       const newState = { ...state };
       const newFilter = [
         action.payload.filter,
@@ -104,7 +105,6 @@ const lineChartReducer = (
       return newState;
     case "SET_AXES":
       const copy = { ...state };
-
       // The code below is very awkward; for reasons unknown, the indication of the y-axis sometimes comes wrapped in an array.
       // Moreover, if the user requests to recieve the data for only some locations, there will be an array of unknown length somewhere,
       // but all maximally-nested arrays will be of length 3, so this is my attempt to separate out those cases for processing differently,
@@ -138,6 +138,7 @@ const lineChartReducer = (
     case "SET_DATES": {
       const adjust = { ...state };
       adjust.period = action.payload;
+      console.log(adjust.period);
       return adjust;
     }
     case "TEST": {
