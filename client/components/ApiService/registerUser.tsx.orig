@@ -2,11 +2,7 @@ import { PORT } from "./variables";
 
 export async function registerUser(user) {
   try {
-<<<<<<< HEAD
-    const resp = fetch("http://localhost:3020/register", {
-=======
     const resp = fetch(`http://localhost:${PORT}/register`, {
->>>>>>> 62908b2 (minor refactoring)
       method: "POST",
       headers: {
         "Content-Type": "application/json",

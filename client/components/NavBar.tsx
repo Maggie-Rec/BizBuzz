@@ -34,7 +34,6 @@ const NavBar = () => {
 
   return (
     <div className={styles.container}>
-      {/* <div className={styles.logo}>Logo</div> */}
       <Image src={logo} height={200} alt="bee" />
       <h1 className={styles.title}>BizBuzz Dashboard</h1>
       <div className={styles.user}>

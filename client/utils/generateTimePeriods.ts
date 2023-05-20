@@ -53,7 +53,7 @@ export function generateTimePeriods({ start, end, unit }) {
   }
 }
 function createLastOfMonth({ month, year }) {
-  // console.log('Error handlling utils/GTP line 38:', month, year);
+
   const last = new Date(
     `${monthData(month).lastDay} ${monthData(month).name} ${year} 23:59:59.999`
   );
@@ -73,7 +73,7 @@ function createYears({ start, number }) {
 }
 function createQuarters({ start, number }) {
   let [quarterStarts, quarterEnds] = [[], []];
-  // console.log('Error handlling utils/GTP line 56:', start, number);
+
   for (let i = 0; i < 3 * number; i += 3) {
     quarterStarts.push(
       createLastOfMonth({

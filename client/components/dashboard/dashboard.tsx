@@ -1,13 +1,10 @@
 import React, { useState, useEffect, ReactNode, useRef } from "react";
 import styles from "../../styles/Dashboard.module.css";
 import SMLCalendar from "../SmallCalendar";
-// import LineChart from "../widgets/LineChart/lineChart";
 import PieMenu from "../widgets/PieChart/pieMenu";
 import LineMenu from "../widgets/LineChart/lineMenu";
 import BarMenu2 from "../widgets/BarChart2/barMenu2";
 import ProgressMenu from "../widgets/Progress/ProgressMenu";
-// import BarChart from "../widgets/BarChart/barChart";
-import ProgressChart from "../widgets/Progress/progressChart";
 import { useSelector, useDispatch } from "react-redux";
 import Note from "../widgets/Note";
 import randomAlphaNumeric from "../../utils/randomizer";
@@ -19,8 +16,6 @@ import {
   Popover,
   Dropdown,
   Space,
-  DatePicker,
-  Modal,
   ConfigProvider,
 } from "antd";
 import {
@@ -29,12 +24,10 @@ import {
   LineChartOutlined,
   DollarOutlined,
 } from "@ant-design/icons";
-import DataUpload from "../DataUpload";
 
-const { RangePicker } = DatePicker;
+
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState<ReactNode>(undefined);
-  const [openWidget, setOpenWidget] = useState<{ chartType?: string }>({});
   const [notes, setNotes] = useState([]);
 
   const widgetSelection = useSelector((state: any) => {
@@ -59,20 +52,11 @@ const Dashboard = () => {
     if (value === "progress-chart") {
       setActiveMenu(<ProgressMenu func={refreshActiveMenu} />);
     }
-    // setOpenMenu(event.target.textContent);
+ 
   };
 
-  // const showWidget = (chartType: string) => {
-  //   setOpenWidget({ chartType });
-  // };
 
-  function handleOk() {
-    setActiveMenu(undefined);
-  }
 
-  const handleCancel = () => {
-    setActiveMenu(undefined);
-  };
 
   const calendar = <SMLCalendar />;
 
@@ -184,10 +168,7 @@ const Dashboard = () => {
           </Dropdown>
         </div>
         <div className={styles.containerDashboard} id="test"> 
-          {/* TODO: HOOK UP THE LINE CHART TO THE WIDGETS REDUX STORE
-          {openWidget.chartType === "Line Chart" && (
-            <LineChart showWidget={() => setOpenWidget({})} />
-          )} */}
+    
 
           <section className={styles.widgetContainer} ref={containerRef}>
             {widgetSelection}

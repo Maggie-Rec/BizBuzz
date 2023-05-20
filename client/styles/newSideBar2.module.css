@@ -72,10 +72,6 @@
   margin-bottom: 1vh;
 }
 
-.utilsList {
-
-}
-
 .collapseButton {
   position: absolute;
   top: 45vh;
@@ -102,6 +98,4 @@ overflow: hidden;
 }
 .smlLogo {
   border-radius: 10px;
-
-  /* transition: ease-in-out 0.6s;  */
 }

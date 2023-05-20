@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Space, Select, Button, DatePicker, Modal } from "antd";
+import { Space, Select, DatePicker, Modal } from "antd";
 import styles from "../../../styles/widgets/barChart.module.css";
 import { useDispatch } from "react-redux";
 import BarChart from "./barChart";
-// import { generateQuery } from "../../../utils/queryKing";
+
 import {
   queryTotalItemsByMonth,
   queryTotalCustomersByMonth,
@@ -16,8 +16,7 @@ const BarMenu = ({ func }) => {
   const dispatch = useDispatch();
   const [option1, setOption1] = useState("");
   const [dbDates, setDBDates] = useState([]);
-  // // const [option2, setOption2] = useState("");
-  // // const [option3, setOption3] = useState("");
+
 
   const [period, setPeriod] = useState([] as string[]);
   const [isShowing, setIsShowing] = useState(true);
@@ -33,7 +32,7 @@ const BarMenu = ({ func }) => {
           key={Date.now()}
           selectedData={values(option1)}
           type={"BarChart"}
-          // period={period}
+      
           />
           ),
         });
@@ -84,7 +83,7 @@ const monthArray = (string) => {
   };
   
   setDBDates(getDates(string[0], string[1]));
-  // console.log(dbDates);
+
   
   const allMonths = [
     "January",

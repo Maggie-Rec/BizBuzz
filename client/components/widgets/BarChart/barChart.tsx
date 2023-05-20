@@ -20,10 +20,10 @@ ChartJS.register(
 );
 import { CloseOutlined, DragOutlined } from "@ant-design/icons";
 import styles from "../../../styles/widgets/barChart.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Rnd } from "react-rnd";
 
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import savePositionLocal, { restorePosition } from "../../../utils/posSaver";
 
 interface Props {
@@ -33,7 +33,7 @@ interface Props {
 
   type: string;
   selectedData: string;
-  // period: string[];
+
 }
 
 const BarChart = ({
@@ -41,7 +41,7 @@ const BarChart = ({
   barChartPeriod,
   selectedData,
   id,
-  type,
+ 
 }: Props) => {
   const dispatch = useDispatch();
 
