@@ -1,4 +1,4 @@
-BizBuzz is a CRM and data visualisation tool for small businesses. It was created by Marzena Gromowska, Anton Novak, Xavi Vide, and Andrew Pearson, as their thesis project at CodeWorks boot camp.
+BizBuzz is a CRM and data visualisation tool for small businesses. It was created by Marzena Recio Gromowska, Anton Novak, Xavi Vide, and Andrew Pearson, as their thesis project at CodeWorks boot camp.
 
 A video explanation of this app can be found at [https://www.youtube.com/watch?v=-1rLdExL68s&ab_channel=XaviVide].
 
