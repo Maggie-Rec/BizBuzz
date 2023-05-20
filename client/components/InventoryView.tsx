@@ -1,11 +1,10 @@
 import { RadarChart } from "./RadarChart";
 import React, { useEffect, useState } from "react";
-import { Button, Space, Switch, Radio } from 'antd';
-import { generateAggSumQuery } from '../utils/aggregateSumQueries';
-import { setDatasets } from 'react-chartjs-2/dist/utils';
+import { Space, Switch, Radio, ConfigProvider } from 'antd';
 import { makeFetchRequest } from '../utils/queryRequestMaker';
 import { InventoryTable } from './InventoryTable';
 import styles from "../styles/inventoryView.module.css";
+
 
 export default function InventoryView() {
   const marksData = {
@@ -43,7 +42,7 @@ export default function InventoryView() {
     userId: '2b10cCJnIm8XWOF9EYuRlivc'
   }
   const colors = ["#F2A202", "#F08605", "#DB6443", "#ad4544", "#7e2644"];
-  // const colors = ['yellow', '#F2A202', '#F08605', '#DB6443', 'crimson'];
+
 
   useEffect(() => {
     function generateRequests() {
@@ -249,29 +248,38 @@ export default function InventoryView() {
   }
 
   return (
-    <Space className={styles.container}>
-      <Space id="container" className={styles.container}>
-        <Space id="header-bar" className={styles.headerBar}>
-          <Space id="data-display-type">
-            <Switch
-              checkedChildren='Display as radar chart'
-              unCheckedChildren='Display as table'
-              onChange={() => setDisplayAsRadarChart(!displayAsRadarChart)}
-            />
-            <Radio.Group onChange={handleChangeFocus} value={focus}>
-              <Radio value="locations">By location</Radio>
-              <Radio value="items">By item</Radio>
-              <Radio value="categories">By category of goods</Radio>
-              {displayAsRadarChart ? <Radio value="all">Display all information</Radio> : <></>}
-            </Radio.Group>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#f8b825",
+        },
+      }}
+    >
+
+      <Space className={styles.container}>
+        <Space id="container" className={styles.container}>
+          <Space id="header-bar" className={styles.headerBar}>
+            <Space id="data-display-type">
+              <Switch
+                checkedChildren='Display as radar chart'
+                unCheckedChildren='Display as table'
+                onChange={() => setDisplayAsRadarChart(!displayAsRadarChart)}
+              />
+              <Radio.Group onChange={handleChangeFocus} value={focus}>
+                <Radio value="locations">By location</Radio>
+                <Radio value="items">By item</Radio>
+                <Radio value="categories">By category of goods</Radio>
+                {displayAsRadarChart ? <Radio value="all">Display all information</Radio> : <></>}
+              </Radio.Group>
+            </Space>
+          </Space>
+          <Space id="data-display">
+            {displayAsRadarChart === true ?
+              <RadarChart data={data} /> :
+              <InventoryTable data={data} initfocus={focus} categories={itemCategories} locations={locations} />}
           </Space>
         </Space>
-        <Space id="data-display">
-          {displayAsRadarChart === true ?
-            <RadarChart data={data} /> :
-            <InventoryTable data={data} initfocus={focus} categories={itemCategories} locations={locations} />}
-        </Space>
       </Space>
-    </Space>
+    </ConfigProvider>
   )
 }

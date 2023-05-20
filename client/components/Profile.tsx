@@ -2,11 +2,11 @@
 
 import styles from "../styles/Profile.module.css";
 import React, { useState, useEffect } from "react";
-import { ConfigProvider, Alert } from "antd";
-import { useSelector } from "react-redux";
+import { ConfigProvider } from "antd";
+
 
 /* COMPONENTS */
-import ProfileInfoTab from "./ProfileInfoTab";
+
 import ChangePasswordTab from "./ChangePasswordTab";
 import LogOutTab from "./LogOutTab";
 

@@ -1,15 +1,11 @@
-import { Alex_Brush } from "next/font/google";
-import { generateTimePeriods } from "./utils/generateTimePeriods";
-import { ReactComponentElement } from "react";
 import { combineReducers } from "redux";
 import PieChart from "./components/widgets/PieChart/pieChart";
-import BarChart from "./components/widgets/BarChart/barChart";
+
 import BarChart2 from "./components/widgets/BarChart2/barChart2";
 import LineChart from "./components/widgets/LineChart/lineChart";
 import ProgressChart from "./components/widgets/Progress/progressChart";
 import randomAlphaNumeric from "./utils/randomizer";
 import { removePositionLocal } from "./utils/posSaver";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const initialStateProgress = {
   userInput: "",
@@ -30,8 +26,7 @@ const progressChartReducer = (state = initialStateProgress, action) => {
 
 const initialStateBar = {
   option1: "",
-  // option2: "",
-  // option3: "",
+
   monthsArray: [],
 };
 
@@ -40,8 +35,6 @@ const barChartReducer = (state = initialStateBar, action) => {
     const newState = {
       ...state,
       option1: action.payload.option1,
-      // option2: action.payload.option2,
-      // option3: action.payload.option3,
     };
     return newState;
   }
@@ -55,16 +48,14 @@ const barChartReducer = (state = initialStateBar, action) => {
 };
 
 function stringifyWidgets(newState) {
-  console.log(newState);
   return JSON.stringify(
     newState?.map((item) => {
       if (item !== null && item !== undefined) {
-        console.log(item.props);
         const widgetType = item.type.name;
         const toSave = {} as { widgetType: string };
         toSave.widgetType = widgetType;
         Object.assign(toSave, item);
-        console.log('toSave', toSave)
+
         return toSave;
       }
     })
@@ -92,7 +83,7 @@ const lineChartReducer = (
         action.payload.filter,
         action.payload.obj[action.payload.filter],
       ];
-      // console.log('Filter to be added, should be array', newFilter);
+
       const index = newState.filterNames.findIndex(
         (filterName) => filterName === action.payload.filter
       );
@@ -100,11 +91,9 @@ const lineChartReducer = (
         ? (newState.filters.push(newFilter),
           newState.filterNames.push(action.payload.filter))
         : (newState.filters[index] = newFilter);
-      // console.log('New set of filters:', newState.filterNames, newState.filters);
       return newState;
     case "SET_AXES":
       const copy = { ...state };
-
       // The code below is very awkward; for reasons unknown, the indication of the y-axis sometimes comes wrapped in an array.
       // Moreover, if the user requests to recieve the data for only some locations, there will be an array of unknown length somewhere,
       // but all maximally-nested arrays will be of length 3, so this is my attempt to separate out those cases for processing differently,
@@ -166,10 +155,6 @@ const lineChartReducer = (
 const widgetReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_WIDGET":
-      console.log('payload', action.payload);
-      // window.localStorage.setItem(
-      //   "widgets",
-      // // console.log(action.type, action.payload);
       window.localStorage.setItem(
         "widgets",
         stringifyWidgets(state.concat([action.payload]))
@@ -191,7 +176,10 @@ const widgetReducer = (state = [], action) => {
           try {
             if (item.widgetType === "PieChart") {
               return <PieChart {...item.props} key={randomAlphaNumeric()} />;
-            } else if (item.widgetType === "BarChart" || item.widgetType === "BarChart2") {
+            } else if (
+              item.widgetType === "BarChart" ||
+              item.widgetType === "BarChart2"
+            ) {
               return <BarChart2 {...item.props} key={randomAlphaNumeric()} />;
             } else if (item.widgetType === "LineChart") {
               return <LineChart {...item.props} key={randomAlphaNumeric()} />;
@@ -224,29 +212,12 @@ const currentTabReducer = (state = "dashboard", action) => {
   }
 };
 
-// const initialLoginState = {
-//   username: "",
-//   password: "",
-//   token: "",
-// };
-
-// const loginReducer = (state = initialLoginState, action) => {
-//   if (action.type === "LOGIN") {
-//     return {
-//       ...state,
-//       username: action.payload.username,
-//       password: action.payload.password,
-//       token: action.payload.token,
-//     };
-//   }
-// };
-
-const registerReducer = (state = { businessName: '' }, action) => {
+const registerReducer = (state = { businessName: "" }, action) => {
   if (action.type === "REGISTER") {
-    return { ...state, businessName: action.payload }
+    return { ...state, businessName: action.payload };
   }
-  return state
-}
+  return state;
+};
 
 const rootReducer = combineReducers({
   progressChart: progressChartReducer,
@@ -254,8 +225,8 @@ const rootReducer = combineReducers({
   lineChart: lineChartReducer,
   widgetSelection: widgetReducer,
   currentTab: currentTabReducer,
-  // login: loginReducer,
-  register: registerReducer
+
+  register: registerReducer,
 });
 
 export default rootReducer;

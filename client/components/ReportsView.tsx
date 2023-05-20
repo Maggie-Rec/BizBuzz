@@ -1,8 +1,8 @@
 'use client';
 
 import styles from '../styles/ReportsView.module.css';
-import { Cascader, Segmented, DatePicker, Table, Tooltip, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Cascader, Segmented, DatePicker, Table } from 'antd';
+
 import { ReactNode, useEffect, useState } from 'react';
 import { todayTimeFilter, lastWeekTF, lastMonthTF, lastQuarterTF, lastYearTF } from '../utils/timeFilters';
 const { RangePicker } = DatePicker;
@@ -380,9 +380,7 @@ const ReportsView = () => {
           style={{ width: "15vw" }}
           onChange={(value, strArr) => handleNewDateRange(strArr)}
         />
-        {/* <Tooltip title='Upload Data' placement='bottomLeft'>
-          <Button type='primary'><PlusOutlined /></Button>
-        </Tooltip> */}
+        
       </div>
       <div className={styles.tableContainer}>
         <Table
