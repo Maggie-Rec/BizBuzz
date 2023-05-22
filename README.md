@@ -1,8 +1,12 @@
+#BizBuzz
+
+BizBuzz is a CRM and data visualisation tool for small businesses. It was created by Marzena Gromowska, Anton Novak, Xavi Vide, and Andrew Pearson, as their thesis project at CodeWorks boot camp.
+
 BizBuzz is a CRM and data visualisation tool for small businesses. It was created by Marzena Recio Gromowska, Anton Novak, Xavi Vide, and Andrew Pearson, as their thesis project at CodeWorks boot camp.
 
-A video explanation of this app can be found at [https://www.youtube.com/watch?v=-1rLdExL68s&ab_channel=XaviVide].
+A video explanation of this app can be found at https://www.youtube.com/watch?v=-1rLdExL68s&ab_channel=XaviVide.
 
-**What it does**
+###What it does
 
 ![Screenshot of dashboard with multiple widgets open](./readme-assets/Dashboard-Screenshot.png)
 
@@ -23,7 +27,7 @@ The app has a smooth and intuitive GUI.
 The app provides reassurance to clients against the possibility of data leak, firstly through secure authentication and secondly by providing separate database tables for every individual user.
 
 
-**Under the hood**
+###Under the hood
 
 This app was written end-to-end in TypeScript. The front end uses React and Next.js; the back end uses an Express server and a PostgreSQL database accessed through Prisma. Authentication is achieved using Bcrypt.
 
