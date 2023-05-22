@@ -1,8 +1,6 @@
 import { RadarChart } from "./RadarChart";
 import React, { useEffect, useState } from "react";
-import { Button, Space, Switch, Radio, ConfigProvider } from 'antd';
-import { generateAggSumQuery } from '../utils/aggregateSumQueries';
-import { setDatasets } from 'react-chartjs-2/dist/utils';
+import { Space, Switch, Radio, ConfigProvider } from 'antd';
 import { makeFetchRequest } from '../utils/queryRequestMaker';
 import { InventoryTable } from './InventoryTable';
 import styles from "../styles/inventoryView.module.css";
@@ -44,7 +42,7 @@ export default function InventoryView() {
     userId: '2b10cCJnIm8XWOF9EYuRlivc'
   }
   const colors = ["#F2A202", "#F08605", "#DB6443", "#ad4544", "#7e2644"];
-  // const colors = ['yellow', '#F2A202', '#F08605', '#DB6443', 'crimson'];
+
 
   useEffect(() => {
     function generateRequests() {

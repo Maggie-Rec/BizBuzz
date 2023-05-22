@@ -1,13 +1,4 @@
-/* .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f6d699;
-  margin-top: 1vh;
-  border-radius: 50%;
-  height: 10vh;
-  width: 6vw;
-} */
+
 
 .container:hover {
   cursor: pointer;

@@ -1,10 +1,10 @@
 import "../styles/globals.css";
-import { Inter, Ysabeau } from "next/font/google";
-import React, { Suspense } from "react";
+import { Inter } from "next/font/google";
+import React from "react";
 
 
 const inter = Inter({ subsets: ["latin"] });
-const ysabeau = Ysabeau({subsets: ['latin']})
+
 
 export const metadata = {
   title: "BizBuzz",
@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={ysabeau.className}>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

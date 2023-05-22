@@ -1,4 +1,4 @@
-const API_KEY = "AnrgHGhpzYe9AyrUL-Da6y52WE4BtRs2frkUl6UFanzOodvn2WLBKk_os2yk6oq2";
+import { API_KEY } from "./variables";
 
 export async function getCoordinates(searchQuery: string) {
   const url = new URL(`http://dev.virtualearth.net/REST/v1/Locations/${searchQuery}?includeNeighborhood=0&maxResults=1&key=${API_KEY}`);
