@@ -10,7 +10,7 @@ BizBuzz provides a range of options for visualising data on sales, available thr
 
 The dashboard contains the widest range of tools for summarising data - bar charts, line graphs, and pie charts, again all filterable by a wide variety of characteristics of the transaction. The dashboard also holds onto user notes and calendar, and retains its state upon reload enabling the user to keep key statistics immediately accessible whenever the leave and reopen the app.
 
-[Insert screenshot of dashboard with multiple widgets open]
+![Screenshot of dashboard with multiple widgets open](./readme-assets/Dashboard-Screenshot.png)
 
 Other features accessible through the front end include inventory management visualisation, either as a table or as a radar chart, and management of information about business locations.
 
