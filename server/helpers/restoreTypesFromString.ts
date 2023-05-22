@@ -1,4 +1,8 @@
-// TODO: FIX THE TYPE
+import { Customer } from "../types/Customer";
+import { Transaction } from "../types/Transaction";
+import { Location } from "../types/Location";
+import { Item } from "../types/Item";
+
 export default function restoreTypesFromString(data: any) {
   data.record_id ? data.record_id = parseInt(data.record_id) : undefined;
   data.transaction_id ? data.transaction_id = parseInt(data.transaction_id) : undefined;

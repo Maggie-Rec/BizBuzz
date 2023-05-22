@@ -4,7 +4,7 @@ import styles from "../styles/ProfileInfoTab.module.css";
 import React, { useState } from "react";
 import { Collapse, Input, Button, Form } from "antd";
 const { Panel } = Collapse;
-import { postUserDetails } from "../components/ApiService/userDetails";
+
 
 const ProfileInfoTab = () => {
   const [firstName, setFirstName] = useState("");
@@ -45,7 +45,7 @@ const ProfileInfoTab = () => {
     setAddress([...temp]);
   }
 
-  // const onFinish = (values) => {};
+
 
   return (
     <div className={styles.container}>

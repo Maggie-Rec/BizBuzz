@@ -140,7 +140,7 @@ const NewSideBar2 = () => {
                   <DashboardOutlined className={styles.icon} />
                   {!isCollapsed && <p>Dashboard</p>}
                 </div>
-                
+
                 <div
                   className={
                     isCollapsed
@@ -168,7 +168,7 @@ const NewSideBar2 = () => {
                     dispatch({ type: "CHANGE_CURRENT_TAB", payload: "reports" })
                   }
                 >
-                  <BarChartOutlined className={styles.icon} />
+                  <EnvironmentOutlined className={styles.icon} />
                   {!isCollapsed && <p>Sales Reports</p>}
                 </div>
 
