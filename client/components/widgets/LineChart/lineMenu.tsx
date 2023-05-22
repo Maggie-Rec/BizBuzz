@@ -35,11 +35,8 @@ const LineMenu = ({ func }) => {
       payload: (<LineChart id={Date.now()} key={Date.now()} type={"LineChart"} />),
     });
     handleCancel();
-    // dispatch({ type: "FETCH_DATA" });
-    // showWidget("Line Chart");
   };
   const filterOptions = [
-    // { value: "location", label: "Location" },
     {
       value: "gender",
       label: "Gender",
@@ -285,7 +282,7 @@ const LineMenu = ({ func }) => {
           </Space>
           {filterDetails}
         </Space>
-        {/* <Button onClick={handleSubmit}>Display</Button> */}
+        <Button onClick={handleSubmit}>Display</Button>
       </div>
     </Modal>
   );

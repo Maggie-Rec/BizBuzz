@@ -21,9 +21,7 @@ import restoreTypesFromString from "../helpers/restoreTypesFromString";
 export default async function uploadData(request: Request, response: Response) {
   try {
     const upload = request.file?.path;
-    console.log(request.file);
     const target = JSON.parse(request.body.data).target as string;
-    console.log('target', target, 'path', upload);
     const csvParseResults = [] as Transaction[] | Item[] | Location[] | Customer[];
     const fullPath = path.join(__dirname, `..\\${upload}`);
 

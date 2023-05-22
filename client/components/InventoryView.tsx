@@ -1,6 +1,8 @@
 import { RadarChart } from "./RadarChart";
 import React, { useEffect, useState } from "react";
-import { Space, Switch, Radio, ConfigProvider } from 'antd';
+import { Button, Space, Switch, Radio, ConfigProvider } from 'antd';
+import { generateAggSumQuery } from '../utils/aggregateSumQueries';
+import { setDatasets } from 'react-chartjs-2/dist/utils';
 import { makeFetchRequest } from '../utils/queryRequestMaker';
 import { InventoryTable } from './InventoryTable';
 import styles from "../styles/inventoryView.module.css";
@@ -229,20 +231,6 @@ export default function InventoryView() {
     }
     sendRequests();
   }, [requests, displayAsRadarChart]);
-  async function refreshItemCategories() {
-    let itemCategories = await fetch("http://localhost:3020/items", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: `{"query":{"by":["category"],"_count":{"SKU":true}},
-        "keyword":"groupBy","userId":"2b10cCJnIm8XWOF9EYuRlivc"`,
-      credentials: "include",
-    });
-    itemCategories = await itemCategories.json();
-    setAvailableItemCategories(itemCategories);
-  }
-
   function handleChangeFocus(event) {
     setFocus(event.target.value);
   }
@@ -255,7 +243,6 @@ export default function InventoryView() {
         },
       }}
     >
-
       <Space className={styles.container}>
         <Space id="container" className={styles.container}>
           <Space id="header-bar" className={styles.headerBar}>
