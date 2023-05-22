@@ -13,19 +13,14 @@ export default function NewLocationForm() {
   async function handleSubmit() {
     try {
       const newLocation: Location = {
-        // id: 0,
+    
         name: name,
         full_address: full_address,
         region: region,
         city: city,
         type: type
       };
-      // console.log(newLocation);
-      // for (let value of Object.values(newLocation)) {
-      //   console.log(value);
-      //   if (value === "") window.alert("Please provide all the details for a location");
-      //   throw new Error;
-      // };
+      
       console.log("here");
       const response = await addLocation(newLocation);
       if (response.status === 201) window.alert("Posted location details to the database");

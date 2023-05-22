@@ -1,5 +1,5 @@
-import { Button, Popover, Select, Upload, message } from "antd";
-import React, { useRef, useState } from "react";
+import { Button, Popover, Select, message } from "antd";
+import React, { useState } from "react";
 import { uploadData } from "./ApiService/database";
 import { UploadOutlined } from "@ant-design/icons";
 import styles from "../styles/DataUpload.module.css";

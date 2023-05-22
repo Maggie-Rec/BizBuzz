@@ -1,5 +1,5 @@
-import { Row, Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import { Table } from 'antd';
+
 import { useEffect, useState } from 'react';
 
 

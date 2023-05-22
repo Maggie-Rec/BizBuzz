@@ -1,6 +1,6 @@
 import styles from "../styles/LogOutTab.module.css";
 import React from "react";
-import { Alert, Button } from "antd";
+import { Button } from "antd";
 
 const LogOutTab = () => {
   function handleLogout() {

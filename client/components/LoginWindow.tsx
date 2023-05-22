@@ -18,7 +18,7 @@ const LoginWindow = () => {
   const [businessName, setBusinessName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // const dispatch = useDispatch()
+
   function toggleRegister() {
     setIsRegistered(!isRegistered);
   }
@@ -34,7 +34,6 @@ const LoginWindow = () => {
     };
 
     const data = await getLogin(creds);
-    //  const token = data.token
     if (data.ok) {
       window.location.replace("http://localhost:3000/");
     } else {
