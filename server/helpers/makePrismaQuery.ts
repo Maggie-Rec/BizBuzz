@@ -7,8 +7,6 @@ import { Query } from '../types/Query';
 const prisma = new PrismaClient() as any;
 
 export function makePrismaQuery({ keyword, userID, query, table }: { keyword: string, userID: number | string, query: any, table: string }) {
-  console.log('Query in makePrismaQuery:', query);
-  console.log('keyword', keyword, 'userId', userID, 'table', table);
   try {
     if (keyword === 'findMany') {
       return prisma[`${table}_${userID}`].findMany(query);

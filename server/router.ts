@@ -10,12 +10,6 @@ import { getInventory } from './controllers/inventory';
 
 export const router = Router();
 
-router.get('/test', ((req: Request, res: Response) => {
-  res.send('Hello world');
-}));
-
-
-// TODO: INTERPOSE VERIFICATION MIDDLEWARE
 router
   .post('/register', registerUser)
   .post('/login', loginUser)
@@ -26,5 +20,4 @@ router
   .post('/locations', verifyToken, getAllLocations)
   .post('/customers', verifyToken, getAllCustomers)
   .post('/items', verifyToken, getAllItems)
-  .post('/inventory', getInventory)
-  // .post('/inventory', verifyToken, getInventory)
+  .post('/inventory', verifyToken, getInventory)

@@ -5,7 +5,6 @@ import { makePrismaQuery } from '../helpers/makePrismaQuery';
 export async function getInventory(req: Request, res: Response) {
   try {
     const { userId, query } = req.body;
-    console.log('request recieved', userId);
     const keyword = req.body.keyword ? req.body.keyword : 'findMany';
     const inventoryData = await makePrismaQuery({
       keyword,

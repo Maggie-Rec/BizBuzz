@@ -8,7 +8,6 @@ export async function getAllItems(req: Request, res: Response) {
   try {
     const { userId, query } = req.body;
     const keyword = req.body.keyword ? req.body.keyword : 'findMany';
-    console.log('query:', query);
     const items = await makePrismaQuery({
       keyword,
       userID: userId ? userId : 0,
