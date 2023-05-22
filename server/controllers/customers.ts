@@ -7,7 +7,6 @@ export async function getAllCustomers(req: Request, res: Response) {
   try {
     const { userId, query } = req.body;
     const keyword = req.body.keyword ? req.body.keyword : 'findMany';
-    console.log('query:', query);
     const customers = await makePrismaQuery({
       keyword,
       userID: userId ? userId : 0,
