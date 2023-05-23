@@ -11,6 +11,7 @@ import { PORT } from './ApiService/variables';
 
 import { generateQuery } from '../utils/queryKing';
 import { queryAllLocations, queryAllItems, queryAllCustomers } from '../utils/queryKingV2';
+import { API_URL } from './ApiService/variables';
 
 interface IColumn {
   title: string,
@@ -67,7 +68,7 @@ interface ICustomer {
 
 async function fecthAPI(stringifiedQuery: string, where: string) {
   try {
-    const res = await fetch(`http://localhost:${PORT}/${where}`, {
+    const res = await fetch(`${API_URL}/${where}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

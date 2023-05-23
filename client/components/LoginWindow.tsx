@@ -35,7 +35,8 @@ const LoginWindow = () => {
 
     const data = await getLogin(creds);
     if (data.ok) {
-      window.location.replace("http://localhost:3000/");
+      // window.location.replace("http://localhost:3000/");
+      window.location.replace("http://159.65.160.235");
     } else {
       alert("Wrong Login Details. Try again.");
     }

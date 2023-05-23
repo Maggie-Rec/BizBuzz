@@ -13,7 +13,8 @@ app
   .use(express.json())
   .use(cookieParser())
   .use(upload.single("file"))
-  .use(router)
+  // .use(router)
+  .use('/api', router)
   .listen(port, () => {
     console.log(`Listening on port ${port}`);
   });

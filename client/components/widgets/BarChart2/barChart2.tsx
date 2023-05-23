@@ -24,6 +24,7 @@ import {
 } from "../../../utils/queryKingV2";
 
 import { PORT } from "../../ApiService/variables";
+import { API_URL } from "../../ApiService/variables";
 
 interface IBarChartProps {
   id: number,
@@ -71,7 +72,8 @@ const COLORS = [
 
 async function fecthAPI(stringifiedQuery: string) {
   try {
-    const res = await fetch(`http://localhost:${PORT}/transactions`, {
+    // const res = await fetch(`http://localhost:${PORT}/transactions`, {
+    const res = await fetch(`${API_URL}/transactions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

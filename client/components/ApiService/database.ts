@@ -1,7 +1,9 @@
 import { Location } from "../../utils/types";
 import { PORT } from "./variables";
+import { API_URL } from "./variables";
 
-const baseUrl = `http://localhost:${PORT}`
+// const baseUrl = `http://localhost:${PORT}`
+const baseUrl = `${API_URL}`;
 
 export default async function fetchTransactionData(query, keyword) {
   let response = await fetch(baseUrl + '/transactions', {

@@ -1,8 +1,10 @@
 import { PORT } from "./variables";
+import { API_URL } from "./variables";
 
 export async function registerUser(user) {
   try {
-    const resp = fetch(`http://localhost:${PORT}/register`, {
+    // const resp = fetch(`http://localhost:${PORT}/register`, {
+    const resp = fetch(`${API_URL}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

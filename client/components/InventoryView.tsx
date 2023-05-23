@@ -4,6 +4,7 @@ import { Space, Switch, Radio, ConfigProvider } from 'antd';
 import { makeFetchRequest } from '../utils/queryRequestMaker';
 import { InventoryTable } from './InventoryTable';
 import styles from "../styles/inventoryView.module.css";
+import { API_URL } from "./ApiService/variables";
 
 
 export default function InventoryView() {
@@ -233,7 +234,8 @@ export default function InventoryView() {
     sendRequests();
   }, [requests, displayAsRadarChart]);
   async function refreshItemCategories() {
-    let itemCategories = await fetch("http://localhost:3020/items", {
+    // let itemCategories = await fetch("http://localhost:3020/items", {
+    let itemCategories = await fetch(`${API_URL}/items`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
