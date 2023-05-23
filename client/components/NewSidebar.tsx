@@ -53,7 +53,7 @@ const NewSideBar2 = () => {
   useEffect(() => {
     // cookieStore API IS NOT SUPPORTED BY TYPESCRIPT
     /* @ts-ignore */
-    cookieStore.get("username")
+    window.cookieStore.get("username")
       .then((data) => {
         setUsername(data.value);
       });

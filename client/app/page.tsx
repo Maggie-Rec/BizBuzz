@@ -29,7 +29,7 @@ const MainPage = () => {
 
   useEffect(() => {
     /* @ts-ignore */
-    cookieStore.get("token").then((data) => {
+    window.cookieStore.get("token").then((data) => {
       if (!data || data.value.length === 0) {
         window.location.replace("http://localhost:3000/login");
       }

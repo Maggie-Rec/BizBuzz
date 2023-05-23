@@ -22,7 +22,7 @@ const Profile = () => {
   useEffect(() => {
     // cookieStore API IS NOT SUPPORTED BY TYPESCRIPT
     /* @ts-ignore */
-    cookieStore.get("username").then((data) => {
+    window.cookieStore.get("username").then((data) => {
       console.log(data);
       setUsername(data.value);
     });
