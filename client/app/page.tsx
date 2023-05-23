@@ -33,7 +33,8 @@ const MainPage = () => {
       /* @ts-ignore */
       window.cookieStore.get("token").then((data) => {
         if (!data || data.value.length === 0) {
-          window.location.replace("http://localhost:3000/login");
+          // window.location.replace("http://localhost:3000/login");
+          window.location.replace("http://159.65.160.235/login");
         }
       });
     }

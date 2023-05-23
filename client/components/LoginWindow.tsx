@@ -61,11 +61,13 @@ const LoginWindow = () => {
 
         <Alert message="New user created." type="success" />;
 
-        window.location.replace("http://localhost:3000/");
+        // window.location.replace("http://localhost:3000/");
+        window.location.replace("http://159.65.160.235");
       }
     } catch (error) {
       console.log(error);
-      window.location.replace("http://localhost:3000/login");
+      // window.location.replace("http://localhost:3000/login");
+      window.location.replace("http://159.65.160.235/login");
     }
   };
 

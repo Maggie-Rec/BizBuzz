@@ -6,7 +6,8 @@ const LogOutTab = () => {
   function handleLogout() {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     alert("you have been succesully logged out!");
-    window.location.replace("http://localhost:3000/login");
+    // window.location.replace("http://localhost:3000/login");
+    window.location.replace("http://159.65.160.235/login");
   }
   return (
     <div className={styles.container}>
