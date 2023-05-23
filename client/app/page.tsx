@@ -29,11 +29,14 @@ const MainPage = () => {
 
   useEffect(() => {
     /* @ts-ignore */
-    window.cookieStore.get("token").then((data) => {
-      if (!data || data.value.length === 0) {
-        window.location.replace("http://localhost:3000/login");
-      }
-    });
+    if (window.cookieStore) {
+      /* @ts-ignore */
+      window.cookieStore.get("token").then((data) => {
+        if (!data || data.value.length === 0) {
+          window.location.replace("http://localhost:3000/login");
+        }
+      });
+    }
   }, []);
 
   return (
