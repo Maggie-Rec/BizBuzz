@@ -18,7 +18,7 @@ baseQueryParams.set('customer', ['name', 'age', 'gender']);
 // ACTUAL FUNCTION THAT WILL GET CALLED FROM THE FRONTEND
 // filterArr --> ARRAY CONTAINING FILTERS e.g. --> ["location-id:1", "location-id:3", "location-id:4", "SKU", "date"]
 // dateArr --> ARRAY CONTAINING DATE RANGE e.g. --> [startDate, endDate]
-export function generateAggSumQuery({ filterArr = [], filterNames = [], dateArr = [NaN, NaN], keyword = 'findAll', operator }) {
+export function generateAggSumQuery({ filterArr = [], filterNames = [], dateArr = [NaN as any, NaN as any], keyword = 'findAll', operator }) {
   // console.log({ filterArr, filterNames });
   // EMPTY INITIAL QUERY OBJECT
   const queryObj = {
@@ -159,10 +159,12 @@ export function generateAggSumQuery({ filterArr = [], filterNames = [], dateArr 
 
     } else if (filters.length === 1) {
       queryObj.query.where.AND.push({
+        // @ts-ignore
         [category]: filters[0]
       });
     } else {
       queryObj.query.where.AND.push({
+        // @ts-ignore
         [category]: {
           AND: filters
         }

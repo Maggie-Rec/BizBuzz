@@ -36,7 +36,7 @@ export const RadarChart = ({ data }: Props) => {
 
   return (
     <>
-      <Radar data={data} options={options} className={styles.chart} />
+      <Radar data={data} options={options as any} className={styles.chart} />
     </>
   );
 };

@@ -44,7 +44,7 @@ export default function LocationCard({ location }) {
 
 
   async function getManager() {
-    const person = await getRandomPerson();
+    const person = await getRandomPerson() as any;
     console.log(person);
     setManager(person.results[0]);
   }

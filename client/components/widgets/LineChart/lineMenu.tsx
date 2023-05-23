@@ -15,7 +15,7 @@ import LineChart from "./lineChart";
 const { RangePicker } = DatePicker;
 
 type ValidXAxis =
-  | ["time" | "age", "time" | "month" | "day" | "week" | "quarter" | "year"]
+  | ["time" | "age", "time" | "month" | "date" | "day" | "week" | "quarter" | "year"]
   | undefined;
 
 const LineMenu = ({ func }) => {
@@ -75,7 +75,7 @@ const LineMenu = ({ func }) => {
   const [filters, setFilters] = useState([]);
 
   function handleNewFilter(value: string) {
-    setFilters(value);
+    setFilters(value as any);
   }
   const filterDetails = filters.map((filter, i) => {
     return <DataFilter filter={filter} key={i} />;
@@ -116,6 +116,7 @@ const LineMenu = ({ func }) => {
         <h1>Line Graph</h1>
         <Space wrap>
           <p>Y-axis:</p>
+          {/* @ts-ignore */}
           <Cascader
             aria-label="Y-axis"
             style={{ width: 300 }}
@@ -249,6 +250,7 @@ const LineMenu = ({ func }) => {
             <Space>
               <p>Between</p>
               <RangePicker
+              // @ts-ignore
                 picker={xAxis[1]}
                 style={{ width: 300 }}
                 onChange={(value) => {
@@ -264,7 +266,9 @@ const LineMenu = ({ func }) => {
                   start.month = value[0].month() + 1;
                   end.month = value[1].month() + 1;
                   if (xAxis[1] === "day" || xAxis[1] === "week") {
+                    // @ts-ignore
                     start.day = value[0].$D;
+                    // @ts-ignore
                     end.day = value[1].$D;
                   }
                   setXStartEnd({ start, end });

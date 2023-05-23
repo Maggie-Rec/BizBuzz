@@ -43,13 +43,16 @@ export default function InventoryView() {
   }
   const colors = ["#F2A202", "#F08605", "#DB6443", "#ad4544", "#7e2644"];
 
+  interface itemNamesResponse extends Response {
+    length: number;
+  }
 
   useEffect(() => {
     function generateRequests() {
       async function getItemNames() {
         const queryObject = structuredClone(baseQuery);
         queryObject.query = { select: { description: true } };
-        const items = await makeFetchRequest({ queryObject: JSON.stringify(queryObject), route: 'items' });
+        const items = await makeFetchRequest({ queryObject: JSON.stringify(queryObject), route: 'items' }) as itemNamesResponse;
         const arr = [];
         for (let i = 0; i < items.length; i++) {
           arr.push(items[i].description);
@@ -160,10 +163,10 @@ export default function InventoryView() {
       let processingArray = [];
       if (!displayAsRadarChart) {
         const allData = await makeFetchRequest({ queryObject: JSON.stringify(requests[0]), route: 'inventory' });
-        setData(allData);
+        setData(allData as any);
         return;
       } else if (focus === 'all') {
-        const allData = await makeFetchRequest({ queryObject: JSON.stringify(requests[0]), route: 'inventory' });
+        const allData = await makeFetchRequest({ queryObject: JSON.stringify(requests[0]), route: 'inventory' }) as any;
         const today = new Date();
         for (let i = 0; i < allData.length; i++) {
           if (today.getMonth() === 3 && today.getDate() === 1) {
@@ -240,7 +243,7 @@ export default function InventoryView() {
       credentials: "include",
     });
     itemCategories = await itemCategories.json();
-    setAvailableItemCategories(itemCategories);
+    setAvailableItemCategories(itemCategories as unknown as string[]);
   }
 
   function handleChangeFocus(event) {

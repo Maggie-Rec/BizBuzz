@@ -39,7 +39,7 @@ const LineChart = ({ id, type }) => {
   const [size, setSize] = useState({ width: 300, height: 300 });
   const [position, setPosition] = useState({ x: 10, y: 10 });
   const [locations, setLocations] = useState([1, 2, 3, 4, 5]);
-  const queriesInfo = useSelector((state) => {
+  const queriesInfo = useSelector((state: any) => {
     return state.lineChart;
   });
   const monthLabels = [
@@ -189,9 +189,9 @@ const LineChart = ({ id, type }) => {
                   location_id: location,
                 }),
                 filterNames: queriesInfo.filterNames,
-                filterArr: queriesInfo.filters.concat({
-                  location_id: location,
-                }),
+                // filterArr: queriesInfo.filters.concat({
+                //   location_id: location,
+                // }),
                 dateArr: [startDates[i], endDates[i]],
                 keyword: "aggregate",
                 operator: translateQuantity(queriesInfo.axes.y[0]),
@@ -263,8 +263,8 @@ const LineChart = ({ id, type }) => {
           label: request.label,
           data: [dataPoint ? dataPoint : 0],
           // NB Need to adjust the below to only add the final part of dataPoint
-          data: [dataPoint],
-        };
+          // data: [dataPoint],
+        } as any;
         [obj.fill, obj.borderColor, obj.backgroundColor] =
           colorPackages[datasets.length % 3];
         datasets.push(obj);

@@ -1,12 +1,16 @@
 import { API_KEY } from "./variables";
 
+interface coordsResponse extends Response {
+  resourceSets: { resources: { point: { coordinates: any; }; }[] }[];
+};
+
 export async function getCoordinates(searchQuery: string) {
   const url = new URL(`http://dev.virtualearth.net/REST/v1/Locations/${searchQuery}?includeNeighborhood=0&maxResults=1&key=${API_KEY}`);
   let response = await fetch(url, {
     headers: {
       "Content-Type": "application/json"
     }
-  });
+  }) as coordsResponse;
   response = await response.json();
   let coords = response.resourceSets[0].resources[0].point.coordinates;
   return coords;
